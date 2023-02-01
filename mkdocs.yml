@@ -94,7 +94,7 @@ nav:
   - Home: index.md
   - Agenda: agenda/agenda.md
   - CheckPoint:
-    - CP1: aulas/checkpoint/index.md 
+    - Orientações gerais: aulas/checkpoint/index.md
 
   - Introdução: aulas/intro/index.md
   - Laboratórios: 

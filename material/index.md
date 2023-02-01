@@ -4,6 +4,7 @@ Olá pessoal, bem vindos!! Nesta página você irá encontrar os conteúdos mini
 
 - Curso: Tecnologia de Desenvolvimento de Sistemas
 - Disciplina: Disruptive Architectures: IA e IoT
+- Turmas 2023: 2TDSA, 2TDSJ, 2TDSF e 2TDSG
 - Repositório com todos os arquivos está disponivel em: [https://github.com/arnaldojr/DisruptiveArchitectures/](https://github.com/arnaldojr/DisruptiveArchitectures/)
 
 Prof. Arnaldo Viana
@@ -60,4 +61,4 @@ As aplicações são vastas e diversas... Para ajudar a despertar a curiosidade,
 
 - Stewart Russel e Peter Norvig . Inteligência artificial. 3ª. Ed., Rio de Janeiro: Campus, 2012.
 - George F. Luger . Inteligência Artificial, 6ª ed. São Paulo: Pearson Education do Brasil, 2013 (biblioteca virtual)
-- Richard Duda, Peter Hart e David Stork . Pattern Classification , 2nd.Ed. Wiley , 2001. url: http://cnsclasses.bu.edu/cn550/Readings/duda-etal-00.pdf
+- Aurélien Geron. 2019. Hands-On Machine Learning with Scikit-Learn, Keras, and Tensorflow: Concepts, Tools, and Techniques to Build Intelligent Systems
