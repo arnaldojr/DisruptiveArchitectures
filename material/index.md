@@ -55,3 +55,9 @@ Em nuvem:
 ## Idéias de projetos
 
 As aplicações são vastas e diversas... Para ajudar a despertar a curiosidade, pense de que forma podemos utilizar ML para resolver um problema do nosso dia a dia.
+
+## Bibliografia
+
+- Stewart Russel e Peter Norvig . Inteligência artificial. 3ª. Ed., Rio de Janeiro: Campus, 2012.
+- George F. Luger . Inteligência Artificial, 6ª ed. São Paulo: Pearson Education do Brasil, 2013 (biblioteca virtual)
+- Richard Duda, Peter Hart e David Stork . Pattern Classification , 2nd.Ed. Wiley , 2001. url: http://cnsclasses.bu.edu/cn550/Readings/duda-etal-00.pdf

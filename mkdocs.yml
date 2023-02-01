@@ -92,28 +92,22 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Agenda: planejamento/agenda.md
+  - Agenda: agenda/agenda.md
   - CheckPoint:
-    - CP1: aulas/NAC/index.md 
+    - CP1: aulas/checkpoint/index.md 
 
   - Introdução: aulas/intro/index.md
   - Laboratórios: 
     - Lab01 - Dataframe: aulas/lab01/dataframe.ipynb
     - Lab02 - Aprendizado Supervisionado - Classificação: aulas/lab02/classificador-knn.ipynb
     - Lab03 - Aprendizado Supervisionado - Regressão: aulas/lab03/regressao.ipynb
-#    - Lab04 - Aprendizado Supervisionado - Atividade classificação/regressão: aulas/lab04/atividade-class-reg.ipynb
-    - Lab04 - Dicas de pre processamento: aulas/lab05/dicasDePreprocessamento.ipynb    
-    - Lab05 - Validação cruzada: aulas/lab06/aula3.ipynb
-#    - Lab07 - Aprendizado Supervisionado - Atividade Regressão c/kfold: aulas/lab07/aula4.ipynb
-#    - Lab08 - Aprendizado não supervisionado - KMeans, DBScan e GaussianMixture: aulas/lab08/aula5.ipynb
-#    - Lab09 - Aprendizado não supervisionado - DBScan, agrupamento hierarquico, dendrograma: aulas/lab09/aula6.ipynb
-#    - Lab10 - Aprendizado não supervisionado - Atividade de clusterização: aulas/lab10/aula7.ipynb
-#    - Lab11 - Naive Bayes: aulas/lab11/aula8.ipynb
-    - Lab6 - Redes Neurais - Percepton : aulas/lab12/aula9.ipynb
-    - Lab7 - Redes Neurais - MLP: aulas/lab13/aula10.ipynb
-    - Lab8 - Redes Neurais - CNN: aulas/lab15/aula12-1/aula12.ipynb
-    - Lab9 - Redes Neurais - Transfer learning: aulas/lab15/aula12-2/aula13.ipynb
-    - Lab10 - Redes Neurais - Atividade Transfer learning: aulas/lab15/aula12-2/BonusCNN-imagensReais.ipynb
-#    - Lab16 - Redes Neurais - RNN: 
+    - Lab04 - Dicas de pre processamento: aulas/lab04/dicasDePreprocessamento.ipynb    
+    - Lab05 - Validação cruzada: aulas/lab05/validacaocruzada.ipynb
+    - Lab06 - Redes Neurais - Percepton : aulas/lab06/rna.ipynb
+    - Lab07 - Redes Neurais - MLP: aulas/lab07/mlp.ipynb
+    - Lab08 - Redes Neurais - CNN: aulas/lab08/cnn.ipynb
+    - Lab9 - Redes Neurais - Transfer learning: aulas/lab09/transferlearning.ipynb
+    - Lab10 - Redes Neurais - Atividade Transfer learning: aulas/lab10/cnncatdog.ipynb
+
 
 
