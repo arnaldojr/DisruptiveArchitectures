@@ -95,6 +95,7 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
+    - CheckPoint 1 - Liberado: aulas/checkpoint/cp1.md
 
   - Introdução: aulas/intro/index.md
   - Laboratórios: 
