@@ -1,3 +1,31 @@
+## Cronograma Segundo Semestre
+
+| AULA | TDSA | TDSG | CONTEÚDO | LABORATÓRIO | OBSERVAÇÃO | Feriados |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | 02/08 | 04/08 | Estamos de volta: Conhecendo o mundo do hardware. | lab1 | 02/08 - Retorno das aulas |  |
+| 2 | 09/08 | 11/08 | Conhecendo o Arduino: Como programar, IDE, Protoboard, LED, botão | lab2 |  |  |
+| 3 | 16/08 | 18/08 | Arduino: Sensores/Atuadores (KIT IoT) e usando libs externas. | lab3 |  |  |
+| 4 | 23/08 | 25/08 | Trabalhar com Node-red e conhecer o protocolo MQTT | lab4 |  |  |
+| 5 | 30/08 | 01/09 | Comunicação serial entre Arduino e o Node-RED | lab5 |  |  |
+| 6 | 06/09 | <s>08/09</s> | Aula estudio para desenvolvimento do projeto | --- |  | 07/09 (quinta-feira) - Independência do Brasil |
+| 7 | 13/09 | 15/09 | AVALIAÇÃO EM AULA CP4 (grupo)<br>CP4 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP4 | Entrega - CP4 |
+| 8 | 20/09 | 22/09 | Raspberry Pi - o que é, boot e configs iniciais | lab6 |  |  |
+| 9 | 27/09 | 29/09 | Raspberry Pi: Programando os GPIO e usando outras libs  | lab7 |  |  |
+| 10 | 04/10 | 06/10 | Raspberry Pi: Montando um Webserver em Flask | lab8 |  |  |
+| 11 | 11/10 | <s>13/10</s> | Aula estudio para desenvolvimento do projeto | --- |  | 12/10 (quinta-feira) - N. Sr.a Aparecida |
+| 12 | 18/10 | 20/10 | AVALIAÇÃO EM AULA CP5 (grupo)<br>CP5 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP5 | Entrega - CP5 |
+| 13 | 25/10 | 27/10 | Semana NEXT |  | Semana NEXT | 28/10 (sabado) - NEXT |
+| 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
+| 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
+| 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
+
+
+
+
+
+
+## Cronograma primeiro Semestre
+
 | AULA | TDSJ  | TDSA  | TDSG<br>TDSF | CONTEÚDO                                                                                        | LABORATÓRIO | OBSERVAÇÃO            |
 | ---- | ----- | ----- | ------------ | ----------------------------------------------------------------------------------------------- | ----------- | --------------------- |
 | 1    | 07/02 | 08/02 | 10/02        | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP), lançamento CP1 |             | Dinâmica offline      |

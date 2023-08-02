@@ -95,21 +95,43 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
-    - CheckPoint 3 - Liberado: aulas/checkpoint/cp.md
+   # - CheckPoint 3 - Liberado: aulas/checkpoint/cp.md
 
-  - Introdução: aulas/intro/index.md
-  - Laboratórios: 
-    - Lab01 - Dataframe: aulas/lab01/dataframe.ipynb
-    - Lab02 - Aprendizado Supervisionado - Classificação: aulas/lab02/classificador-knn.ipynb
-    - Lab03 - Aprendizado Supervisionado - Regressão: aulas/lab03/regressao.ipynb
-    - Lab04 - Dicas de pre processamento: aulas/lab04/dicasDePreprocessamento.ipynb    
-    - Lab05 - Validação cruzada: aulas/lab05/validacaocruzada.ipynb
-    - Lab06 - Redes Neurais - Percepton : aulas/lab06/rna.ipynb
-    - Lab07 - Redes Neurais - MLP: aulas/lab07/mlp.ipynb
-    - BATALHA DAS REDES: aulas/batalharedes/batalha_das_redes.ipynb
-    - Lab08 - Redes Neurais - CNN: aulas/lab08/cnn.ipynb
-    - Lab9 - Redes Neurais - Transfer learning: aulas/lab09/transferlearning.ipynb
-    - Lab10 - Redes Neurais - Atividade Transfer learning: aulas/lab10/cnncatdog.ipynb
-
-
+  - Introdução: 
+    - IA: aulas/IA/intro/index.md
+    - IoT: aulas/iot/intro/index.md
+    - Arduino: 
+        - Introdução: aulas/iot/intro/introarduino.md
+        - Exemplos: 
+          - Dicas: aulas/iot/intro/dicas.md
+          - From 0 to Hero!: aulas/iot/ex0/index.md 
+          - Blink led: aulas/iot/ex1/index.md
+          - Led botão: aulas/iot/ex2/index.md
+          - Botão pot led: aulas/iot/ex3/index.md
+          - PWM: aulas/iot/ex7/index.md
+          - Função millis: aulas/iot/ex4/index.md
+          - Interrupção de pino: aulas/iot/ex5/index.md
+          - Comunicação Serial: aulas/iot/ex6/index.md 
+  - Laboratórios:
+    - IA:
+      - Lab01 - Dataframe: aulas/IA/lab01/dataframe.ipynb 
+      - Lab02 - Aprendizado Supervisionado - Classificação: aulas/IA/lab02/classificador-knn.ipynb
+      - Lab03 - Aprendizado Supervisionado - Regressão: aulas/IA/lab03/regressao.ipynb
+      - Lab04 - Dicas de pre processamento: aulas/IA/lab04/dicasDePreprocessamento.ipynb    
+      - Lab05 - Validação cruzada: aulas/IA/lab05/validacaocruzada.ipynb
+      - Lab06 - Redes Neurais - Percepton : aulas/IA/lab06/rna.ipynb
+      - Lab07 - Redes Neurais - MLP: aulas/IA/lab07/mlp.ipynb
+      - BATALHA DAS REDES: aulas/IA/batalharedes/batalha_das_redes.ipynb
+      - Lab08 - Redes Neurais - CNN: aulas/IA/lab08/cnn.ipynb
+      - Lab9 - Redes Neurais - Transfer learning: aulas/IA/lab09/transferlearning.ipynb
+      - Lab10 - Algumas dicas: aulas/IA/lab10/dicas.ipynb
+    - IoT:
+      - Lab01 - : aulas/iot/lab1/index.md
+      - Lab02 - : aulas/iot/lab2/index.md
+      - Lab03 - : aulas/iot/lab3/index.md
+      - Lab04 - : aulas/iot/lab4/index.md
+      - Lab05 - : aulas/iot/lab5/index.md
+      - Lab06 - : aulas/iot/lab6/index.md
+      - Lab07 - : aulas/iot/lab7/index.md
+      - Lab08 - : aulas/iot/lab8/index.md
 
