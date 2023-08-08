@@ -95,7 +95,7 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
-   # - CheckPoint 3 - Liberado: aulas/checkpoint/cp.md
+    - CheckPoint 4 - Liberado: aulas/checkpoint/cp4.md
 
   - Introdução: 
     - IA: aulas/IA/intro/index.md
@@ -128,10 +128,10 @@ nav:
     - IoT:
       - Lab01 - : aulas/iot/lab1/index.md
       - Lab02 - : aulas/iot/lab2/index.md
-      - Lab03 - : aulas/iot/lab3/index.md
-      - Lab04 - : aulas/iot/lab4/index.md
-      - Lab05 - : aulas/iot/lab5/index.md
-      - Lab06 - : aulas/iot/lab6/index.md
-      - Lab07 - : aulas/iot/lab7/index.md
-      - Lab08 - : aulas/iot/lab8/index.md
+     # - Lab03 - : aulas/iot/lab3/index.md
+      - Lab03 - : aulas/iot/lab5/index.md
+      - Lab04 - : aulas/iot/lab5/index.md
+      - Lab05 - : aulas/iot/lab6/index.md
+      - Lab06 - : aulas/iot/lab7/index.md
+      - Lab07 - : aulas/iot/lab8/index.md
 
