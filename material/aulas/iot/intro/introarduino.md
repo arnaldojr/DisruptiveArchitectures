@@ -76,28 +76,28 @@ De forma geral a programação de sistemas embarcados envolve o desenvolvimento 
 A saída digital é uma forma básica de comunicação com componentes externos, como LEDs e relés. Os pinos de saída digital podem ser configurados para atuar como fonte ou dreno de corrente, dependendo da necessidade do circuito. Os sinais são transmitidos como valores discretos, geralmente ``0 (LOW) e 1 (HIGH)``. No Arduino, é possível configurar os pinos de entrada/saída como saída digital usando a função pinMode() e controlar o estado do pino usando a função ``digitalWrite()``.
 
 ??? note "Dica"
-    Veja o lab Blink led
+    Veja o exemplo Blink led
  
 ### Entrada Digital
 
 A entrada digital permite que um microcontrolador leia sinais digitais externos, geralmente ``0 (LOW) e 1 (HIGH)``. No Arduino, os pinos de entrada/saída podem ser configurados como entrada digital usando a função pinMode() e ler o estado do pino com a função ``digitalRead()``.
 
 ??? note "Dica"
-    Veja o lab Led botão
+    Veja o exemplo Led botão
 
 ### Entrada Analógica
 
 A conversão de sinais analógicos em valores digitais é realizada por um conversor analógico-digital (ADC) presente no microcontrolador. O ADC possui uma resolução específica, geralmente 10 bits no Arduino UNO, que determina a quantidade de valores possíveis para representar o sinal analógico.
 
 ??? note "Dica"
-    Veja o lab Botão pod led
+    Veja o exemplo Botão pod led
 
 ### PWM (Saída "Analógica")
 
 A técnica PWM permite controlar a energia entregue a dispositivos externos através da variação do tempo de ativação do sinal digital. A frequência do sinal PWM é geralmente fixa, enquanto o duty cycle (razão entre o tempo de ativação e o período do sinal) varia entre 0 e 100%. No Arduino UNO esse valor é definido em 8bits, ou seja, de 0 até 255.
 
 ??? note "Dica"
-    Veja o lab PWM
+    Veja o exemplo PWM
 
 
 ### Interrupção Externa
@@ -105,21 +105,21 @@ A técnica PWM permite controlar a energia entregue a dispositivos externos atra
 As interrupções externas podem ser configuradas para serem disparadas em diferentes condições, como mudança de estado, nível alto ou baixo e bordas de subida ou descida. Ao ser disparada, a interrupção executa a rotina de tratamento de interrupção, interrompendo temporariamente o fluxo principal do programa.
 
 ??? note "Dica"
-    Veja o lab Interrupção de pino
+    Veja o exemplo Interrupção de pino
 
 ### O uso de delay em sistemas embarcados 
 
 Evitar delays é fundamental para garantir o bom funcionamento e a eficiência do sistema embarcado. O uso excessivo de delays pode resultar em um desempenho inadequado e na incapacidade de responder a eventos em tempo real. Ao invés de utilizar a função delay(), opte por utilizar millis() e técnicas de programação não bloqueantes para criar temporizações.
 
 ??? note "Dica"
-    Veja o lab Função millis    
+    Veja o exemplo Função millis    
 
 ### UART (Comunicação Serial)
 
 UART (Universal Asynchronous Receiver-Transmitter) é um protocolo de comunicação serial que permite a transmissão de dados entre dispositivos de forma assíncrona, sem a necessidade de um clock de referência compartilhado. No Arduino, a comunicação serial é geralmente implementada usando as funções ``Serial.begin(), Serial.print(), Serial.println() e Serial.read()``.
 
 ??? note "Dica"
-    Veja o lab Comunicação Serial 
+    Veja o exemplo Comunicação Serial 
 
 ## Referencias
 
@@ -127,4 +127,3 @@ A comunidade Arduino é muito grande e gera muito material de qualidade, é faci
 
 - [https://www.arduino.cc/reference/en/?_gl=1*19zvap6*_ga*MTA5MDMxODM2My4xNjgyNTEwNDg3*_ga_NEXN8H46L5*MTY4MjUyNzkzMS4yLjEuMTY4MjUyODg0Ni4wLjAuMA..](https://www.arduino.cc/reference/en/?_gl=1*19zvap6*_ga*MTA5MDMxODM2My4xNjgyNTEwNDg3*_ga_NEXN8H46L5*MTY4MjUyNzkzMS4yLjEuMTY4MjUyODg0Ni4wLjAuMA..)
 - [https://docs.arduino.cc/learn/starting-guide/getting-started-arduino#general](https://docs.arduino.cc/learn/starting-guide/getting-started-arduino#general)
-- 

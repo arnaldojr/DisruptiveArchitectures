@@ -126,12 +126,12 @@ nav:
       - Lab9 - Redes Neurais - Transfer learning: aulas/IA/lab09/transferlearning.ipynb
       - Lab10 - Algumas dicas: aulas/IA/lab10/dicas.ipynb
     - IoT:
-      - Lab01 - : aulas/iot/lab1/index.md
-      - Lab02 - : aulas/iot/lab2/index.md
+      - Lab01 : aulas/iot/lab1/index.md
+      - Lab02 : aulas/iot/lab2/index.md
      # - Lab03 - : aulas/iot/lab3/index.md
-      - Lab03 - : aulas/iot/lab5/index.md
-      - Lab04 - : aulas/iot/lab5/index.md
-      - Lab05 - : aulas/iot/lab6/index.md
-      - Lab06 - : aulas/iot/lab7/index.md
-      - Lab07 - : aulas/iot/lab8/index.md
+      - Lab03 : aulas/iot/lab5/index.md
+      - Lab04 : aulas/iot/lab5/index.md
+      - Lab05 : aulas/iot/lab6/index.md
+      - Lab06 : aulas/iot/lab7/index.md
+      - Lab07 : aulas/iot/lab8/index.md
 

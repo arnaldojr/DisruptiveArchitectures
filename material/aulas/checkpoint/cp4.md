@@ -6,6 +6,7 @@
 >   - [Jogo da Memória](jogomemoria/jogomemoria.ino)
 
 **Materiais Necessários:**
+    
 - ▶️ Arduino UNO
 - ▶️ LEDs
 - ▶️ Botões
@@ -52,9 +53,10 @@ O jogo tem a dinâmica padrão de qualquer outro jogo da memória: Inicia-se o g
 
 - **Caixa:** Utilize o site [https://www.festi.info/boxes.py/](https://www.festi.info/boxes.py/) para criar uma caixa personalizada para o seu protótipo, de forma simples, online e gratuita.
 
-<img src="genius-arduino.jpeg" width="500">
+![](genius-arduino.jpeg)
 
 > **Links úteis para criar seu case:**
+
 >    - [Manual do Mundo](https://www.youtube.com/watch?v=BwU0hSmWYdA&ab_channel=ManualdoMundo)
 >    - [Angelo Conti](https://www.youtube.com/watch?v=4cI-WXnPCzU&ab_channel=AngeloConti)
 >    - [Maker Space 307](https://www.youtube.com/watch?v=1wWAfO6k0t4&t=391s&ab_channel=MakerSpace307)
