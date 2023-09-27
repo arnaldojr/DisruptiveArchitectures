@@ -22,26 +22,43 @@ A desafio consiste no desenvolvimento de uma solução simples mas completa que 
 Haverá tempo durante as aulas para tirar dúvidas quanto ao desenvolvimento do trabalho. 
 
 
+## Requisitos mínimos:
+
+O sistema é composto por pelo menos 1 `coisa inteligente`, que posssui:
+
+- Pelo menos 3 sensores, sendo eles:
+    - pelo menos 1 sensor deve ser digital;
+    - pelo menos 1 sensor deve ser analógico.
+        
+- Pelo menos 3 atuadores, sendo eles:
+    - pelo menos 1 atuador deve ser digital;
+    - pelo menos 1 atuador deve ser por PWM (analogWrite())
+
+!!! Tip
+    Pense em dispositivos ou soluções que são ou podem ser utilizados em seu dia-a-dia, utilize como referência os sensores/atuadores disponíveis no kit IoT. 
+
 ## Rubrica
 
-***(R1 - NOTA até 2 pontos)*** Programa em linguagem do Arduino que realize pelo menos:
+***(R0 - NOTA até 1 ponto)*** Ideação:
 
  - Explique de forma clara qual o objetivo do seu projeto, o que ele faz e como funciona.
  
  - Faça um esboço da arquitetura do seu projeto. 
 
- - A leitura de `pelo menos três sensores` a cada **200ms**, disponibilizando as leituras na porta serial, no formato JSON {"<SENS1>":<VALOR1>,..., "<SENSn>":<VALORn>}, onde <SENS1> e <SENSn> são os nomes dos sensores, e <VALOR1> e <VALORn> são os valores lidos, respectivamente. Deve ser utilizado sensores analógicos e digitais.
+***(R1 - NOTA até 1 ponto1)*** Programa em linguagem do `Arduino` que realize pelo menos:
 
- - a execução de comandos em `pelo menos três atuadores`, lendo esses comandos pela porta serial. Os comandos devem ser na forma {“<CMD>”:<VALOR>}, onde CMD é o nome do comando e VALOR é o parâmetro enviado. Por exemplo, se <CMD> for led, então <VALOR> pode ser “On/Off” ou “0~255”, por exemplo. Deve possuir atuadores digitais e analógicos (PWM).
+ - A leitura de **`pelo menos três sensores`** a cada **`200ms`**, disponibilizando as leituras na porta serial, no formato JSON `{"<SENS1>":<VALOR1>,..., "<SENSn>":<VALORn>}`, onde `<SENS1>` e `<SENSn>` são os nomes dos sensores, e `<VALOR1>` e `<VALORn>` são os valores lidos, respectivamente. Deve ser utilizado sensores analógicos e digitais.
+
+ - a execução de comandos em **`pelo menos três atuadores`**, lendo esses comandos pela porta serial. Os comandos devem ser na forma `{“<CMD>”:<VALOR>}`, onde CMD é o nome do comando e VALOR é o parâmetro enviado. Por exemplo, se `<CMD>` for led, então `<VALOR>` pode ser “On/Off” (liga/desliga) ou “0~255” (dimmer), por exemplo. Deve possuir atuadores digitais e analógicos (PWM).
 
  - para mais sensores e atuadores siga as instruções acima.
 
 
-***(R2 - NOTA até 2 pontos)*** Comunicação com o broker MQTT de sua escolha: ser desenvolvido um programa Node-RED e Arduino que conecte o dispositivo de IoT à central de mensagens (MQTT Broker) através dos seguintes tópicos:
+***(R2 - NOTA até 2 pontos)*** Comunicação com o `broker MQTT` de sua escolha: deve ser desenvolvido um programa Node-RED e Arduino que conecte o dispositivo de IoT à central de mensagens (MQTT Broker) através dos seguintes tópicos:
 
-- Realize `PUB` sempre que for realizada a leitura dos sensores, convertendo e enviando a informação de cada sensor no formato JSON {"value": <VALOR>} ao tópico: 
+- Realiza `PUB` sempre que for realizada a leitura dos sensores, convertendo e enviando a informação de cada sensor no formato JSON `{"value": <VALOR>}` ao tópico: 
  
-fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/<SENS>
+`fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/<SENS>`
 
 onde:
 
@@ -51,46 +68,47 @@ onde:
     * <ID> corresponde à identificação do dispositivo (pode ser o MAC Address do ESP8266, ou o número de série do Arduino, ou qualquer identificação que quiser)
     * <SENS> corresponde ao nome do sensor
 
-- Para cada sensor, faça a subscrição `SUB` ao seguinte tópico, que irá receber um JSON da forma {"value": <VALOR>} :
+- Para cada sensor, faça a subscrição `SUB` ao seguinte tópico, que irá receber um JSON da forma `{"value": <VALOR>}` :
 
-fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/cmd/<CMD>
+`fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/cmd/<CMD>`
 
-onde <CMD> corresponde ao nome do comando a ser executado. Ao receber o comando, ele deve ser convertido e enviado à placa para ser executado.
+onde `<CMD>` corresponde ao nome do comando a ser executado. Ao receber o comando, ele deve ser convertido e enviado à placa IoT para ser executado.
 
 Este item pode ser realizado de duas formas:
 
     - No caso da placa de IoT ser um Arduino, o item 2 deve ser executado na forma de um Gateway programado em Node-RED, que se conecta ao Arduino através da porta serial.
 
-    - No caso da placa de IoT ser um ESP8266 Node-MCU, este item deve constar da programação da placa (em linguagem Arduino), e não é necessário um gateway adicional.  
+    - No caso da placa de IoT ser um ESP32, ESP8266 Node-MCU, este item deve constar na programação da placa (em linguagem Arduino), e não é necessário um gateway adicional.  
 
 
 
-***(R3 - NOTA até 2 pontos)*** Aplicação Web desenvolvida em Node-RED que se conecte ao Broker MQTT e contenha uma API ReSTful com os seguintes endpoints 
+***(R3 - NOTA até 2 pontos)*** Aplicação Web desenvolvida em `Node-RED` ou `Flask` que se conecte ao Broker MQTT e contenha uma API ReSTful com os seguintes endpoints 
 
 - Recupera uma lista de IDs de dispositivos do tipo especificado, no formato JSON
-[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/ <NNN>/devtype/<TYPE>/devid/all
+`[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/all`
 
 - Recupera a lista dos sensores disponíveis para o dispositivo, no formato JSON
-[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/all
+`[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/all`
 
 - Recupera o último valor lido no sensor, no formato JSON {"value": <VALOR>}
-[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/<SENS>
+`[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/sensor/<SENS>`
 
 - Recupera a lista dos comandos disponíveis para o dispositivo, no formato JSON
-[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN/devtype/<TYPE>/devid/<ID>/cmd/all
+`[GET]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/cmd/all`
 
 - Executa um comando, passando um argumento da forma {"value": <VALOR>} 
-[POST]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/cmd/<CMD>
+`[POST]http://<HOST>:<PORTA>/<PROJNAME>/fiap/iot/turma/<TT>/grupo/<NNN>/devtype/<TYPE>/devid/<ID>/cmd/<CMD>`
 
 ***(R4 - NOTA até 2 pontos)*** Dashboard no Node-RED cuja interface gráfica demonstre o funcionamento de todas os endpoints do exercício anterior, ou seja:
 
-- Apresente controles que permitam enviar comandos para o Arduino ou ESP8266 Node-MCU
-- Apresente indicadores que permitam saber o valor dos sensores do Arduino ou ESP8266 Node-MCU
+- Apresente controles que permitam enviar comandos para o Arduino, ESP32 ou ESP8266 Node-MCU
+- Apresente indicadores que permitam saber o valor dos sensores do Arduino, ESP32 ou ESP8266 Node-MCU
+- (até 1 ponto) Capricho na usabilidade da interface. 
 
-***(R5 - NOTA até 2 pontos)*** Desenvolvimento de alguma feature especial de pesquisa extra para o projeto, podendo ser:
+***(R5 - NOTA até 2 pontos)*** Desenvolvimento de alguma `feature especial` de pesquisa extra para o projeto, podendo ser:
 
 - Uso de comunicação Bluetooth entre o Arduino e o Gateway Node-RED
-- Uso do ESP8266 Node-MCU
+- Uso de mais de um dispositivo como ESP32, ESP8266 ou Node-MCU
 - Uso da Raspberry como Gateway Node-RED
 - Uso de um dos sensores especiais: validar com o professor.
 - Protótipo funcional com parte mecânica usando a infraestrutra do laboratório MakerLab (corte a laser, impressora 3D entre outros...)
