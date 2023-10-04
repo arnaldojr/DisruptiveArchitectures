@@ -7,7 +7,7 @@ Os ``desafios 1, 2 e 3`` devem ser entregues e compõem parte da nota do CP6.
 - Instalação e uso de bibliotecas externas para arduino
  
     - Arduino JSON
-    - Sensor de temperatura e umidade DTH11
+    - Sensor de temperatura e umidade DHT11
 
 - Comunicação serial entre Arduino e o Node-RED
 
@@ -52,12 +52,12 @@ Documentação oficial em: [arduinoJSON - https://arduinojson.org/](https://ardu
 !!! exercise
     Faça a instalação da biblioteca arduinoJSON direto pelo ArduinoIDE, no campo de busca digite ``ArduinoJson`` e instale a biblioteca. Para mais detalhes de como realizar a instalação acesse [aqui a documentação oficial - https://arduinojson.org/v6/doc/installation/](https://arduinojson.org/v6/doc/installation/)
  
-## Sensor DTH11
+## Sensor DHT11
 
-O DTH11 é um sensor digital de temperatura e umidade muito utilizado em diversas aplicações. Para facilitar o trabalho utilizamos uma biblioteca para realizar as leituras de temperatura e umidade. 
+O DHT11 é um sensor digital de temperatura e umidade muito utilizado em diversas aplicações. Para facilitar o trabalho utilizamos uma biblioteca para realizar as leituras de temperatura e umidade. 
 
 
-![](dth11.png)
+![](DHT11.png)
 
 | Pino |           Descrição              |
 |:----:|:--------------------------------:|
@@ -70,15 +70,15 @@ O DTH11 é um sensor digital de temperatura e umidade muito utilizado em diversa
 
 
 !!! exercise
-    Faça a instalação das bibliotecas para usar o DTH11: Adafruit Unified Sensor Libs: 
+    Faça a instalação das bibliotecas para usar o DHT11: Adafruit Unified Sensor Libs: 
   
     1. [Adafruit Sensor](https://github.com/adafruit/Adafruit_Sensor)
   
-    2. [DTH Sensor](https://github.com/adafruit/DHT-sensor-library). 
+    2. [DHT Sensor](https://github.com/adafruit/DHT-sensor-library). 
 
     Após o download descompacte o arquivo .zip e mova-o para a pasta ``~/Arduino/Libraries/``
 
-## Testando o sensor DTH11 
+## Testando o sensor DHT11 
 
 Para testar o funcionamento do sensor vamos executar 2 etapas: Montagem do hardware e Desenvolvimento do Software.
 
@@ -86,10 +86,10 @@ Para testar o funcionamento do sensor vamos executar 2 etapas: Montagem do hardw
 
 Monte o circuito da imagem abaixo e não esqueça de conectar o resistor 
  
-![](dth11-circ.png)
+![](DHT11-circ.png)
 
 !!! exercise
-    De acordo com o circuito qual o pino do arduino é utilizado para realizar comunicação digital com o sensor DTH11?
+    De acordo com o circuito qual o pino do arduino é utilizado para realizar comunicação digital com o sensor DHT11?
 
 ### O código de teste 
 
@@ -98,7 +98,7 @@ Este código foi adaptado do site [filipeflop](https://www.filipeflop.com/blog/m
 
 ```c
 /*
-Código para teste do sensor DTH11 
+Código para teste do sensor DHT11 
 
 */
 #include "DHT.h"
@@ -148,12 +148,12 @@ Após montar o circuito e escrever o código, carregue o código no arduino e ab
 
 ## Usando a biblioteca ArduinoJson
 
-Vamos alterar nosso código para enviar as informações do sensor DTH11 em formato JSON, observe o código abaixo com as alterações:
+Vamos alterar nosso código para enviar as informações do sensor DHT11 em formato JSON, observe o código abaixo com as alterações:
 
 
 ```c
 /*
-Código exemplo demonstrando o funcionamento do Sensor DTH11 enviando 
+Código exemplo demonstrando o funcionamento do Sensor DHT11 enviando 
 informações via serial no formato JSON para o servidor node-Red que recebe e transmite via protocolo MQTT 
 
 */
@@ -162,7 +162,7 @@ informações via serial no formato JSON para o servidor node-Red que recebe e t
 #include <ArduinoJson.h>
 const int TAMANHO = 50;  //define o tamanho do buffer para o json
 
-///// Sensor DTH
+///// Sensor DHT
 #include "DHT.h"
 #define DHTPIN  7  //define o pino usado no arduino
 #define DHTTYPE DHT11
