@@ -1,4 +1,8 @@
-## O que esse vamos ver neste lab?
+## Lab6 - Desafios
+
+Os ``desafios 1, 2 e 3`` devem ser entregues e compõem parte da nota do CP6.
+
+## Conteúdo deste laboratório
 
 - Instalação e uso de bibliotecas externas para arduino
  
@@ -43,10 +47,10 @@ Pra quem conhece Python a estrutura é muito parecida com a de dicionários:
 
 > {"Key1":"Value1", "Key2":"Value2", "Key3":"Value3","....":."...."}  
 
-Documentação oficial em: [arduinoJSON](https://arduinojson.org/)
+Documentação oficial em: [arduinoJSON - https://arduinojson.org/](https://arduinojson.org/)
 
 !!! exercise
-    Faça a instalação da biblioteca arduinoJSON direto pelo ArduinoIDE, no campo de busca digite ``ArduinoJson`` e instale a biblioteca. Para mais detalhes de como realizar a instalação acesse [aqui a documentação oficial de instalação](https://arduinojson.org/v6/doc/installation/)
+    Faça a instalação da biblioteca arduinoJSON direto pelo ArduinoIDE, no campo de busca digite ``ArduinoJson`` e instale a biblioteca. Para mais detalhes de como realizar a instalação acesse [aqui a documentação oficial - https://arduinojson.org/v6/doc/installation/](https://arduinojson.org/v6/doc/installation/)
  
 ## Sensor DTH11
 
@@ -137,25 +141,15 @@ Após montar o circuito e escrever o código, carregue o código no arduino e ab
  
 ![](log.png)
 
-Parabéns!! Primeira parte concluida, vamos em frente... 
 
 
-## Usando a biblioteca Arduino Json
+**Parabéns!!** Primeira parte concluida, vamos em frente... 
 
-Vamos altera nosso código para enviar as informações do sensor DTH11 em formato JSON, observe o código abaixo com as alterações:
 
-Uma etapa importante é definir a variavel TAMANHO que serve como buffer em bytes para alocar o JSON que vamos trabalhar. Para isso podemos utilizar o ``ArduinoJson Assistant`` [neste link](https://arduinojson.org/v6/assistant/#/step1), siga o passo-a-passo da ferramenta para descobrir o valor minimo que devemos utilizar. 
+## Usando a biblioteca ArduinoJson
 
-!!! exercise
-    Utilizando o ``ArduinoJson Assistant`` qual o valor recomendado para o json do exemplo abaixo?
+Vamos alterar nosso código para enviar as informações do sensor DTH11 em formato JSON, observe o código abaixo com as alterações:
 
-    ```python
-    {
-    "Key1":10.10258,
-    "Key2":50.28546
-    }    
-    ```
-    
 
 ```c
 /*
@@ -211,15 +205,31 @@ void loop()
 
 ```
 
+
+Um ponto importante: Definir a variavel ``TAMANHO`` que serve como buffer em bytes para alocar o JSON que vamos trabalhar. Para isso podemos utilizar o ``ArduinoJson Assistant`` [neste link: https://arduinojson.org/v6/assistant/#/step1](https://arduinojson.org/v6/assistant/#/step1), siga o passo-a-passo da ferramenta para descobrir o valor minimo que devemos utilizar. 
+
+!!! exercise
+    Utilizando o ``ArduinoJson Assistant`` qual o valor recomendado para o json do exemplo abaixo?
+
+    ```python
+    {
+    "valorSensor1":10.10258,
+    "valorSensor2":50.28546
+    }    
+    ```
+    
+
+
 Etapa 2 concluida! Agora o nosso programa envia dados no formato Json, facilitando a integração com outros sistemas incluindo o Node-RED.
+
 
 ## Comunicação serial com node-RED
 
-Vamos usar o node ``serialport`` para realizar a comunicação serial entre o node-red e o arduino conectado na porta que conectado na porta USB , por padrão esse não vem instalado. Faça a instalação do node ``node-red-node-serialport``.
+No flow do node-red, vamos usar o node ``serialport`` para realizar a comunicação serial entre o node-red e o arduino conectado na porta que conectado na porta USB, por padrão esse não vem instalado. Faça a instalação do node ``node-red-node-serialport``.
 
 ![](serial-nodered.png)
 
-No node-RED monte o flow
+No node-RED monte o flow:
 
 ![](flow5.png)
 
@@ -241,18 +251,84 @@ Para o desenvolvimento do sistema de supervisório ficar completo basta adaptar 
 
 !!! exercise
     Faça as adaptações necessárias para exibir os valores de temperatura e umidade em 2 gauge e 2 chart como na imagem abaixo:
+
     ![](flow6.png)
 
 
 
-??? note "Desafio TOP"
-    Baseado na solução do desafio anterior, altere o fluxo para enviar os dados do node-RED via protocolo MQTT. Em um segundo computador crie um fluxo no node-RED que recebe os topicos enviados.
+!!! exercise
+    Baseado na solução do desafio anterior, altere o fluxo para enviar os dados do node-RED via protocolo MQTT. Agora em um segundo computador crie um fluxo no node-RED que recebe os topicos enviados pelo primeiro flow em MQTT.
 
 
 ## Controlando o arduino pelo node-RED
 
 Chegou a hora de fazer o caminho de volta, ja mandamos dados para o node-RED, agora é vez de receber dados do node-RED. 
 
-??? note "Desafio Final"
-    Adicione um ``switch`` no dashboard e configure para enviar a string “liga” e “desliga” pela serial, para controlar um LED do arduino.
-    DICA: Veja o exemplo ``Serial-JSON - RX`` na aba de exemplos aqui do site.
+!!! exercise
+    Adicione um ``dashboard switch`` e configure para enviar a string “liga” e “desliga” pela serial, para controlar um LED do arduino.
+    DICA: Veja o exemplo abaixo como referência.
+
+    ```c
+    #include <ArduinoJson.h>
+    const int LED = 3;
+    const int TAMANHO = 200;
+    void setup() {
+      Serial.begin(9600);
+      //O valor padrão de 1000ms é muito tempo
+      Serial.setTimeout(10);
+      pinMode(LED,OUTPUT);
+    }
+    void loop() {
+      if (Serial.available() > 0) {
+        //Lê o JSON disponível na porta serial:
+        StaticJsonDocument<TAMANHO> json;
+        deserializeJson(json, Serial);
+        if(json.containsKey("led")) {
+          int valor = json["led"];
+          analogWrite(LED, valor);
+        }
+      } 
+      delay(300);
+    }
+        
+    ```
+
+
+## Desafios
+
+Já construimos toda a infraestrutura com a base necessária para desenvolver os desafios deste lab.
+
+## Desafio 1: Alerta de Condições Climáticas
+
+**Objetivo:** Criar um sistema de alerta que notifica o usuário quando a temperatura e/ou umidade ultrapassam um limite definido.
+
+### Instruções:
+
+- Utilize o Node-RED para definir limites de temperatura e umidade (por exemplo, temperatura acima de 30°C e umidade abaixo de 40%).
+- Quando os valores lidos pelo sensor DHT11 ultrapassarem esses limites, um alerta deve ser exibido no dashboard.
+- Adicione um LED no Arduino para acender quando os limites forem ultrapassados.
+
+
+## Desafio 2: Registro de Dados
+
+**Objetivo:** Armazenar os dados de temperatura e umidade em um banco de dados ou arquivo para análise posterior.
+
+### Instruções:
+
+- Utilize o Node-RED para encaminhar os dados recebidos do Arduino para um banco de dados de sua escolha (pode ser um banco de dados SQL, NoSQL ou até mesmo um arquivo CSV).
+
+
+## Desafio 3: Integração com Outros Sensores
+
+**Objetivo:** Integrar outros sensores ao sistema e exibir seus dados no Node-RED.
+
+### Instruções:
+
+- Escolha um ou mais sensores adicionais compatíveis com Arduino (por exemplo, sensor de luminosidade, sensor de movimento, sensor de gás, etc.).
+- Integre o(s) sensor(es) escolhido(s) ao seu circuito Arduino.
+- Modifique o código do Arduino para ler os dados do(s) novo(s) sensor(es) e enviar esses dados para o Node-RED em formato JSON, juntamente com os dados de temperatura e umidade.
+- No Node-RED, configure o dashboard para exibir os dados do(s) novo(s) sensor(es) em tempo real, seja através de gráficos, medidores ou outros widgets relevantes.
+
+***Como um desafio adicional*** configurar alertas ou ações específicas com base nos dados do(s) novo(s) sensor(es). Por exemplo, se um sensor de luminosidade detectar que está escuro, um LED pode ser acionado automaticamente.
+
+
