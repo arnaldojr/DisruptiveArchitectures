@@ -17,7 +17,7 @@ A desafio consiste no desenvolvimento de uma solução simples mas completa que 
 
 - Individual ou em Grupo (até 5 alunos)
 - Entrega da documentação via github, apresentar o repositório ORGANIZADO do projeto com toda a doumento e instruções de como replicar o projeto. (em breve o formulario para preenchechimento)
-- **A apresentação será presencial, e ocupará as aulas do dia 25/10/2023(2TDSA) 27    /10/2023(2TDSG)**
+- **A apresentação será presencial, e ocupará as aulas do dia 01/11/2023(2TDSA) 27/10/2023(2TDSG)**
 
 Haverá tempo durante as aulas para tirar dúvidas quanto ao desenvolvimento do trabalho. 
 
