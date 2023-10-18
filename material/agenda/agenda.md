@@ -2,6 +2,17 @@
 
 | AULA | TDSA | TDSG | CONTEÚDO | LABORATÓRIO | OBSERVAÇÃO | Feriados |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 12 | 18/10 | 20/10 |  |  |  |  |
+| 13 | 25/10 | 27/10 | AVALIAÇÃO EM AULA CP5 (grupo)<br>CP5 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP5 | Entrega - CP5 |
+| 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
+| 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
+| 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
+
+
+O que já passou...
+
+| AULA | TDSA | TDSG | CONTEÚDO | LABORATÓRIO | OBSERVAÇÃO | Feriados |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 1 | 02/08 | 04/08 | Estamos de volta: Conhecendo o mundo do hardware. |  | 02/08 - Retorno das aulas |  |
 | 2 | 09/08 | 11/08 | Conhecendo o Arduino: Como programar, IDE, Protoboard, LED, botão | lab1 |  |  |
 | 3 | 16/08 | 18/08 | Arduino: Sensores/Atuadores (KIT IoT) e usando libs externas. | lab2 |  |  |
@@ -13,13 +24,6 @@
 | 9 | 27/09 | 29/09 | Raspberry Pi: Programando os GPIO e usando outras libs  | lab6 |  |  |
 | 10 | 04/10 | 06/10 | Raspberry Pi: Montando um Webserver em Flask | lab7 e lab8 |  |  |
 | 11 | 11/10 | <s>13/10</s> | Aula estudio para desenvolvimento do projeto | --- |  | 12/10 (quinta-feira) - N. Sr.a Aparecida |
-| 12 | 18/10 | 20/10 | AVALIAÇÃO EM AULA CP5 (grupo)<br>CP5 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP5 | Entrega - CP5 |
-| 13 | 25/10 | 27/10 | Semana NEXT |  | Semana NEXT | 28/10 (sabado) - NEXT |
-| 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
-| 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
-| 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
-
-
 
 
 

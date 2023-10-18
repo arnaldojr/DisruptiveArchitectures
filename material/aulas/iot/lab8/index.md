@@ -1,443 +1,280 @@
+## Raspberry PI
 
-![logo](logo.png)
+![](https://hackaday.com/wp-content/uploads/2016/02/pihero.jpg?w=800)
+
+Até este momento do nosso curso, desenvolvemos pequenos projetos envolvendo sensores/atuadores e o nosso hardware(placa de desenvolvimento) foi o Arduino UNO, além disso aprendemos como integrar com Python e Node-Red.
+ 
+Neste laboratório vamos começar nossa jornada de computação embarcada com aplicações voltadas paara a Internet das Coisas com o hardware ``Raspberry PI``. 
+Nesta etapa vamos ver dentre outras coisas: o que é a Respberry Pi, Sistema Operacional Linux, como dar boot na placa Raspberry PI, como configurar e utilizar os GPIO - Pinos de Entrada/Saida, como realizar integração com Arduino, Node-Red e muito mais...
 
 ## O que vamos ver neste lab?
 
-- Raspberry Pi: 
-    - Conhecendo os pinos
-    - Usando a biblioteca RPI.GPIO 
-    - Montando um Webserver em Flask 
+- Raspberry PI: o que é? Qual a diferença para o Arduino? 
+- Raspberry Pi: Getting Started 
+    - Overview - Conhecendo o hardware
+    - Flash SD Card - Como dar boot do Sistema Operacional na Raspberry PI
+    - Modos de uso - GUI x Headless
+        - Headless - Configurando acesso SSH e rede Wifi.
+        - Headless - VNC Viewer
+        - GUI - Modo Desktop  
+    - Controlando os GPIO - Blink LED.
+        - Controle por CLI
+        - Shell Script
+        - ...
 
+## Raspberry PI x Arduino
 
+Antes de falar da Raspberry PI, vamos lembrar que o Arduino UNO, que usamos, possui um ``microcontrolador`` de 8-bit [link do datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf). Sua arquitetura RISC é simples, e cobre bem os requisitos mínimos de um sistema embarcado. Contudo, não é possivel rodar um sistema operacional completo, o que pode limitar algumas possibiildades de sistemas mais complexos.
 
-!!! progress
-    Continuar...
+Para rodar um Sistema Operacional completo precissamos de um ``processador`` por exemplo o processador Intel 386, I5, I7, Celeron e muitos outros [(link do datasheet de um Intel I7)](https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/core-i7-900-ee-and-desktop-processor-series-datasheet-vol-1.pdf) que usamos em nossos notebooks e desktops por exemplo. Em apicações de computação embarcada geralmente usamos um substituto para o notebook ou desktop, para atender requisitos tecnicos de custo, consumo de energia, peso, tamanho dentre outros... nesses casos podemos utilizar ``SBC`` (Single Board Computer).
 
+Os computadores de placa única (SBC) são computadores completos (combinação de um processador, memória, suporte de rede, video, audio, entrada e saída e outros...) em uma placa só, com a vantagem de ser de baixo custo e possuir pequenas dimensões comparado ao computador convensional.
 
+É neste ponto que vamos começar a falar da ``Raspberry PI`` que é a mais famosa e mais conhecida SBC e que suporta um Sistema Operacional Embarcado (Linux) ou seja, com ela é possivel desenvolver e implementar uma infinidade de projetos. 
 
-## Conhecendo os pinos da Raspberry Pi
+A placa Raspberry Pi foi lançada em 2012 pela Raspberry Pi Fundation, sendo uma classe de pequenos computadores portáteis de baixíssimo custo, baseado nos processadores multimídia de arquitetura ARM da Broadcom, o mesmo que utilizados para celulares. O projeto foi um sucesso, vem crescendo e se atualizando, hoje temos diversos modelos para diversas aplicações diferentes como a Raspberry PI 3, 4, Zero e outros.
 
-Podemos utilizar a Raspberry Pi para conectar sensores e atuadores, de forma semelhante como foi feito utilizando o Arduino, para isso utilizamos os barramento de pinos da Raspberry Pi chamado de GPIO (General Purpose Input Output). Ao todo são 40 pinos (para RPI 2 ou superior) e de forma geral cada pino possui uma função ou caracteristica especifica.
+> [link da documentação oficial](https://www.raspberrypi.org/)
 
-!!! Warning
-    Cuidado: Devemos ter atenção para não conectar os perifericos na placa de forma incorreta. Existe risco de queimar a Raspberry Pi.  
+> [Link para conhecer outros modelos de SBC](https://all3dp.com/pt/1/single-board-computer-computadores-placa-unica-alternativas-raspberry-pi/)
 
-A imagem abaixo é um guia simples para cada pino. Parece complicado na primeira vez, mas é tranquilo.
-
-![raspberry_pi_3_model_b_plus_gpio](raspberry_pi_3_model_b_plus_gpio-1024x1024.jpg)
-
-Vamos conhecer o que é cada pino:
-
-    - Pinos de Alimentação: 
-        - 3.3V (ao todo 2 pinos)
-        - 5V (ao todo 2 pinos)
-        - GND/Ground/0V (ao todo 8 pinos)
-    
-    - Pinos de interface:
-        - GPIO (General purpose input and output): São os pinos de entrada/saida. A tensão de saida é de 3.3V.
-        - I2C/SPI/UART: Protocolos de comunicação especificos utilizados para realizar a interface módulos epecificos com a Raspberry Pi.
- 
-!!! Warning
-    Atenção: Observe a correlação dos pinos para não ligar invertido.
-    ![raspberry_pi_3](Raspberry-Pi-GPIO-Header-with-Photo.png)
-     
-
-!!! exercise
-    Quantos pinos GPIO estão disponiveis?
-
-
+Agora que já entendemos um pouco o que é Raspberry PI, vamos aprender a usar....
 
 !!! progress
     Continuar...
 
+## Raspbeery PI - Getting Started
 
-## Configurando os GPIOs
+### Overview
 
-No final do lab07 montamos um simples pisca led e programamos configurando os valores dos registradores. Existem formas mais simples de programar os GPIOs da rasbperry pi, vamos programar em Python :) 
+Existem varios modelos de Raspberry PI, em nosso curso vamos utilizar a [``Raspberry PI 3 Model B+``](https://www.raspberrypi.com/products/raspberry-pi-3-model-b-plus/). 
 
-Vamos utilizara biblioteca ``RPI.GPIO``, que permite de forma simples configurar e usar os GPIOs com script em Python, vamos preparar o nosso ambiente de desenvolvimento:
+![rpi3](Pi3-Breakout-Feb-29-2016.png)
 
-!!! exercise
-    - Inicialize a Raspberry Pi. (modo Desktop ou SSH).
+![Espec](https://hackaday.com/wp-content/uploads/2016/02/pispecs2.png)
 
-        - Se tiver dúvida de como fazer, volte para o lab07.
-        
-    - Abra o terminal da raspberry pi.
+> Para complementar:
+>
+> - Fonte de Alimentação: 5V @ >2A
+>
+> - Cartão SD Card: micro SD Card >8GB Classe 10 ou superior
 
-    - Certifique-se de estar com acesso a internet.
+### Sistema Operacional
 
+Podemos utilizar diversas distribuções na RBI, dentre elas as mais comuns são:
 
-No terminal da raspberry pi, atualize os repositórios:
+- Raspbian - SO de uso geral 
+- Ubuntu - SO de uso geral
+- RetroPie - Emulador de video game
+- OSMC - Media Center 
+- Home Assistent - Automação Residêncial
+- E muitos outross...
 
-```bash
-
-sudo apt update
-
-```   
- 
-Em seguida, tente instalar o pacote RPi.GPIO: A documentação da biblioteca está disponivel no [aqui](https://pypi.org/project/RPi.GPIO/).
-
-```bash
-
-sudo apt install rpi.gpio
-
-```  
-
-Se ainda não estiver instalado, será instalado. Se já estiver instalado, será atualizado se uma versão mais recente estiver disponível.
-
-
+> Fim da teoria, vamos pra parte prática!! Leia com atenção este guia e siga todos os passos.  
 
 !!! progress
     Continuar...
+   
+### Flash SD Card
+
+O SO (Sistema Operacional) da RPI fica armazenado no ``micro SD Card`` que deve ser de pelo menos 8GB Classe 10 ou superior, existem diversas formas de realizar a gravação do SO, para isso se prepare pois chegou a hora de por a mão na massa. 
+
+As outras versões do SO podem ser encontras [no link https://www.raspberrypi.com/software/operating-systems/](https://www.raspberrypi.com/software/operating-systems/). Em nosso curso vamos utlizar o ``Raspberry Pi OS (legacy)`` baseado na Distribuição Debian 10 (Buster). 
+
+![RPI-OS](RPI-OS.png)
+
+!!! info
+    Pra facilitar, o link para [downlod já está aqui](https://downloads.raspberrypi.org/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2022-04-07/2022-04-04-raspios-buster-armhf.img.xz)
 
 
+Para gravar o SD Card podemos utilizar algumas opções o mais simples é o ``Balena Etcher`` que roda em diversas plataformas.
 
-
-### Conhecendo a biblioteca RPi.GPIO
-
-É uma biblioteca simples de usar e vamos ver as principais funções da RPi.GPIO através do código de exemplo abaixo:
-
-- ``GPIO.setmode()`` = Define o modo de acesso aos pino da raspberry pi, existem 2 modos de definir a mesma coisa:
-    
-    - GPIO.BOARD  = Posição física do pino na raspberry pi
-    - GPIO.BCM    = Numero após GPIOxx
-
-> exemplo:
-> BOARD 11 = GPIO17
-
-
-- ``GPIO.setup()`` = Define a função do pino, entrada (GPIO.IN) ou saida (GPIO.OUT)
-
-- ``GPIO.output()`` = Define o estado do pino definido como saida em nivel logico baixo (GPIO.LOW) ou alto (GPIO.HIGH)
-
-- ``GPIO.input()`` = Faz a leitura do estado do pino definido como entrada. Geralmente quando usamos um pino como entrada configuramos no setup o parametro pull_up_down (como exemplo: GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP))
-
+> Para facilitar, o link para [download do balena Etcher https://www.balena.io/etcher/](https://www.balena.io/etcher/) 
 
 !!! exercise
-    Monte o circuito abaixo:
+    Agora você deve:
+
+        - Remova o SD Card da RPI, conecte o cartão ao adaptador USB e plugue no seu notebook
+        - Faça o Download do RPI OS 
+        - Faça o Download do Balena Etcher
+        - No seu notebook, Abrir o Balena Etcher e siguir os passos para gravar o SD Card
+        - Após a gravação remova o adaptador da USB e conecte no computador novamente.
+        - Se tudo deu certo:
+            -  Irão aparecer duas particições referentes, sendo uma delas chamada "boot"
+            -  Caso contrário, alguma coisa deu errada, formate o SD Card em FAT32 e grave novamente. 
+
+!!! progress
+    Continuar...        
+
+### Modo de uso - Interface Gráfica 
+
+> Apenas para conhecimento extra, pois **não é desta forma que vamos usar a Raspberry PI em nosso curso** 
+
+Para utilizar a Raspberry como um computador normal é muito simples basta conectar na Raspberry PI: O SD Card gravado, um monitor HDMI, um teclado e um mouse. Com tudo conectado corretamente conecte a fonte de alimentação 5V, o sistema operacional irá inicializar e você pode usar :) .  
+
+![sdcard](sdcard.png)
+
+![rpidesk](rpidesk.jpg)
+
+### Modo de uso - Headless
+
+> Agora sim! Atenção nos próximos passos...
+
+Vamos utilizar o Rasbperry PI no modo ``Headless``, ou seja, sem conectar monitor, teclado e mouse. Para utilizar este modo é necessário realizar algumas configurações no micro SD Card antes de dar boot na Raspberry PI.
+
+#### Habilitar SSH
+
+Para habilitar o SSH é necessário criar um arquivo vazio (sem extensão) chamado ssh dentro da pasta boot. 
+
+!!! exercise
+    Agora você deve:
+
+        - Conecte o micro SD Card no adaptador USB, e plugue no notebook
+        - Acesse a partição chamada boot 
+        - crie um arquivo chamado ssh na raiz da partição boot
+        - este arquivo não possui extensão 
+
+![ssh](ssh.png)
+
+O resultado esperado deve ser semelhante ao da imagem abaixo:
+
+![ssh1](ssh1.png)
+
+!!! progress
+    Continuar...
     
-    ![blink led](blinkled.png)
-    
-    - No terminal da RPI, digite:
-    
+#### Configuração de Rede Wi-fi
+
+A configuração de rede do Wi-fi é feita através da configuração de um arquivo chamado wpa_supplicant.conf que deve ser criado dentro da pasta boot.
+
+!!! exercise
+    Agora você deve:
+
+        - crie um arquivo chamado wpa_supplicant.conf na raiz da partição boot
+        - abra o arquivo criado com algum editor de texto (bloco de notas ou vscode)
+        - configure o arquivo da mesma forma que o texto abaixo 
+
+> Neste ponto é importe ter uma rede wifi para se conecetar.
+> Temos 2 opções de redes: Personal e Enterprise
+> (Recomendado) - Para uma rede personal use a configuração abaixo.  
+> Esta configuração é a mais indicada e segura para ser usada em aula, para isso rotei a internet de seu celular.
+
+
+* Personal: (RECOMENDADO) - Use o roteador da sua casa ou habilite seu Celular como Roteador 
+
     ```shell
-    cd ~
-    mkdir src
-    cd src
-    touch blinkled.py  
-
-    ``` 
     
-    - Criamos um diretorio chamado src e um arquivo python chamado blinkled.py
-    - Abra o arquivo blinkled.py e escreva o código abaixo.
-    - Para abrir o arquivo digite: nano blinkled.py
-    - Após digitar o código python, salve e feche o arquivo: Ctlr+X >>> Y 
-    - Vamos rodar nosso código python, no terminal digite:
-        * python blinkled.py
-    
-    - Se tudo deu certo, o led está piscando. :)
-        - para interromper o código aperte Ctrl+C.
-
-!!! Warning
-    Os 2 códigos realizam a mesma função, a diferença está apenas no **setmode**. Escolha um dos códigos para testar. 
-
-    ```python    
-    import RPi.GPIO as GPIO  ### import da biblioteca gpio
-    import time
-
-    # usando o a posição fisíca do pino na raspberry pi
-    GPIO.setmode(GPIO.BOARD)
-     
-    # configura o pino fisico 11 como saida
-    GPIO.setup(11, GPIO.OUT)
-
-    whille True:  
-        # escreve no pino 11 nivel logico alto
-        GPIO.output(11, GPIO.HIGH)
-        time.sleep(1) # delay de 1s
-    
-        # escreve no pino 11 nivel logico baixo
-        GPIO.output(11, GPIO.LOW)
-        time.sleep(1) # delay de 1s
-
-    GPIO.cleanup()  # Limpa configuração finaliza o programa
-
-    ```
-    
-    ``` python 
-    import RPi.GPIO as GPIO  ### import da biblioteca gpio
-    
-    # usando o numero após GPIOxx da raspberry pi
-    GPIO.setmode(GPIO.BCM)
-    
-    # configura o GPIO17 como saida
-    GPIO.setup(17, GPIO.OUT)
-    
-    whille True:  
-        # escreve no GPIO17 nivel logico alto
-        GPIO.output(17, GPIO.HIGH)
-        time.sleep(1) # delay de 1s
-    
-        # escreve no GPIO17 nivel logico baixo
-        GPIO.output(17, GPIO.LOW)
-        time.sleep(1) # delay de 1s
-
-    GPIO.cleanup()  # Limpa configuração finaliza o programa
+    country=BR
+    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+    update_config=1
+      
+    network={
+            scan_ssid=1
+            ssid="COLOQUEO_O_NOME_DA_REDE"
+            psk="COLOQUE_A_SENHA_DA_REDE"
+    }
     
     ```
-    
-Agora que já entendemos a estrutura básica do script python, faça os exercicios abaixo para praticar
+* Enterprise: Redes WPA2 
 
+> A rede da FIAP requer autenticação enterprise, ``não recomendo`` pois seu usuário e senha ficará salvo na raspberry pi e qualquer pessoa mal intencionada pode se utilizar desta vulnerabilidade.
 
+    ```shell
+    
+    # Connect to a WPA2 Enterprise network with wpa_supplicant with this .conf file.
+    # I used this to connect to my university's wireless network on Arch linux.
+    # Here's the command I used:
+    #
+    #   wpa_supplicant -i wlan0 -c ./wpa_supplicant.conf
+    # 
+    
+    network={
+      ssid="YOUR_SSID"
+      scan_ssid=1
+      key_mgmt=WPA-EAP
+      identity="YOUR_USERNAME"
+      password="YOUR_PASSWORD"
+      eap=PEAP
+      phase1="peaplabel=0"
+      phase2="auth=MSCHAPV2"
+    }
+    
+    ```
 
-!!! exercise
-    Semáfaro de transito: 
-    
-        - Monte um circuito com 3 leds (1 verde, 1 amarelo, 1 vermelho);
-        - crie um novo script chamado semaforo.py;
-        - Escreva um código que irá acender os leds na sequência e intervalo:
-            - Verde (5segundos)
-            - Amarelo (3segundos)
-            - Vermelho (6segundos)
-            - loop (volta para o verde)
-
-    
-!!! exercise
-    leitura de botão e Led: 
-    
-    - Monte o circuito: 
-
-    ![rpi_ledbot](rpi_ledbot.png)
-    
-    - Escreva um código que:
-        - Enquanto nenhum botão for pressionado, os leds ficam apagados;
-        - Se o botão1 for pressionado:
-            - os leds acendem na sequência: Verde - Amarelo - Vermelho
-        - Se o botão2 for pressionado:
-            - os leds acendem na sequencia: Vermelho - Amarelo - Verde 
-    
-    > Dica: Geralmente quando usamos algum pino como entrada configuramos no setup o parametro pull_up_down (como exemplo: GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP) ou GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN).
-
-!!! exercise
-    Sensor de temperatura: Para quem tiver curiosidade pode dar uma olhada como utilizar o sensor de temperatura DTH11 [neste link](https://www.filipeflop.com/blog/raspberry-pi-umidade-e-a-temperatura-com-o-sensor-dht11/).
+Configuração finalizada! Agora vamos ligar! 
 
 !!! progress
     Continuar...
 
+#### Boot Raspberry PI
 
-## Montando um Webserver em Flask
+Para ter acesso SSH ao raspberry PI vamos utilizar o o software ``PuTTy``.
 
-Vamos montar um webserver na raspberry pi com flask. A ideia deste exemplo é controlar por um navegador web o status de um led entre ligado e desligado:
+> Para facilitar, o link para [download do PuTY https://www.putty.org/](https://www.putty.org/)
 
-![flask](flask.png)
+Agora com tudo configurado e instalado chegou a hora de ligar e testar.
 
+![sdcard](sdcard.png)
 
-### Instalando o Flask e configurando o ambiente
+> O seu notebook e a raspberry pi devem estar na mesma rede Wifi do seu Smartphone/Roteador como indica a imagem abaixo.
 
-
-No terminal da raspberry pi, atualize os repositórios:
-
-```bash
-
-sudo apt update
-
-```   
-
-Instale os pacotes do flask
-
-```bash
-
-sudo apt-get install python3-flask
-
-```   
-
-Agora vamos criar nossa arvore de projeto:
-
-``` shell
-- webserver
-    - static
-        - index.css
-    - templates
-        - index.html
-    - app.py
-```
-
-No terminal da raspberry pi, digite:
-
-```bash
-cd ~
-mkdir webserver
-cd webserver
-mkdir static templates
-ls
-
-``` 
- 
-Vamos criar o ``app.py``. No terminal da raspberry pi, digite:
-
-```bash
-
-nano app.py
-
-```  
-
-
-Com o editor nano aberto digite:
-
-```python
-'''
-	Arnaldo Viana
-'''
-import RPi.GPIO as GPIO
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-#define actuators GPIOs
-ledRed = 2
-
-#initialize GPIO status variables
-ledRedSts = 0
-
-# Define led pins as output
-GPIO.setup(ledRed, GPIO.OUT)   
-
-# turn leds OFF 
-GPIO.output(ledRed, GPIO.LOW)
-	
-@app.route("/")
-def index():
-	# Read GPIO Status
-	ledRedSts = GPIO.input(ledRed)
-
-	templateData = {
-      		'ledRed'  : ledRedSts,
-      	}
-	return render_template('index.html', **templateData)
-	
-@app.route("/<deviceName>/<action>")
-def action(deviceName, action):
-	if deviceName == 'ledRed':
-		actuator = ledRed
-   
-	if action == "on":
-		GPIO.output(actuator, GPIO.HIGH)
-	if action == "off":
-		GPIO.output(actuator, GPIO.LOW)
-		     
-	ledRedSts = GPIO.input(ledRed)
-   
-	templateData = {
-      		'ledRed'  : ledRedSts,
-	}
-	return render_template('index.html', **templateData)
-
-if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=80, debug=True)
-
-```  
-
-
-show! Salve e feche o editor nano. Ctrl+X >> Y
-
-
-Vamos criar a pagina html ``index.html``. No terminal da raspberry pi, digite:
-
-```bash
-cd templates
-nano index.html
-
-```  
-
-Com o editor nano aberto digite:
-
-```html
-<!DOCTYPE html>
-   <head>
-      <title>Webserver</title>
-      <link rel="stylesheet" href='../static/index.css'/>
-   </head>
-
-   <body>
-
-		<h2> Controle LED </h2>
-		
-		<h3> RED LED ==>  {{ ledRed  }}  ==>  
-			{% if  ledRed   == 1 %}
-				<a href="/ledRed/off"class="button">TURN OFF</a>
-			{% else %}
-				<a href="/ledRed/on" class="button">TURN ON</a> 
-			{% endif %}	
-		</h3>
-		
-   </body>
-</html>
-
-```
-
-show! Salve e feche o editor nano. Ctrl+X >> Y
-
-Vamos criar o arquivo de estilo css ``index.css``. No terminal da raspberry pi, digite:
-
-```bash
-cd ..
-cd static
-nano index.html
-
-```  
-> Com o editor nano aberto digite:
-
-```css
-
-body {
-   background: blue;
-   color: yellow;
-}
-
-.button {
-  font: bold 15px Arial;
-  text-decoration: none;
-  background-color: #EEEEEE;
-  color: #333333;
-  padding: 2px 6px 2px 6px;
-  border-collapse: separete;
-  border-spacing: 0;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
-}
-
-```
-
-> show! Salve e feche o editor nano. Ctrl+X >> Y
-
-### Hora de testar
-
-Vamos testar nosso webserver simples.
-
-No terminal da raspberry pi, digite:
-
-```bash
-cd ..
-sudo python app.py
-
-```  
-
-
-> Deixe o flask rodando na raspberry e no computador ou no smartphone (Deve estar na mesma rede da raspberry), abra o navegador web e digite o ip da raspberry pi. O resultado esperado é abrir uma pagina web e controlar o led. 
-
-!!! exercise
-    Compreenda o código app.py e monte o circuito adequado para conseguir visualizar o led acender e apagar.
-
- 
-!!! exercise
-    Altere o código app.py e adicione mais 2 led e 2 botões (totalizando 3 leds, 2 botões), lembre-se de adaptar os arquivos HTML para exibir no frontend os status. 
+![rede](rede.png)
 
 
 !!! exercise
-    Aproveite os seus conhecimentos web e proponha melhorias de UI/UX para o exercicio anterior.
+    Agora você deve:
 
+        - Conecte o micro SD Card na Raspberry PI
+        - Mantenha sua rede wifi ligada (Smartphone como roteador)
+        - Conecte seu computador(notebook) na mesma rede Wifi configurada na Raspbeery Pi
+        - Ligue a fonte de alimentação na raspberry pi
+        - Aguarde alguns segundos e vefifique o ip que foi atribuido ao Raspberry PI
+        - No seu computador, abra o puTTY e digite o ip da Raspberry PI
+        - Se tudo estiver correto, um terminal irá abrir e vai solicitar login e senha
+
+
+![ssh](ssh2.PNG)
+
+
+> Por padrão, o login e senha da raspberry pi será:
+>
+> login: pi
+>
+> senha: raspberry
+        
+Finalizado! Agora estamos com nosso raspberry conectado e funcionando. 
+
+!!! progress
+    Continuar...
+
+## Primeiro teste da raspberry 
+
+Vamos fazer o nosso helloWord com a Raspberry Pi, apenas para testar, Monte o circuito da imagem abaixo:
+
+![blink led](blinkled.png)
+
+
+Agora no terminal da Raspberry Pi execute os comando de forma sequencial:
+
+```shell
+
+# Seta o pino GPIO 17 e configura como saida (output)
+echo "17" > /sys/class/gpio/export
+echo "out" > /sys/class/gpio/gpio17/direction
+
+# Escreve na saida do led (nivel logico alto)
+echo "1" > /sys/class/gpio/gpio17/value
+
+
+# Escreve na saida do led (nivel logico baixo)
+echo "0" > /sys/class/gpio/gpio17/value
+
+# libera o pino
+echo "17" > /sys/class/gpio/unexport
+
+```
+
+Se tudo deu certo até este ponto, conseguimos ver o led Apagar e acender. 
+
+!!! exercise
+    Agora é com você, o Raspberry PI permite o acesso aos seus pinos com o uso de diversas linguagens de programação diferentes, escolha uma de sua preferência e monte um código que faça o led Piscar no intervalo de 1 seg. Dica: Pesquise na internet por exemplos, [exemplos](https://medium.com/geekculture/how-to-blink-led-using-raspberry-pi-8351b06348d7)  

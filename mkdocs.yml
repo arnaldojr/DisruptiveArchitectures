@@ -96,6 +96,7 @@ nav:
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
     - CheckPoint 5 - Liberado: aulas/checkpoint/cp5.md
+    - CheckPoint 6: aulas/checkpoint/cp6.md
 
   - Introdução: 
     - IA: aulas/IA/intro/index.md
@@ -134,4 +135,5 @@ nav:
       - Lab06 : aulas/iot/lab6/index.md
       - Lab07 : aulas/iot/lab7/index.md
       - Lab08 : aulas/iot/lab8/index.md
+      - Lab09 : aulas/iot/lab9/index.md
 
