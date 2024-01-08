@@ -31,7 +31,7 @@ Existe uma rubrica de nota definida pelo professor e publicada junto com o desaf
 
 ## Hora de entregar checkpoint:
 
-O checkpoint não é realizado em sala de aula.
+O checkpoint pode ou não ser realizado em sala de aula.
 
 O estudante deve realizar a entrega ANTES da data definida para avaliação do checkpoint.
 
