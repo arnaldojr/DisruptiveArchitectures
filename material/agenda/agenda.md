@@ -42,6 +42,3 @@
 | 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
 | 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
 | 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
-
-
-
