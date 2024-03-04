@@ -1,24 +1,43 @@
 ## Cronograma 1º Semestre - 2024 
 
-| AULA | TDSA  | TDSG | CONTEÚDO                                                                                        | LABORATÓRIO | OBSERVAÇÃO            |
-| ---- | ----- | ------------ | ----------------------------------------------------------------------------------------------- | ----------- | --------------------- |
-| 1    | 07/02 | 09/02        | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP), lançamento CP1 |      | Dinâmica offline      |
-| 2    | 14/02 | 16/02        | Dataframe: Análise exploratória e visualização de dados                                         | lab1        |                       |
-| 3    | 21/02 | 23/02        | ML Supervisionado - Classificação                                         | lab2        |                       |
-| 4    | 28/02 | 02/03        | ML Supervisionado - Regressão                                                                   | lab3        |                       |
-| 5    | 07/03 | 09/03        | Dicas de pré processamento de dados e validação cruzada                                         | lab4+lab5   |                       |
-| 6    | 14/03 | 16/03        | AVALIAÇÃO EM AULA CP1<br>CP1 - Sistema preditivo ou de classificação                            |             | AVALIAÇÃO EM AULA CP1 |
-| 7    | 21/03 | 23/03        | Introdução ao Deep Learning<br>Perceptron, MLP, lançamento CP2                                  | lab6        |                       |
-| 8    | 28/03 | 30/03        | CNN                                                                                             | lab7        |                       |
-| 9    | 04/04 | 06/04        | CNN Continuação<br>07 - Paixão de Cristo                                                        | lab8        |                       |
-| 10   | 11/04 | 13/04        | Medidas de avaliação                                                                            |             |                       |
-| 11   | 18/04 | 20/04        | Aula estúdio: Aplicação de DL<br>21 - Tiradentes                                                |             |                       |
-| 12   | 25/04 | 27/04        | AVALIAÇÃO EM AULA CP2<br>CP2 - Treinamento e uma rede neural MLP/CNN para classificação         |             | AVALIAÇÃO EM AULA CP2 |
-| 13   | 02/05 | 04/05        | Transfer Learning, lançamento CP3                                                               | lab9        |                       |
-| 14   | 09/05 | 12/05        | Transfer Learning Continuação                                                                   | lab10       |                       |
-| 15   | 16/05 | 18/05        | AVALIAÇÃO EM AULA CP3<br>CP3 - Transfer Learning segmentação                                    |             | AVALIAÇÃO EM AULA CP3 |
-| 16   | 23/05 | 25/05        | 27/05 - Inicio Global Solutions                                                                 |             |
-
+|           | Primeiro Semestre                                                                 | 2TDSB        | 2TDSA        | 2TDSG       |
+| --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
+| Semana    | Conteúdo                                                                          | Quarta-Feira | Quarta-Feira | Sexta-feira |
+| --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
+| Semana 1  | Aula Magna                                                                        | 05/02/2024   | 07/02/2024   | 09/02/2024  |
+|           | Apresentação do curso, dinâmica das aulas, datas importantes (CP), lançamento CP1 |              |              |             |
+| Semana 2  | Dataframe: Relembrando Análise exploratória e visualização de dados               | 12/02/2024   | 14/02/2024   | 16/02/2024  |
+|           |                                                                                   | Feriado      | Feriado      |             |
+| Semana 3  | ML Supervisionado - Classificação                                                 | 19/02/2024   | 21/02/2024   | 23/02/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 4  | ML Supervisionado - Regressão                                                     | 26/02/2024   | 28/02/2024   | 01/03/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 5  | Dicas de pré processamento de dados e validação cruzada                           | 04/03/2024   | 06/03/2024   | 08/03/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 6  | AVALIAÇÃO EM AULA CP1                                                             | 11/03/2024   | 13/03/2024   | 15/03/2024  |
+|           | CP1 - Sistema preditivo ou de classificação                                       |              |              |             |
+| Semana 7  | Introdução ao Deep Learning                                                       | 18/03/2024   | 20/03/2024   | 22/03/2024  |
+|           | Perceptron, MLP, lançamento CP2                                                   |              |              |             |
+| Semana 8  | CNN                                                                               | 25/03/2024   | 27/03/2024   | 29/03/2024  |
+|           |                                                                                   |              |              | Feriado     |
+| Semana 9  | CNN Continuação                                                                   | 01/04/2024   | 03/04/2024   | 05/04/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 10 | Medidas de avaliação                                                              | 08/04/2024   | 10/04/2024   | 12/04/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 11 | Aula estudio: Aplicação de DL                                                     | 15/04/2024   | 17/04/2024   | 19/04/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 12 | Aula estudio Checkpoint 2                                                         | 22/04/2024   | 24/04/2024   | 26/04/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 13 | Transfer Learning, lançamento CP3                                                 | 29/04/2024   | 01/05/2024   | 03/05/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 14 | Redes modernas, aplicações com DL                                                 | 06/05/2024   | 08/05/2024   | 10/05/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 15 | Continuação...                                                                    | 13/05/2024   | 15/05/2024   | 17/05/2024  |
+|           | Aplicações com Yolo e deploy de aplicações.                                       |              |              |             |
+| Semana 16 | AVALIAÇÃO EM AULA CP3                                                             | 20/05/2024   | 22/05/2024   | 24/05/2024  |
+|           |                                                                                   |              |              |             |
+| Semana 17 | Avaliação Global Solution primeiro semestre                                       | 27/05/2024   | 29/05/2024   | 31/05/2024  |
+|           |                                                                                   | Prova GS     | Prova GS     | Prova GS    |
 
 
 
