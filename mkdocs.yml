@@ -95,8 +95,10 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
+    - CP1 - Simulado: aulas/checkpoint/cp1-simulado.md
     # - CheckPoint 5 - Liberado: aulas/checkpoint/cp5.md
     # - CheckPoint 6: aulas/checkpoint/cp6.md
+  
 
   - Introdução: 
     - IA: aulas/IA/intro/index.md
