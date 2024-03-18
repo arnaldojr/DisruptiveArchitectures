@@ -1,0 +1,1919 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/iot/lab8/">
+      
+      
+        <link rel="prev" href="../lab7/">
+      
+      
+        <link rel="next" href="../lab9/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
+    
+    
+      
+        <title>Lab08 - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.10ba22f1.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#raspberry-pi" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab08
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agenda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CheckPoint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checkpoint/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checkpoint/cp1-simulado/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP1 - Simulado
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Introdução
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arduino
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/introarduino/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3_2" id="__nav_4_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Exemplos
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    From 0 to Hero!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blink led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Led botão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Botão pot led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PWM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Função millis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupção de pino
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Laboratórios
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab01/dataframe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01 - Dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02 - Aprendizado Supervisionado - Classificação
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab03/regressao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03 - Aprendizado Supervisionado - Regressão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab04/dicasDePreprocessamento/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04 - Dicas de pre processamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab05/validacaocruzada/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05 - Validação cruzada
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab06/rna/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06 - Redes Neurais - Percepton
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab07/mlp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07 - Redes Neurais - MLP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/batalharedes/batalha_das_redes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BATALHA DAS REDES
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab08/cnn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab08 - Redes Neurais - CNN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab09/transferlearning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab9 - Redes Neurais - Transfer learning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab10/dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab10 - Algumas dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab08
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab08
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspberry PI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-vamos-ver-neste-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que vamos ver neste lab?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi-x-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspberry PI x Arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspbeery-pi-getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspbeery PI - Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspbeery PI - Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-operacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sistema Operacional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flash-sd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flash SD Card
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-de-uso-interface-grafica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modo de uso - Interface Gráfica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-de-uso-headless" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modo de uso - Headless
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modo de uso - Headless">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#habilitar-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Habilitar SSH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-de-rede-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração de Rede Wi-fi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Raspberry PI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primeiro-teste-da-raspberry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primeiro teste da raspberry
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab09
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspberry PI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-vamos-ver-neste-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que vamos ver neste lab?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspberry-pi-x-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspberry PI x Arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raspbeery-pi-getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raspbeery PI - Getting Started
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Raspbeery PI - Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-operacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sistema Operacional
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flash-sd-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flash SD Card
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-de-uso-interface-grafica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modo de uso - Interface Gráfica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-de-uso-headless" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modo de uso - Headless
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Modo de uso - Headless">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#habilitar-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Habilitar SSH
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-de-rede-wi-fi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração de Rede Wi-fi
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-raspberry-pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Raspberry PI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primeiro-teste-da-raspberry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Primeiro teste da raspberry
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+
+
+
+                  
+
+  
+  
+
+
+  <h1>Lab08</h1>
+
+<h2 id="raspberry-pi">Raspberry PI<a class="headerlink" href="#raspberry-pi" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="https://hackaday.com/wp-content/uploads/2016/02/pihero.jpg?w=800" /></p>
+<p>Até este momento do nosso curso, desenvolvemos pequenos projetos envolvendo sensores/atuadores e o nosso hardware(placa de desenvolvimento) foi o Arduino UNO, além disso aprendemos como integrar com Python e Node-Red.</p>
+<p>Neste laboratório vamos começar nossa jornada de computação embarcada com aplicações voltadas paara a Internet das Coisas com o hardware <code>Raspberry PI</code>. 
+Nesta etapa vamos ver dentre outras coisas: o que é a Respberry Pi, Sistema Operacional Linux, como dar boot na placa Raspberry PI, como configurar e utilizar os GPIO - Pinos de Entrada/Saida, como realizar integração com Arduino, Node-Red e muito mais...</p>
+<h2 id="o-que-vamos-ver-neste-lab">O que vamos ver neste lab?<a class="headerlink" href="#o-que-vamos-ver-neste-lab" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Raspberry PI: o que é? Qual a diferença para o Arduino? </li>
+<li>Raspberry Pi: Getting Started <ul>
+<li>Overview - Conhecendo o hardware</li>
+<li>Flash SD Card - Como dar boot do Sistema Operacional na Raspberry PI</li>
+<li>Modos de uso - GUI x Headless<ul>
+<li>Headless - Configurando acesso SSH e rede Wifi.</li>
+<li>Headless - VNC Viewer</li>
+<li>GUI - Modo Desktop  </li>
+</ul>
+</li>
+<li>Controlando os GPIO - Blink LED.<ul>
+<li>Controle por CLI</li>
+<li>Shell Script</li>
+<li>...</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="raspberry-pi-x-arduino">Raspberry PI x Arduino<a class="headerlink" href="#raspberry-pi-x-arduino" title="Permanent link">&para;</a></h2>
+<p>Antes de falar da Raspberry PI, vamos lembrar que o Arduino UNO, que usamos, possui um <code>microcontrolador</code> de 8-bit <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf">link do datasheet</a>. Sua arquitetura RISC é simples, e cobre bem os requisitos mínimos de um sistema embarcado. Contudo, não é possivel rodar um sistema operacional completo, o que pode limitar algumas possibiildades de sistemas mais complexos.</p>
+<p>Para rodar um Sistema Operacional completo precissamos de um <code>processador</code> por exemplo o processador Intel 386, I5, I7, Celeron e muitos outros <a href="https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/core-i7-900-ee-and-desktop-processor-series-datasheet-vol-1.pdf">(link do datasheet de um Intel I7)</a> que usamos em nossos notebooks e desktops por exemplo. Em apicações de computação embarcada geralmente usamos um substituto para o notebook ou desktop, para atender requisitos tecnicos de custo, consumo de energia, peso, tamanho dentre outros... nesses casos podemos utilizar <code>SBC</code> (Single Board Computer).</p>
+<p>Os computadores de placa única (SBC) são computadores completos (combinação de um processador, memória, suporte de rede, video, audio, entrada e saída e outros...) em uma placa só, com a vantagem de ser de baixo custo e possuir pequenas dimensões comparado ao computador convensional.</p>
+<p>É neste ponto que vamos começar a falar da <code>Raspberry PI</code> que é a mais famosa e mais conhecida SBC e que suporta um Sistema Operacional Embarcado (Linux) ou seja, com ela é possivel desenvolver e implementar uma infinidade de projetos. </p>
+<p>A placa Raspberry Pi foi lançada em 2012 pela Raspberry Pi Fundation, sendo uma classe de pequenos computadores portáteis de baixíssimo custo, baseado nos processadores multimídia de arquitetura ARM da Broadcom, o mesmo que utilizados para celulares. O projeto foi um sucesso, vem crescendo e se atualizando, hoje temos diversos modelos para diversas aplicações diferentes como a Raspberry PI 3, 4, Zero e outros.</p>
+<blockquote>
+<p><a href="https://www.raspberrypi.org/">link da documentação oficial</a></p>
+<p><a href="https://all3dp.com/pt/1/single-board-computer-computadores-placa-unica-alternativas-raspberry-pi/">Link para conhecer outros modelos de SBC</a></p>
+</blockquote>
+<p>Agora que já entendemos um pouco o que é Raspberry PI, vamos aprender a usar....</p>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...</p>
+</div>
+<h2 id="raspbeery-pi-getting-started">Raspbeery PI - Getting Started<a class="headerlink" href="#raspbeery-pi-getting-started" title="Permanent link">&para;</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h3>
+<p>Existem varios modelos de Raspberry PI, em nosso curso vamos utilizar a <a href="https://www.raspberrypi.com/products/raspberry-pi-3-model-b-plus/"><code>Raspberry PI 3 Model B+</code></a>. </p>
+<p><img alt="rpi3" src="Pi3-Breakout-Feb-29-2016.png" /></p>
+<p><img alt="Espec" src="https://hackaday.com/wp-content/uploads/2016/02/pispecs2.png" /></p>
+<blockquote>
+<p>Para complementar:</p>
+<ul>
+<li>
+<p>Fonte de Alimentação: 5V @ &gt;2A</p>
+</li>
+<li>
+<p>Cartão SD Card: micro SD Card &gt;8GB Classe 10 ou superior</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="sistema-operacional">Sistema Operacional<a class="headerlink" href="#sistema-operacional" title="Permanent link">&para;</a></h3>
+<p>Podemos utilizar diversas distribuções na RBI, dentre elas as mais comuns são:</p>
+<ul>
+<li>Raspbian - SO de uso geral </li>
+<li>Ubuntu - SO de uso geral</li>
+<li>RetroPie - Emulador de video game</li>
+<li>OSMC - Media Center </li>
+<li>Home Assistent - Automação Residêncial</li>
+<li>E muitos outross...</li>
+</ul>
+<blockquote>
+<p>Fim da teoria, vamos pra parte prática!! Leia com atenção este guia e siga todos os passos.  </p>
+</blockquote>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...</p>
+</div>
+<h3 id="flash-sd-card">Flash SD Card<a class="headerlink" href="#flash-sd-card" title="Permanent link">&para;</a></h3>
+<p>O SO (Sistema Operacional) da RPI fica armazenado no <code>micro SD Card</code> que deve ser de pelo menos 8GB Classe 10 ou superior, existem diversas formas de realizar a gravação do SO, para isso se prepare pois chegou a hora de por a mão na massa. </p>
+<p>As outras versões do SO podem ser encontras <a href="https://www.raspberrypi.com/software/operating-systems/">no link https://www.raspberrypi.com/software/operating-systems/</a>. Em nosso curso vamos utlizar o <code>Raspberry Pi OS (legacy)</code> baseado na Distribuição Debian 10 (Buster). </p>
+<p><img alt="RPI-OS" src="RPI-OS.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Pra facilitar, o link para <a href="https://downloads.raspberrypi.org/raspios_oldstable_armhf/images/raspios_oldstable_armhf-2022-04-07/2022-04-04-raspios-buster-armhf.img.xz">downlod já está aqui</a></p>
+</div>
+<p>Para gravar o SD Card podemos utilizar algumas opções o mais simples é o <code>Balena Etcher</code> que roda em diversas plataformas.</p>
+<blockquote>
+<p>Para facilitar, o link para <a href="https://www.balena.io/etcher/">download do balena Etcher https://www.balena.io/etcher/</a> </p>
+</blockquote>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Agora você deve:</p>
+<div class="codehilite"><pre><span></span><code>- Remova o SD Card da RPI, conecte o cartão ao adaptador USB e plugue no seu notebook
+- Faça o Download do RPI OS 
+- Faça o Download do Balena Etcher
+- No seu notebook, Abrir o Balena Etcher e siguir os passos para gravar o SD Card
+- Após a gravação remova o adaptador da USB e conecte no computador novamente.
+- Se tudo deu certo:
+    -  Irão aparecer duas particições referentes, sendo uma delas chamada &quot;boot&quot;
+    -  Caso contrário, alguma coisa deu errada, formate o SD Card em FAT32 e grave novamente.
+</code></pre></div>
+
+</div>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...        </p>
+</div>
+<h3 id="modo-de-uso-interface-grafica">Modo de uso - Interface Gráfica<a class="headerlink" href="#modo-de-uso-interface-grafica" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Apenas para conhecimento extra, pois <strong>não é desta forma que vamos usar a Raspberry PI em nosso curso</strong> </p>
+</blockquote>
+<p>Para utilizar a Raspberry como um computador normal é muito simples basta conectar na Raspberry PI: O SD Card gravado, um monitor HDMI, um teclado e um mouse. Com tudo conectado corretamente conecte a fonte de alimentação 5V, o sistema operacional irá inicializar e você pode usar :) .  </p>
+<p><img alt="sdcard" src="sdcard.png" /></p>
+<p><img alt="rpidesk" src="rpidesk.jpg" /></p>
+<h3 id="modo-de-uso-headless">Modo de uso - Headless<a class="headerlink" href="#modo-de-uso-headless" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Agora sim! Atenção nos próximos passos...</p>
+</blockquote>
+<p>Vamos utilizar o Rasbperry PI no modo <code>Headless</code>, ou seja, sem conectar monitor, teclado e mouse. Para utilizar este modo é necessário realizar algumas configurações no micro SD Card antes de dar boot na Raspberry PI.</p>
+<h4 id="habilitar-ssh">Habilitar SSH<a class="headerlink" href="#habilitar-ssh" title="Permanent link">&para;</a></h4>
+<p>Para habilitar o SSH é necessário criar um arquivo vazio (sem extensão) chamado ssh dentro da pasta boot. </p>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Agora você deve:</p>
+<div class="codehilite"><pre><span></span><code>- Conecte o micro SD Card no adaptador USB, e plugue no notebook
+- Acesse a partição chamada boot 
+- crie um arquivo chamado ssh na raiz da partição boot
+- este arquivo não possui extensão
+</code></pre></div>
+
+</div>
+<p><img alt="ssh" src="ssh.png" /></p>
+<p>O resultado esperado deve ser semelhante ao da imagem abaixo:</p>
+<p><img alt="ssh1" src="ssh1.png" /></p>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...</p>
+</div>
+<h4 id="configuracao-de-rede-wi-fi">Configuração de Rede Wi-fi<a class="headerlink" href="#configuracao-de-rede-wi-fi" title="Permanent link">&para;</a></h4>
+<p>A configuração de rede do Wi-fi é feita através da configuração de um arquivo chamado wpa_supplicant.conf que deve ser criado dentro da pasta boot.</p>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Agora você deve:</p>
+<div class="codehilite"><pre><span></span><code>- crie um arquivo chamado wpa_supplicant.conf na raiz da partição boot
+- abra o arquivo criado com algum editor de texto (bloco de notas ou vscode)
+- configure o arquivo da mesma forma que o texto abaixo
+</code></pre></div>
+
+</div>
+<blockquote>
+<p>Neste ponto é importe ter uma rede wifi para se conecetar.
+Temos 2 opções de redes: Personal e Enterprise
+(Recomendado) - Para uma rede personal use a configuração abaixo.<br />
+Esta configuração é a mais indicada e segura para ser usada em aula, para isso rotei a internet de seu celular.</p>
+</blockquote>
+<ul>
+<li>
+<p>Personal: (RECOMENDADO) - Use o roteador da sua casa ou habilite seu Celular como Roteador </p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">country</span><span class="o">=</span>BR
+<span class="nv">ctrl_interface</span><span class="o">=</span><span class="nv">DIR</span><span class="o">=</span>/var/run/wpa_supplicant<span class="w"> </span><span class="nv">GROUP</span><span class="o">=</span>netdev
+<span class="nv">update_config</span><span class="o">=</span><span class="m">1</span>
+
+<span class="nv">network</span><span class="o">={</span>
+<span class="w">        </span><span class="nv">scan_ssid</span><span class="o">=</span><span class="m">1</span>
+<span class="w">        </span><span class="nv">ssid</span><span class="o">=</span><span class="s2">&quot;COLOQUEO_O_NOME_DA_REDE&quot;</span>
+<span class="w">        </span><span class="nv">psk</span><span class="o">=</span><span class="s2">&quot;COLOQUE_A_SENHA_DA_REDE&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+* Enterprise: Redes WPA2 </p>
+</li>
+</ul>
+<blockquote>
+<p>A rede da FIAP requer autenticação enterprise, <code>não recomendo</code> pois seu usuário e senha ficará salvo na raspberry pi e qualquer pessoa mal intencionada pode se utilizar desta vulnerabilidade.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>```shell
+
+# Connect to a WPA2 Enterprise network with wpa_supplicant with this .conf file.
+# I used this to connect to my university&#39;s wireless network on Arch linux.
+# Here&#39;s the command I used:
+#
+#   wpa_supplicant -i wlan0 -c ./wpa_supplicant.conf
+# 
+
+network={
+  ssid=&quot;YOUR_SSID&quot;
+  scan_ssid=1
+  key_mgmt=WPA-EAP
+  identity=&quot;YOUR_USERNAME&quot;
+  password=&quot;YOUR_PASSWORD&quot;
+  eap=PEAP
+  phase1=&quot;peaplabel=0&quot;
+  phase2=&quot;auth=MSCHAPV2&quot;
+}
+
+```
+</code></pre></div>
+
+<p>Configuração finalizada! Agora vamos ligar! </p>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...</p>
+</div>
+<h4 id="boot-raspberry-pi">Boot Raspberry PI<a class="headerlink" href="#boot-raspberry-pi" title="Permanent link">&para;</a></h4>
+<p>Para ter acesso SSH ao raspberry PI vamos utilizar o o software <code>PuTTy</code>.</p>
+<blockquote>
+<p>Para facilitar, o link para <a href="https://www.putty.org/">download do PuTY https://www.putty.org/</a></p>
+</blockquote>
+<p>Agora com tudo configurado e instalado chegou a hora de ligar e testar.</p>
+<p><img alt="sdcard" src="sdcard.png" /></p>
+<blockquote>
+<p>O seu notebook e a raspberry pi devem estar na mesma rede Wifi do seu Smartphone/Roteador como indica a imagem abaixo.</p>
+</blockquote>
+<p><img alt="rede" src="rede.png" /></p>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Agora você deve:</p>
+<div class="codehilite"><pre><span></span><code>- Conecte o micro SD Card na Raspberry PI
+- Mantenha sua rede wifi ligada (Smartphone como roteador)
+- Conecte seu computador(notebook) na mesma rede Wifi configurada na Raspbeery Pi
+- Ligue a fonte de alimentação na raspberry pi
+- Aguarde alguns segundos e vefifique o ip que foi atribuido ao Raspberry PI
+- No seu computador, abra o puTTY e digite o ip da Raspberry PI
+- Se tudo estiver correto, um terminal irá abrir e vai solicitar login e senha
+</code></pre></div>
+
+</div>
+<p><img alt="ssh" src="ssh2.PNG" /></p>
+<blockquote>
+<p>Por padrão, o login e senha da raspberry pi será:</p>
+<p>login: pi</p>
+<p>senha: raspberry</p>
+</blockquote>
+<p>Finalizado! Agora estamos com nosso raspberry conectado e funcionando. </p>
+<div class="admonition progress">
+<p class="admonition-title">Progress</p>
+<p>Continuar...</p>
+</div>
+<h2 id="primeiro-teste-da-raspberry">Primeiro teste da raspberry<a class="headerlink" href="#primeiro-teste-da-raspberry" title="Permanent link">&para;</a></h2>
+<p>Vamos fazer o nosso helloWord com a Raspberry Pi, apenas para testar, Monte o circuito da imagem abaixo:</p>
+<p><img alt="blink led" src="blinkled.png" /></p>
+<p>Agora no terminal da Raspberry Pi execute os comando de forma sequencial:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Seta o pino GPIO 17 e configura como saida (output)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;17&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/gpio/export
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;out&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/gpio/gpio17/direction
+
+<span class="c1"># Escreve na saida do led (nivel logico alto)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/gpio/gpio17/value
+
+
+<span class="c1"># Escreve na saida do led (nivel logico baixo)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/gpio/gpio17/value
+
+<span class="c1"># libera o pino</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;17&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/class/gpio/unexport
+</code></pre></div>
+<p>Se tudo deu certo até este ponto, conseguimos ver o led Apagar e acender. </p>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Agora é com você, o Raspberry PI permite o acesso aos seus pinos com o uso de diversas linguagens de programação diferentes, escolha uma de sua preferência e monte um código que faça o led Piscar no intervalo de 1 seg. Dica: Pesquise na internet por exemplos, <a href="https://medium.com/geekculture/how-to-blink-led-using-raspberry-pi-8351b06348d7">exemplos</a>  </p>
+</div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">March 18, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.bd41221c.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
