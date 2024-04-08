@@ -1,5 +1,20 @@
 ## Cronograma 1º Semestre - 2024 
 
+
+| Semana   | Conteúdo                                                               | 2TDSB<br>Segunda-feira | 2TDSA<br>Quarta-Feira | 2TDSPH<br>Sexta-Feira |
+| -------- | ---------------------------------------------------------------------- | ---------------------- | --------------------- | --------------------- |
+| Semana 1 | Lançamento Desafio CP2 - 20% de conclusão do desafio.                  | 08/04/2024             | 10/04/2024            | 12/04/2024            |
+| Semana 2 | Laboratório TensorFlow - teoria e prática                              | 15/04/2024             | 17/04/2024            | 19/04/2024            |
+| Semana 3 | Aula Estúdio para o desenvolvimento do desafio CP2 - 50% de conclusão. | 22/04/2024             | 24/04/2024            | 26/04/2024            |
+| Semana 4 | Laboratório TensorFlow - teoria e prática                              | 29/04/2024             | 01/05/2024            | 03/05/2024            |
+| Semana 5 | Aula Estúdio para o desenvolvimento do desafio CP2 - 80% de conclusão. | 06/05/2024             | 08/05/2024            | 10/05/2024            |
+| Semana 6 | Apresentação em Ala do desafio Checkpoint 2                            | 13/05/2024             | 15/05/2024            | 17/05/2024            |
+| Semana 7 | AVALIAÇÃO EM AULA CP3, prova individual, durante a aula.               | 20/05/2024             | 22/05/2024            | 24/05/2024            |
+| Semana 8 | Avaliação Global Solution - Primeiro Semestre                          | 27/05/2024             | 29/05/2024            | 31/05/2024            |
+
+
+<!-- 
+
 |           | Primeiro Semestre                                                                 | 2TDSB        | 2TDSA        | 2TDSG       |
 | --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
 | Semana    | Conteúdo                                                                          | Quarta-Feira | Quarta-Feira | Sexta-feira |
@@ -61,3 +76,6 @@
 | 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
 | 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
 | 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
+
+
+-->
