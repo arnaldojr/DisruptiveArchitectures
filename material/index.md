@@ -4,7 +4,7 @@ Olá pessoal, bem vindos!! Nesta página você irá encontrar os conteúdos mini
 
 - Curso: Tecnologia de Desenvolvimento de Sistemas
 - Disciplina: Disruptive Architectures: IA e IoT
-- Turmas 2023: 2TDSA, 2TDSJ, 2TDSF e 2TDSG
+- Turmas 2024: 2TDSA, 2TDSB, 2TDPH
 - Repositório com todos os arquivos está disponivel em: [https://github.com/arnaldojr/DisruptiveArchitectures/](https://github.com/arnaldojr/DisruptiveArchitectures/)
 
 Prof. Arnaldo Viana

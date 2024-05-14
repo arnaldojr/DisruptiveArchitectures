@@ -8,8 +8,8 @@
 | Semana 3 | Aula Estúdio para o desenvolvimento do desafio CP2 - 50% de conclusão. | 22/04/2024             | 24/04/2024            | 26/04/2024            |
 | Semana 4 | Laboratório TensorFlow - teoria e prática                              | 29/04/2024             | 01/05/2024            | 03/05/2024            |
 | Semana 5 | Aula Estúdio para o desenvolvimento do desafio CP2 - 80% de conclusão. | 06/05/2024             | 08/05/2024            | 10/05/2024            |
-| Semana 6 | Apresentação em Ala do desafio Checkpoint 2                            | 13/05/2024             | 15/05/2024            | 17/05/2024            |
-| Semana 7 | AVALIAÇÃO EM AULA CP3, prova individual, durante a aula.               | 20/05/2024             | 22/05/2024            | 24/05/2024            |
+| Semana 6 | Laboratório prático de Deep Learning                                   | 13/05/2024             | 15/05/2024            | 17/05/2024            |
+| Semana 7 | Apresentação em Ala do desafio Checkpoint 2/3                          | 20/05/2024             | 22/05/2024            | 24/05/2024            |
 | Semana 8 | Avaliação Global Solution - Primeiro Semestre                          | 27/05/2024             | 29/05/2024            | 31/05/2024            |
 
 
