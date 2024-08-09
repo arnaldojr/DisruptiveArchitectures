@@ -1,3 +1,27 @@
+
+## Cronograma 2º Semestre - 2024 
+
+
+| Semana    | Segundo Semestre - Conteúdo                                                     | 2TDSA<br>Quarta-Feira | 2TDSG<br>Sexta-feira |
+| --------- | ------------------------------------------------------------------------------- | --------------------- | -------------------- |
+| Semana 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 07/08/2024            | 09/08/2024           |
+| Semana 2  |                                                                                 | 14/08/2024            | 16/08/2024           |
+| Semana 3  |                                                                                 | 21/08/2024            | 23/08/2024           |
+| Semana 4  | CP1 - Programação Arduino                                                       | 28/08/2024            | 30/08/2024           |
+| Semana 5  | Entramos no mundo o IoT                                                         | 04/09/2024            | 06/09/2024           |
+| Semana 6  |                                                                                 | 11/09/2024            | 13/09/2024           |
+| Semana 7  |                                                                                 | 18/09/2024            | 20/09/2024           |
+| Semana 8  |                                                                                 | 25/09/2024            | 27/09/2024           |
+| Semana 9  |                                                                                 | 02/10/2024            | 04/10/2024           |
+| Semana 10 | Integração de sistemas com node-red                                             | 09/10/2024            | 11/10/2024           |
+| Semana 11 |                                                                                 | 16/10/2024            | 18/10/2024           |
+| Semana 12 | NEXT - sabado 26/10                                                             | 23/10/2024            | 25/10/2024           |
+| Semana 13 |                                                                                 | 30/10/2024            | 01/11/2024           |
+| Semana 14 |                                                                                 | 06/11/2024            | 08/11/2024           |
+| Semana 15 | Prova GS                                                                        | 13/11/2024            | 15/11/2024           |
+
+<!-- 
+
 ## Cronograma 1º Semestre - 2024 
 
 
@@ -13,7 +37,7 @@
 | Semana 8 | Avaliação Global Solution - Primeiro Semestre                          | 27/05/2024             | 29/05/2024            | 31/05/2024            |
 
 
-<!-- 
+
 
 |           | Primeiro Semestre                                                                 | 2TDSB        | 2TDSA        | 2TDSG       |
 | --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
