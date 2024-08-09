@@ -6,3 +6,4 @@
 ## Conteúdo do CP
 
 - Conceitos de Programação C para arduino
+- Conceitos de Eletrica e Eletrônica
