@@ -1,40 +1,38 @@
+
 ## O que esse código faz?
 
-Este código de exemplo demonstra como acender e apagar um LED em um intervalo de 100 milissegundos ao pressionar um botão com Arduino.
+Este código de exemplo demonstra como piscar um LED com arduino (blink led).
+
 
 ## Circuito protoboard
 
-![](botao_led.png)
+![](hello1.PNG)
+
 
 ## Código
 
 ```c
-const int led = 13; //define o apelido led para o valor 13
-const int botao = 5; //define o apelido botao para o valor 5
+int led = 13; //defindo o valor 13 para a variável led
 
 void setup(){
-  pinMode(led, OUTPUT); //declara o pino13 (led) como saída
-  pinMode(botao, INPUT_PULLUP); //declara o pino5 (botao) como entrada
+    pinMode(led,OUTPUT); //declara led (pino 13 do arduino) como saida (OUTPUT)
 }
-
+    
 void loop(){
-  // Faz a leitura do botao
-  if (digitalRead(botao) == LOW) {
-    digitalWrite(led, HIGH); //acende o led
-    delay(100); //delay em milissegundos
-    digitalWrite(led, LOW); //apaga o led
-    delay(100); //delay em milissegundos
-  }
+    digitalWrite(led, HIGH); //acende (HIGH) o led
+    delay(1000); //delay em milisegundos (1 seg)
+    digitalWrite(led, LOW); //apaga o led (LOW)
+    delay(1000); //delay em milisegundos
 }
 ```
-
 ??? note "Circuito simulador"
-    ![](botao_led.png)
+    ![](hello.PNG)
+
 
 ## Links para Download
 
-* [Código arduino](botao_led.ino)
+* [Código arduino](hello.ino) 
 
-* [Thinkercad online](https://www.tinkercad.com/things/7Kj0XM4gX3q-spectacular-gadzery-saddai/editel?sharecode=OQaQZ0VdZj8Wn1A6vE5bQYnCYxzP5o5q3L7rAaiYlIs)
+* [Thinkercad online](https://www.tinkercad.com/things/4e6ZDm63O2D-swanky-robo-blad/editel?sharecode=MftwpiXu-ym4ISoTz_QquJtsnkLvIIlr9fNjBM0J8LI)
 
-* [SimulIDE](botao_led.simu)
+* [SimulIDE](hello.simu)

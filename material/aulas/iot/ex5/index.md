@@ -1,53 +1,55 @@
 ## O que esse código faz?
 
-Este código de exemplo demonstra como controlar dois LEDs com Arduino usando um botão e um potenciômetro. Um LED é acionado por uma interrupção externa quando o botão é pressionado, e o outro LED alterna seu estado quando o valor do potenciômetro é maior ou igual a 500.
+Este código de exemplo demonstra como controlar dois LEDs com Arduino usando um botão e um potenciômetro, substituindo o uso de `delay()` por `millis()`. Um LED alterna seu estado a cada 100 milissegundos ao pressionar um botão, enquanto o outro LED alterna seu estado no mesmo intervalo quando o valor do potenciômetro é maior ou igual a 500.
 
 ## Circuito protoboard
 
-![](botao_pot_interrupt.png)
+![](botao_pot_millis.png)
 
 ## Código
 
 ```c
 const int led = 13; //define o apelido led para o valor 13
-const int botao = 2; //define o apelido botao para o valor 2
+const int botao = 5; //define o apelido botao para o valor 5
 const int ledPwm = 11; //define o apelido ledPwm para o valor 11
 const int potAD = A0; //define o apelido potenciometro para o valor A0
 
-void setup(){
+unsigned long tempo1 = 0, tempo2 = 0;
+
+void setup() {
   // Entradas e saídas digitais
   pinMode(led, OUTPUT); //declara o pino13 (led) como saída
-  pinMode(botao, INPUT_PULLUP); //declara o pino2 (botao) como entrada
+  pinMode(botao, INPUT_PULLUP); //declara o pino5 (botao) como entrada
+
   // Entradas e saídas analógicas
   pinMode(ledPwm, OUTPUT); //declara o pino11 (ledPwm) como saída
   pinMode(potAD, INPUT); //declara o pinoA0 (potenciometro) como entrada
-
-  // Configuração da Interrupção
-  attachInterrupt(digitalPinToInterrupt(botao), interrupcaoPino2, RISING);  // Configura o pino2 como interrupção externa do tipo Rising (borda de LOW para HIGH)
 }
 
-void loop(){  
-  // Programa principal
+void loop() {
+  //usando millis no lugar do delay
+  if (millis() - tempo1 >= 100){
+    tempo1 = millis(); 
+    if (digitalRead(botao) == LOW){
+      digitalWrite(led, !digitalRead(led));	   
+    }
+  }
+  // usando millis 
   int pot = analogRead(potAD);
-  if (pot >= 500){
-    digitalWrite(ledPwm, !digitalRead(ledPwm));	
-    delay(100);    
-  } 
-}
-
-void interrupcaoPino2() // Função de interrupção do pino2, é executado quando o botão do pino2 é pressionado
-{                    
-  digitalWrite(led, !digitalRead(led));
+  if (millis() - tempo2 >= 100 && pot >= 500){
+    tempo2 = millis(); 
+    digitalWrite(ledPwm, !digitalRead(ledPwm));	    
+  }
 }
 ```
 
 ??? note "Circuito simulador"
-    ![](botao_pot_interrupt.png)
+    ![](botao_pot_millis.png)
 
 ## Links para Download
 
-* [Código arduino](botao_pot_interrupt.ino)
+* [Código arduino](botao_pot_millis.ino)
 
-* [Thinkercad online](https://www.tinkercad.com/things/9a0lWXyFgK8-marvelous-robo-woomy/editel?sharecode=5f9Jm3Bc3gKQ2YG0KrrRNRH50wzv5X8RGpDd6bq3YXM)
+* [Thinkercad online](https://www.tinkercad.com/things/1S2zV5j5P5o-captivating-mox-duino/editel?sharecode=4vGvV8WZFFHk9q3zqYJbc_-C8oGJRKoRn7zfk1dfQdk)
 
-* [SimulIDE](botao_pot_interrupt.simu)
+* [SimulIDE](botao_pot_millis.simu)

@@ -107,17 +107,19 @@ nav:
         - Exemplos: 
           - Dicas: aulas/iot/intro/dicas.md
           - From 0 to Hero!: aulas/iot/ex0/index.md 
-          - Blink led: aulas/iot/ex1/index.md
-          - Led botão: aulas/iot/ex2/index.md
-          - Botão pot led: aulas/iot/ex3/index.md
-          - PWM: aulas/iot/ex7/index.md
-          - Função millis: aulas/iot/ex4/index.md
-          - Interrupção de pino: aulas/iot/ex5/index.md
-          - Comunicação Serial: aulas/iot/ex6/index.md 
+          - Blink led: aulas/iot/ex2/index.md
+          - Led botão: aulas/iot/ex3/index.md
+          - Botão pot led: aulas/iot/ex4/index.md
+          - PWM: aulas/iot/ex8/index.md
+          - Função millis: aulas/iot/ex5/index.md
+          - Interrupção de pino: aulas/iot/ex6/index.md
+          - Comunicação Serial: aulas/iot/ex1/index.md
+          - Comunicação com Python: aulas/iot/ex7/index.md 
     - IA: aulas/IA/intro/index.md
     
   - Laboratórios:
     - IoT:
+      - Lab00 : aulas/iot/ex0/solucao.md 
       - Lab01 : aulas/iot/lab1/index.md
       - Lab02 : aulas/iot/lab2/index.md
       - Lab03 : aulas/iot/lab3/index.md
