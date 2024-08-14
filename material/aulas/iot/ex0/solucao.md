@@ -314,7 +314,11 @@ void loop() {
     Manipulação de Strings
 
     Escreva um programa que receba uma string do Monitor Serial e determine o número de palavras, o número de vogais e o número de consoantes na string. Imprima os resultados no Monitor Serial.
-    
+
+!!! tip
+    Esse exércicio não funcionou no tinkercad, mas no [wokwi](https://wokwi.com/) deu certo.
+
+
 ```c
 #define TAMANHO_MAXIMO 100;  // Defina um tamanho máximo para o vetor
 
@@ -437,6 +441,7 @@ int contarConsoantes(char input[]) {
 
 !!! exercise
     Ponteiros
+
     Crie um programa que recebe dois números inteiros do Monitor Serial e troque seus valores usando ponteiros. Imprima os valores antes e depois da troca no Monitor Serial.
 
 ```c
@@ -488,8 +493,11 @@ void troca(int *a, int *b) {
 
 !!! exercise
     Estruturas (structs) e Tipos Definidos pelo Usuário
+
     Crie um programa que gerencia informações de alunos, como nome, idade e notas. Utilize structs para armazenar as informações e funções para realizar operações, como adicionar um aluno, remover um aluno, calcular a média das notas e exibir as informações dos alunos no Monitor Serial.
 
+!!! tip
+    Esse eu fiz com ajuda do gpt, não consegui testar pra saber se está funcionando....
 
 ```c
 struct Aluno {
