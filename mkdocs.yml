@@ -11,7 +11,7 @@ theme:
   feature:
     tabs: true
   name: active-handout
-  custom_dir: overrides
+  #custom_dir: overrides
 
 docs_dir: material
 site_dir: docs

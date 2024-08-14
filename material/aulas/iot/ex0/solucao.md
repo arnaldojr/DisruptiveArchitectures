@@ -1,7 +1,7 @@
 ## Solução From Zero to Hero!!  
 
 
-## Exercicios
+### Exercicio 1
 
 !!! exercise
     "Hello, World!" no Monitor Serial
@@ -23,8 +23,12 @@ void loop() {
 
 ```
 
+
 !!! progress
-    continuar...
+    Continuar...
+
+
+### Exercicio 2
 
 !!! exercise
     Variáveis e Operações Matemáticas
@@ -66,9 +70,12 @@ void loop() {
 }
 ```
 
-!!! progress
-    continuar...
 
+!!! progress
+    Continuar...
+
+
+### Exercicio 3
 
 !!! exercise
     Estruturas de Controle: if, else e switch-case
@@ -105,8 +112,12 @@ void loop() {
 
 ```
 
+
 !!! progress
-    continuar...
+    Continuar...
+
+
+### Exercicio 4
 
 !!! exercise
     Estruturas de Repetição: for e while
@@ -145,8 +156,12 @@ void loop() {
 
 ```
 
+
 !!! progress
-    continuar...
+    Continuar...
+
+
+### Exercicio 5
 
 !!! exercise
     Funções
@@ -187,12 +202,16 @@ void loop() {
 
 ```
 
+
+
 !!! progress
-    continuar...
+    Continuar...
+
+
+### Exercicio 6
 
 !!! exercise
     Vetores e manipulação de dados
-
 
     Desenvolva um programa que recebe uma sequência de N números inteiros pelo Monitor Serial, armazena em um vetor, e calcula a média, o maior e o menor número. Imprima os resultados no Monitor Serial.
 
@@ -284,8 +303,12 @@ void loop() {
 
 ```
 
+
 !!! progress
-    continuar...
+    Continuar...
+
+
+### Exercicio 7
 
 !!! exercise
     Manipulação de Strings
@@ -405,6 +428,13 @@ int contarConsoantes(char input[]) {
 
 ```
 
+
+!!! progress
+    Continuar...
+
+
+### Exercicio 8
+
 !!! exercise
     Ponteiros
     Crie um programa que recebe dois números inteiros do Monitor Serial e troque seus valores usando ponteiros. Imprima os valores antes e depois da troca no Monitor Serial.
@@ -448,6 +478,13 @@ void troca(int *a, int *b) {
   }
   
 ```
+
+
+!!! progress
+    Continuar...
+
+
+### Exercicio 9
 
 !!! exercise
     Estruturas (structs) e Tipos Definidos pelo Usuário
@@ -518,6 +555,15 @@ struct Aluno {
   void loop() {}
   
 ```
+<!--
+
+
+!!! progress
+    Continuar...
+
+
+### Exercicio 10
+
 
 !!! exercise
     Alocação dinâmica de memória
@@ -560,3 +606,5 @@ void loop() {
 }
 
 ```
+
+ Ninguém vê esse comentário -->
