@@ -114,8 +114,17 @@ Abra o Serial Monitor para o Arduino 2. Você deve ver as mensagens enviadas pel
 !!! tip
     Lembre-se de conectar os GNDs dos dois Arduinos juntos para garantir uma referência comum.
 
+## Desafio 4: Recebendo dados de sensores
 
+Faça as alterações necessárias nos dois códigos anteriores para que funcione da seguinte forma: 
+  
+  - Conecte um botão ao arduino transmissor, quando pressionar o botão envie uma mensagem.
+  - Conecte um led ao arduino receptor, quando receber o comando de ligar, o led liga e quando for desligar, apaga o led.  
+
+
+<!--
 ## Desafio 4: Chat entre Dois Arduinos
 
 Faça as alterações necessárias nos dois códigos anteriores para que os dois arduinos consigam mandar e receber mensagens.
 
+-->
