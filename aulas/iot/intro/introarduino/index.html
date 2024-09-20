@@ -1,0 +1,1842 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/iot/intro/introarduino/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../dicas/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
+    
+    
+      
+        <title>Introdução - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.35f28582.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&amp;display=swap">
+<link rel="stylesheet" href="../../../../assets/css/devlife.css">
+
+
+    <script>
+        window.ihandout_config = JSON.parse(`{"report": {"api-base": "https://devlife.insper-comp.com.br/api/offerings/1/", "url": "https://devlife.insper-comp.com.br/api/offerings/1/exercises/"}}`);
+    </script>
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#conceitos-basicos-e-introdutorios" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introdução
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agenda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CheckPoint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checkpoint/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checkpoint/cp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CheckPoint 5 - Liberado
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Introdução
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arduino
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#conceitos-basicos-e-introdutorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conceitos básicos e introdutórios
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placa-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placa Arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pinagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pinagem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-embarcado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Embarcado
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-linguagem-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      A linguagem arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entendo-elementos-basicos-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entendo elementos básicos de código
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entendo elementos básicos de código">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saida-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      Saída Digital
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrada-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entrada Digital
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrada-analogica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entrada Analógica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwm-saida-analogica" class="md-nav__link">
+    <span class="md-ellipsis">
+      PWM (Saída "Analógica")
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupcao-externa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupção Externa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-uso-de-delay-em-sistemas-embarcados" class="md-nav__link">
+    <span class="md-ellipsis">
+      O uso de delay em sistemas embarcados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART (Comunicação Serial)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencias
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Exemplos
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    From 0 to Hero!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blink led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Led botão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Botão pot led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PWM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Função millis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupção de pino
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comunicação com Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Laboratórios
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex0/solucao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab00
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab08
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab9/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab09
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab01/dataframe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01 - Dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02 - Aprendizado Supervisionado - Classificação
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab03/regressao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03 - Aprendizado Supervisionado - Regressão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab04/dicasDePreprocessamento/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04 - Dicas de pre processamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab05/validacaocruzada/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05 - Validação cruzada
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab06/rna/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06 - Redes Neurais - Percepton
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab07/mlp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07 - Redes Neurais - MLP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07 - Redes Neurais - TensorFlow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/batalharedes/batalha_das_redes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BATALHA DAS REDES
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab08/cnn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab08 - Redes Neurais - CNN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab09/transferlearning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab9 - Redes Neurais - Transfer learning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab10/dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab10 - Algumas dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#conceitos-basicos-e-introdutorios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conceitos básicos e introdutórios
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#placa-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placa Arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pinagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pinagem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#software-embarcado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Software Embarcado
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-linguagem-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      A linguagem arduino
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entendo-elementos-basicos-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entendo elementos básicos de código
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Entendo elementos básicos de código">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#saida-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      Saída Digital
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrada-digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entrada Digital
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrada-analogica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Entrada Analógica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwm-saida-analogica" class="md-nav__link">
+    <span class="md-ellipsis">
+      PWM (Saída "Analógica")
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupcao-externa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupção Externa
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-uso-de-delay-em-sistemas-embarcados" class="md-nav__link">
+    <span class="md-ellipsis">
+      O uso de delay em sistemas embarcados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART (Comunicação Serial)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencias
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Introdução</h1>
+
+<h2 id="conceitos-basicos-e-introdutorios">Conceitos básicos e introdutórios<a class="headerlink" href="#conceitos-basicos-e-introdutorios" title="Permanent link">&para;</a></h2>
+<p>A programação arduino não é complicada, vou apresentar alguns conceitos importante relacionados a software, ferramentas e hardware para te ajudar a embarcar nesse universo.</p>
+<h2 id="placa-arduino">Placa Arduino<a class="headerlink" href="#placa-arduino" title="Permanent link">&para;</a></h2>
+<p>Existem diversas placas e versões de Arduinos, vamos trabalhar com o mais simples e famoso, o Arduino UNO. Essa placa possui pinos que podem ser configurados como entradas e saidas para sensores atuadores ou para comunicação com outros sistemas de hardwares, como mostra a figura:</p>
+<p><img alt="" src="../ArduinoUNO-hardware.jpg" /></p>
+<ol>
+<li>Microcontrolador - este é o cérebro de um Arduino, é nele que carregamos os programas. Pense nisso como um minúsculo computador, projetado para executar apenas um número específico de coisas.</li>
+<li>Porta USB - usada para conectar sua placa Arduino a um computador.</li>
+<li>Chip USB para Serial - o USB para Serial, responsável por fazer a conversão de protocolos, é um componente importante, pois é o que torna possível programar e comunicar a placa Arduino a partir do seu computador. </li>
+<li>Pinos digitais - pinos que usam lógica digital (0,1 ou LOW/HIGH). Comumente usado para chaves e para ligar/desligar um LED.</li>
+<li>Pinos analógicos - pinos que podem ler valores analógicos em uma resolução de 10 bits (0-1023).</li>
+<li>Pinos de 5V / 3,3V - esses pinos são usados para alimentar (energia) componentes externos.</li>
+<li>GND - também conhecido como terra, negativo, Ground, é utilizado para completar um circuito, onde o nível elétrico está em 0 volt.</li>
+<li>VIN - significa Voltage In, onde você pode conectar fontes de alimentação externas.</li>
+</ol>
+<h2 id="pinagem">Pinagem<a class="headerlink" href="#pinagem" title="Permanent link">&para;</a></h2>
+<p>A placa do Arduino UNO possui 14 pinos que podem ser configurados como Entrada/Saida (INPUT/OUTPUT) Digitai, 6 pinos de entrada Analogica com resolução de 10 bits, Alguns pinos podem ser configurados para funções especificas como Serial, PWM, SPI, TWI(I2C), ISR entre outros...   </p>
+<p><img alt="" src="../Pinout-UNOrev3_latest.png" /></p>
+<h2 id="software-embarcado">Software Embarcado<a class="headerlink" href="#software-embarcado" title="Permanent link">&para;</a></h2>
+<p>O software embarcado é o programa que define o funcionamento de um sistema embarcado, ou sejá, é o código que fica gravado no chip do Arduino. Ele é projetado para executar tarefas específicas, com um alto grau de eficiência e confiabilidade. De forma geral, a estrutura de um código segue um padrão, que pode ser dividido em três partes principais:</p>
+<ol>
+<li>Inicialização: Nesta etapa, o código realiza a configuração inicial dos periféricos, como sensores e atuadores, e estabelece a comunicação com outros dispositivos ou sistemas. Isso inclui a configuração de pinos de entrada e saída, taxas de comunicação, entre outros, no Arduino inclue a "void setup()".</li>
+<li>Laço de Repetição Infinito: O laço infinito, também conhecido no Arduino como "void loop()", é o coração do software embarcado. Ele é responsável por manter o programa em execução contínua, permitindo que o sistema embarcado execute suas tarefas de forma repetitiva e ininterrupta.</li>
+<li>Interrupções: As interrupções são eventos que ocorrem de forma assíncrona ao laço infinito, permitindo que o software embarcado responda a eventos externos ou internos, como sinais de sensores ou temporizadores. Esses eventos são geralmente tratados por funções específicas chamadas rotinas de serviço de interrupção (ISR). </li>
+</ol>
+<p>Neste exemplo, a função "setup()" é responsável pela inicialização, enquanto a função "loop()" contém as tarefas a serem executadas repetidamente no laço infinito.</p>
+<p><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">led</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">pinMode</span><span class="p">(</span><span class="n">led</span><span class="p">,</span><span class="n">OUTPUT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">led</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+A representação deste programa pode ser visualizada na figura abaixo: </p>
+<p><img alt="" src="../loop.png" /></p>
+<p>Para saber mais desse exemplo acesse: <code>Laboratório -&gt; IoT e Sistemas Embarcados --&gt; Blink led</code></p>
+<h2 id="a-linguagem-arduino">A linguagem arduino<a class="headerlink" href="#a-linguagem-arduino" title="Permanent link">&para;</a></h2>
+<p>A linguagem Arduino é propria MAS é baseada em C/C++ e simplifica a programação de microcontroladores através de um ambiente de desenvolvimento integrado (IDE) amigável e de fácil acesso.</p>
+<p>Agumas semelhanças com as linguagens C/C++ (e outras tambem...) são:</p>
+<ul>
+<li>
+<p>Sintaxes e Estrutura básica: A estrutura básica do código Arduino, incluindo a definição de funções, variáveis, constantes e operadores, é semelhante à encontrada em C e C++.</p>
+</li>
+<li>
+<p>Funções e bibliotecas: A linguagem Arduino permite a utilização de funções e bibliotecas padrão de C/C++, além de bibliotecas específicas para Arduino.</p>
+</li>
+<li>
+<p>Ponteiros e alocação de memória: Assim como em C e C++, a linguagem Arduino permite o uso de ponteiros e a manipulação de memória, embora esses recursos sejam menos comuns em projetos de Arduino devido à sua complexidade e aos recursos limitados dos microcontroladores.</p>
+</li>
+</ul>
+<h2 id="entendo-elementos-basicos-de-codigo">Entendo elementos básicos de código<a class="headerlink" href="#entendo-elementos-basicos-de-codigo" title="Permanent link">&para;</a></h2>
+<p>De forma geral a programação de sistemas embarcados envolve o desenvolvimento de aplicações que interagem com o mundo físico através de sensores e atuadores. Para compreender e dominar essas interações, é crucial aprender sobre os conceitos fundamentais, como Entrada e Saída Digital, Debounce de botão Digital, Entrada e Saída Analógica, Interrupção Externa e Interfaces de comunicação como UART/I2C/SPI (Comunicação Serial).</p>
+<h3 id="saida-digital">Saída Digital<a class="headerlink" href="#saida-digital" title="Permanent link">&para;</a></h3>
+<p>A saída digital é uma forma básica de comunicação com componentes externos, como LEDs e relés. Os pinos de saída digital podem ser configurados para atuar como fonte ou dreno de corrente, dependendo da necessidade do circuito. Os sinais são transmitidos como valores discretos, geralmente <code>0 (LOW) e 1 (HIGH)</code>. No Arduino, é possível configurar os pinos de entrada/saída como saída digital usando a função pinMode() e controlar o estado do pino usando a função <code>digitalWrite()</code>.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Blink led</p>
+</details>
+<h3 id="entrada-digital">Entrada Digital<a class="headerlink" href="#entrada-digital" title="Permanent link">&para;</a></h3>
+<p>A entrada digital permite que um microcontrolador leia sinais digitais externos, geralmente <code>0 (LOW) e 1 (HIGH)</code>. No Arduino, os pinos de entrada/saída podem ser configurados como entrada digital usando a função pinMode() e ler o estado do pino com a função <code>digitalRead()</code>.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Led botão</p>
+</details>
+<h3 id="entrada-analogica">Entrada Analógica<a class="headerlink" href="#entrada-analogica" title="Permanent link">&para;</a></h3>
+<p>A conversão de sinais analógicos em valores digitais é realizada por um conversor analógico-digital (ADC) presente no microcontrolador. O ADC possui uma resolução específica, geralmente 10 bits no Arduino UNO, que determina a quantidade de valores possíveis para representar o sinal analógico.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Botão pod led</p>
+</details>
+<h3 id="pwm-saida-analogica">PWM (Saída "Analógica")<a class="headerlink" href="#pwm-saida-analogica" title="Permanent link">&para;</a></h3>
+<p>A técnica PWM permite controlar a energia entregue a dispositivos externos através da variação do tempo de ativação do sinal digital. A frequência do sinal PWM é geralmente fixa, enquanto o duty cycle (razão entre o tempo de ativação e o período do sinal) varia entre 0 e 100%. No Arduino UNO esse valor é definido em 8bits, ou seja, de 0 até 255.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo PWM</p>
+</details>
+<h3 id="interrupcao-externa">Interrupção Externa<a class="headerlink" href="#interrupcao-externa" title="Permanent link">&para;</a></h3>
+<p>As interrupções externas podem ser configuradas para serem disparadas em diferentes condições, como mudança de estado, nível alto ou baixo e bordas de subida ou descida. Ao ser disparada, a interrupção executa a rotina de tratamento de interrupção, interrompendo temporariamente o fluxo principal do programa.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Interrupção de pino</p>
+</details>
+<h3 id="o-uso-de-delay-em-sistemas-embarcados">O uso de delay em sistemas embarcados<a class="headerlink" href="#o-uso-de-delay-em-sistemas-embarcados" title="Permanent link">&para;</a></h3>
+<p>Evitar delays é fundamental para garantir o bom funcionamento e a eficiência do sistema embarcado. O uso excessivo de delays pode resultar em um desempenho inadequado e na incapacidade de responder a eventos em tempo real. Ao invés de utilizar a função delay(), opte por utilizar millis() e técnicas de programação não bloqueantes para criar temporizações.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Função millis    </p>
+</details>
+<h3 id="uart-comunicacao-serial">UART (Comunicação Serial)<a class="headerlink" href="#uart-comunicacao-serial" title="Permanent link">&para;</a></h3>
+<p>UART (Universal Asynchronous Receiver-Transmitter) é um protocolo de comunicação serial que permite a transmissão de dados entre dispositivos de forma assíncrona, sem a necessidade de um clock de referência compartilhado. No Arduino, a comunicação serial é geralmente implementada usando as funções <code>Serial.begin(), Serial.print(), Serial.println() e Serial.read()</code>.</p>
+<details class="note">
+<summary>Dica</summary>
+<p>Veja o exemplo Comunicação Serial </p>
+</details>
+<h2 id="referencias">Referencias<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<p>A comunidade Arduino é muito grande e gera muito material de qualidade, é facil encontrar foruns, tutoriais e videos que te auxiliam no aprendizado. De toda a forma, abaixo tem alguns link da documentação oficial que podem te ajudar.</p>
+<ul>
+<li><a href="https://www.arduino.cc/reference/en/?_gl=1*19zvap6*_ga*MTA5MDMxODM2My4xNjgyNTEwNDg3*_ga_NEXN8H46L5*MTY4MjUyNzkzMS4yLjEuMTY4MjUyODg0Ni4wLjAuMA..">https://www.arduino.cc/reference/en/?_gl=1*19zvap6*_ga*MTA5MDMxODM2My4xNjgyNTEwNDg3*_ga_NEXN8H46L5*MTY4MjUyNzkzMS4yLjEuMTY4MjUyODg0Ni4wLjAuMA..</a></li>
+<li><a href="https://docs.arduino.cc/learn/starting-guide/getting-started-arduino#general">https://docs.arduino.cc/learn/starting-guide/getting-started-arduino#general</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 20, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
