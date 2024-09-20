@@ -128,6 +128,7 @@ void leserial(){
   // guarda o valor digitado pelo usuario em recebido
   if (Serial.available()) {
     recebido = Serial.readString();
+    recebido.trim();
   } else {
     Serial.println("Timeout! Resposta não recebida.");
   }

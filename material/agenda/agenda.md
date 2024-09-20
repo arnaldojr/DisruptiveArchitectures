@@ -12,9 +12,9 @@
 | Semana 6  | lab 02                                                                          | 11/09/2024            | 13/09/2024           |
 | Semana 7  | lab 03                                                                          | 18/09/2024            | 20/09/2024           |
 | Semana 8  | lab 04                                                                          | 25/09/2024            | 27/09/2024           |
-| Semana 9  | CP2 - Programação Arduino                                                       | 02/10/2024            | 04/10/2024           |
-| Semana 10 | lab 05  Integração de sistemas com node-red                                     | 09/10/2024            | 11/10/2024           |
-| Semana 11 | lab 06                                                                          | 16/10/2024            | 18/10/2024           |
+| Semana 9  | lab 04                                                                          | 02/10/2024            | 04/10/2024           |
+| Semana 10 | CP2 - Programação Arduino                                                       | 09/10/2024            | 11/10/2024           |
+| Semana 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 16/10/2024            | 18/10/2024           |
 | Semana 12 | lab 07      (NEXT - sabado 26/10)                                               | 23/10/2024            | 25/10/2024           |
 | Semana 13 | CP3 - Integração de sistemas com node-red                                       | 30/10/2024            | 01/11/2024           |
 | Semana 14 | integração IA e IoT                                                             | 06/11/2024            | 08/11/2024           |

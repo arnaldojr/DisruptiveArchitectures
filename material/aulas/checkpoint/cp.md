@@ -2,8 +2,10 @@
 
 - O objetivo do checkpoint é avaliar a compreensão dos estudantes em relação ao conteúdo ministrado pela disciplina.
 
-> Obrigatório utilizar como base o código de exemplo do jogo da memória disponível neste repositório:
->   - [Jogo da Memória](jogomemoria/jogomemoria.ino)
+> Obrigatório utilizar como base o código de exemplo do jogo da memória disponível:
+>
+>   - [Código base Jogo da Memória](jogomemoria/jogomemoria.ino)
+>   - [Wokwi Jogo da Memória](https://wokwi.com/projects/409559148540388353)
 
 **Materiais Necessários:**
     
@@ -48,6 +50,7 @@ O jogo tem a dinâmica padrão de qualquer outro jogo da memória: Inicia-se o g
 - **Salvar Pontuações** Usar uma memória EEPROM no Arduino para salvar as pontuações mais altas, permitindo que os jogadores vejam e tentem superar seus recordes anteriores.
 - **Comunicação Bluetooth:** Faça a comunicação via bluetooth com o notebook ou celular para jogar o jogo.
 - **Comando de Voz:** Através de um script em Python, ao receber a informação da cor, o computador anuncia em voz alta a cor acionada.
+- **OUTRAS FEATURES:** O grupo pode propor outras features avançadas, mas deve ser aprovado pelo professor.
 
 ### Construindo uma Caixa Personalizada:
 
