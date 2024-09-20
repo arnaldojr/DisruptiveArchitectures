@@ -95,8 +95,8 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
-    - CP4 - Arduino: aulas/checkpoint/cp4-arduino.md
-    # - CheckPoint 5 - Liberado: aulas/checkpoint/cp5.md
+    # - CP4 - Arduino: aulas/checkpoint/cp4-arduino.md
+    - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
 

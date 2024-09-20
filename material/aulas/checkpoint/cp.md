@@ -1,8 +1,8 @@
-# CHECKPOINT 4
+# CHECKPOINT 5
 
 - O objetivo do checkpoint é avaliar a compreensão dos estudantes em relação ao conteúdo ministrado pela disciplina.
 
-> Obrigatório utilizat como base o código de exemplo do jogo da memória disponível neste repositório:
+> Obrigatório utilizar como base o código de exemplo do jogo da memória disponível neste repositório:
 >   - [Jogo da Memória](jogomemoria/jogomemoria.ino)
 
 **Materiais Necessários:**
@@ -68,7 +68,7 @@ O jogo tem a dinâmica padrão de qualquer outro jogo da memória: Inicia-se o g
 
 | Nota | Itens |
 |------|-------|
-| 6    | Atende aos requisitos funcionais básicos |
+| 4    | Atende aos requisitos funcionais básicos |
 | 7    | Atende aos requisitos funcionais básicos + caixa personalizada|
 | 8    | Atende aos requisitos funcionais básicos + caixa personalizada + 1 Requisito Funcional Avançado |
 | 9    | Atende aos requisitos funcionais básicos + caixa personalizada + 2 Requisitos Funcionais Avançados |
