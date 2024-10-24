@@ -1,0 +1,25 @@
+.md-sidebar {
+  display: none;
+}
+
+.md-main {
+  background-color: #ffffff;
+}
+
+.md-content {
+  max-width: none;
+  background-color: #ffffff;
+  box-shadow: none;
+  padding: 0;
+}
+
+.md-content__inner {
+  margin: 0;
+  padding: 0 0.6rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner {
+    margin-left: 0;
+  }
+}

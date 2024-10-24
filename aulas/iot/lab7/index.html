@@ -1,0 +1,1775 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/iot/lab7/">
+      
+      
+        <link rel="prev" href="../lab6/">
+      
+      
+        <link rel="next" href="../../IA/lab01/dataframe/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Lab07 - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.0253249f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&amp;display=swap">
+<link rel="stylesheet" href="../../../assets/css/devlife.css">
+
+
+    <script>
+        window.ihandout_config = JSON.parse(`{"report": {"api-base": "https://devlife.insper-comp.com.br/api/offerings/1/", "url": "https://devlife.insper-comp.com.br/api/offerings/1/exercises/"}}`);
+    </script>
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lab7-api-rest-json-node-red" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab07
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Agenda
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CheckPoint
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checkpoint/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checkpoint/cp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CheckPoint 5 - Liberado
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Introdução
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arduino
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/introarduino/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introdução
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Exemplos
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    From 0 to Hero!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blink led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Led botão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Botão pot led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PWM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Função millis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupção de pino
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex7/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Comunicação com Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Laboratórios
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IoT
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_1" id="__nav_5_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arduino
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex0/solucao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solução From Zero to Hero!
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01 - Led
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02 - Botão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03 - Serial
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04 - EEPROM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_2" id="__nav_5_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Node-Red
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Node-Red
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab07
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab07
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab7-api-rest-json-node-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab7 - API REST JSON NODE-RED
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criando-servidor-no-node-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criando servidor no Node-Red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criando servidor no Node-Red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-da-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura da API:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors-cross-origin-resource-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      CORS - Cross-Origin Resource Sharing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicas-para-realizar-requisicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dicas para realizar requisições
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mais-informacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mais informações
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    IA
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab01/dataframe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab01 - Dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab02 - Aprendizado Supervisionado - Classificação
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab03/regressao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab03 - Aprendizado Supervisionado - Regressão
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab04/dicasDePreprocessamento/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab04 - Dicas de pre processamento
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab05/validacaocruzada/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab05 - Validação cruzada
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab06/rna/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab06 - Redes Neurais - Percepton
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab07/mlp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07 - Redes Neurais - MLP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab07 - Redes Neurais - TensorFlow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/batalharedes/batalha_das_redes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BATALHA DAS REDES
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab08/cnn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab08 - Redes Neurais - CNN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab09/transferlearning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab9 - Redes Neurais - Transfer learning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab10/dicas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab10 - Algumas dicas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lab7-api-rest-json-node-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lab7 - API REST JSON NODE-RED
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#criando-servidor-no-node-red" class="md-nav__link">
+    <span class="md-ellipsis">
+      Criando servidor no Node-Red
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Criando servidor no Node-Red">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-da-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura da API:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors-cross-origin-resource-sharing" class="md-nav__link">
+    <span class="md-ellipsis">
+      CORS - Cross-Origin Resource Sharing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicas-para-realizar-requisicoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dicas para realizar requisições
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mais-informacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mais informações
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Lab07</h1>
+
+<h2 id="lab7-api-rest-json-node-red">Lab7 - API REST JSON NODE-RED<a class="headerlink" href="#lab7-api-rest-json-node-red" title="Permanent link">&para;</a></h2>
+<h2 id="criando-servidor-no-node-red">Criando servidor no Node-Red<a class="headerlink" href="#criando-servidor-no-node-red" title="Permanent link">&para;</a></h2>
+<h3 id="estrutura-da-api">Estrutura da API:<a class="headerlink" href="#estrutura-da-api" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Acender ou apagar o LED:</p>
+</li>
+<li>
+<p>Endpoint: <code>/led</code></p>
+</li>
+<li>
+<p>Métodos:</p>
+<ul>
+<li>GET: Retorna o estado atual do LED (0 ou 1).</li>
+<li>POST: Muda o estado do LED. O corpo da solicitação deve conter um JSON com o novo estado.</li>
+<li>PUT: Mesma funcionalidade do POST.</li>
+<li>DELETE: Desliga o LED.</li>
+</ul>
+</li>
+<li>
+<p>Capturar o status do botão:</p>
+</li>
+<li>
+<p>Endpoint: <code>/button</code></p>
+</li>
+<li>Método:<ul>
+<li>GET: Retorna o estado atual do botão (pressionado ou não pressionado).</li>
+</ul>
+</li>
+</ol>
+<p>O objetivo é criar os endponts <code>/led</code> e <code>/button</code> que vão representar o estado do sensor e atuador conectado ao dispositivo inteligente IoT. </p>
+<p>O resultado das rotas será:</p>
+<ul>
+<li>Endpoint <code>/led</code>:</li>
+</ul>
+<p><img alt="" src="led.png" /></p>
+<ul>
+<li>Endpoint <code>/button</code>:</li>
+</ul>
+<p><img alt="" src="button.png" /></p>
+<ul>
+<li>Monte o fluxo e teste:</li>
+</ul>
+<p><img alt="" src="flow.png" /></p>
+<p>onde:</p>
+<ul>
+<li>function10:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Supondo que o estado do LED é armazenado em uma variável global.</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;ledState&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Se não estiver definido, assume 0.</span>
+<span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;state&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">ledState</span>
+<span class="p">};</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>function11:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">newState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">newState</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">newState</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">global</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;ledState&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">newState</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;LED atualizado com sucesso.&quot;</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Estado inválido.&quot;</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="nx">msg</span><span class="p">.</span><span class="nx">statusCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">400</span><span class="p">;</span><span class="w"> </span><span class="c1">// Código de erro para &quot;Bad Request&quot;</span>
+<span class="p">}</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>function12:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">global</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;ledState&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;LED desligado com sucesso.&quot;</span>
+<span class="p">};</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>function13:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Supondo que o estado do botão é armazenado em uma variável global.</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">buttonState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">global</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;buttonState&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span>
+<span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;state&quot;</span><span class="o">:</span><span class="w"> </span><span class="nx">buttonState</span>
+<span class="p">};</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>function14:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">global</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;buttonState&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>function15:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">global</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;buttonState&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0</span><span class="p">);</span>
+<span class="k">return</span><span class="w"> </span><span class="nx">msg</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="cors-cross-origin-resource-sharing">CORS - Cross-Origin Resource Sharing<a class="headerlink" href="#cors-cross-origin-resource-sharing" title="Permanent link">&para;</a></h2>
+<p>Quando você cria uma API REST, especialmente para aplicações de IoT, é comum que diferentes clientes (como navegadores web, aplicativos móveis ou outros dispositivos) tentem acessá-la de diferentes origens. Portanto, lidar com o Controle de Acesso de Origem Cruzada (CORS - Cross-Origin Resource Sharing) é uma consideração importante.</p>
+<p>Por padrão, por motivos de segurança, os navegadores restringem solicitações HTTP de serem feitas entre sites. Isso significa que, se você tiver uma interface web rodando em um domínio ou porta e tentar fazer uma solicitação AJAX para sua API Node-RED em um domínio ou porta diferente, o navegador bloqueará a solicitação, a menos que a API indique que essas solicitações cruzadas são aceitáveis.</p>
+<p>O cabeçalho <code>"Content-Type":"application/json"</code> informa aos clientes que a API retornará dados no formato JSON.
+O cabeçalho <code>"Access-Control-Allow-Origin":"*"</code> permite que qualquer site faça solicitações à sua API. Isso é adequado para desenvolvimento ou em ambientes controlados, mas tenha cuidado ao usar essa configuração em produção devido a considerações de segurança.</p>
+<h2 id="dicas-para-realizar-requisicoes">Dicas para realizar requisições<a class="headerlink" href="#dicas-para-realizar-requisicoes" title="Permanent link">&para;</a></h2>
+<p>Utilizar o <code>curl</code> é uma forma simples de testar APIs diretamente do terminal ou linha de comando.</p>
+<p>No <strong><code>Windows</code></strong> o <code>CMD</code> interpreta alguns caracteres de maneira especial, a gente precisa ajustar a sintaxe ou usar o <code>PowerShell</code> em vez do CMD.</p>
+<p>Se for no CMD, o ajuste é <code>\"</code> para usar <code>"</code> interna da chave do JSON e fica:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;{\&quot;state\&quot;: 0}&quot;</span><span class="w"> </span>http://localhost:1880/led
+</code></pre></div>
+<p>Se for no PowerShell, não muda: permanece:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;state&quot;: 0}&#39;</span><span class="w"> </span>http://localhost:1880/led
+<span class="w"> </span><span class="sb">```</span>
+
+Os<span class="w"> </span>outros<span class="w"> </span>comandos<span class="w"> </span>permanecem<span class="w"> </span>iguais:
+
+
+<span class="sb">```</span>bash
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:1880/led
+
+curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span>http://localhost:1880/led
+
+curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span>http://localhost:1880/button
+</code></pre></div>
+<p>Se utilizar o Postman não terá esse problema. </p>
+<p><img alt="" src="postman.png" /></p>
+<h2 id="mais-informacoes">Mais informações<a class="headerlink" href="#mais-informacoes" title="Permanent link">&para;</a></h2>
+<p>Faça o download do pdf da aula.</p>
+<blockquote>
+<ul>
+<li>arquivo pdf: <a href="slides.pdf">lab7</a></li>
+</ul>
+</blockquote>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 24, 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
