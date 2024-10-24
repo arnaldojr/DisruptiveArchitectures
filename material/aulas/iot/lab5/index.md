@@ -110,7 +110,3 @@ O MQTT é um protocolo leve para publicação e recebimento de mensagens, adequa
 
 ### Desafio 3: Cliente MQTT no Node-RED
 Crie um chat usando o MQTT, configurando um tópico com camelCase para enviar e receber mensagens.
-
-## Conclusão
-Este conteúdo abordou a instalação do Node-RED, a configuração de um ambiente básico para dispositivos IoT e a utilização do protocolo MQTT para comunicação entre dispositivos. Desafios práticos foram propostos para solidificar o aprendizado.
-
