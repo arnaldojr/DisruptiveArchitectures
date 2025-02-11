@@ -5,7 +5,7 @@ site_author: Arnaldo Viana
 extra:  
     materia: Disruptive Architectures - IA e IoT
     professor: Arnaldo Viana
-    ano: 2024
+    ano: 2025
 
 theme:
   feature:
@@ -96,7 +96,7 @@ nav:
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
     # - CP4 - Arduino: aulas/checkpoint/cp4-arduino.md
-    - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
+    # - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
 
