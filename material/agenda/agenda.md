@@ -1,31 +1,31 @@
 
-## Cronograma 2º Semestre - 2024 
+## Cronograma 1º Semestre - 2025
 
 
-| Semana    | Segundo Semestre - Conteúdo                                                     | 2TDSA<br>Quarta-Feira | 2TDSG<br>Sexta-feira |
-| --------- | ------------------------------------------------------------------------------- | --------------------- | -------------------- |
-| Semana 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 07/08/2024            | 09/08/2024           |
-| Semana 2  |   lab00, conceitos de eletrônica básica, conceitos de programação C e arduino   | 14/08/2024            | 16/08/2024           |
-| Semana 3  |  aula estudio                                                                   | 21/08/2024            | 23/08/2024           |
-| Semana 4  | CP1 - conceitos de eletrônica básica, conceitos de programação C e arduino      | 28/08/2024            | 30/08/2024           |
-| Semana 5  | lab 01                                                                          | 04/09/2024            | 06/09/2024           |
-| Semana 6  | lab 02                                                                          | 11/09/2024            | 13/09/2024           |
-| Semana 7  | lab 03                                                                          | 18/09/2024            | 20/09/2024           |
-| Semana 8  | lab 04                                                                          | 25/09/2024            | 27/09/2024           |
-| Semana 9  | lab 04                                                                          | 02/10/2024            | 04/10/2024           |
-| Semana 10 | CP2 - Programação Arduino                                                       | 09/10/2024            | 11/10/2024           |
-| Semana 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 16/10/2024            | 18/10/2024           |
-| Semana 12 | lab 07      (NEXT - sabado 26/10)                                               | 23/10/2024            | 25/10/2024           |
-| Semana 13 | CP3 - Integração de sistemas com node-red                                       | 30/10/2024            | 01/11/2024           |
-| Semana 14 | integração IA e IoT                                                             | 06/11/2024            | 08/11/2024           |
-| Semana 15 | Prova GS                                                                        | 13/11/2024            | 15/11/2024           |
-
+| Semana    | Segundo Semestre - Conteúdo                                                     | 2TDSA/2TDSB<br>Quarta-Feira |
+| --------- | ------------------------------------------------------------------------------- | --------------------- |
+| Semana 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 12/02/2025            |
+| Semana 2  | lab00, conceitos de eletrônica básica, conceitos de programação C e arduino     | 19/02/2025            |
+| Semana 3  |  aula estudio                                                                   | 26/02/2025            |
+| Semana 4  | CP1 - conceitos de eletrônica básica, conceitos de programação C e arduino      | 05/03/2025            |
+| Semana 5  | lab 01                                                                          | 12/03/2025            |
+| Semana 6  | lab 02                                                                          | 19/03/2025            |
+| Semana 7  | lab 03                                                                          | 26/03/2025            |
+| Semana 8  | lab 04                                                                          | 02/04/2025            |
+| Semana 9  | lab 04                                                                          | 09/04/2025            |
+| Semana 10 | CP2 - Programação Arduino                                                       | 16/04/2025            |
+| Semana 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 23/04/2025            |
+| Semana 12 | lab 07                                                                          | 30/04/2025            |
+| Semana 13 | CP3 - Integração de sistemas com node-red                                       | 07/05/2025            |
+| Semana 14 | integração IA e IoT                                                             | 14/05/2025            |
+| Semana 15 | integração IA e IoT                                                             | 21/05/2025            |
+| Semana 16 | Prova GS                                                                        | 28/05/2025            |
 <!-- 
 
 ## Cronograma 1º Semestre - 2024 
 
 
-| Semana   | Conteúdo                                                               | 2TDSB<br>Segunda-feira | 2TDSA<br>Quarta-Feira | 2TDSPH<br>Sexta-Feira |
+| Semana   | Conteúdo                                                 | 2TDSB<br>Segunda-feira | 2TDSA<br>Quarta-Feira | 2TDSPH<br>Sexta-Feira |
 | -------- | ---------------------------------------------------------------------- | ---------------------- | --------------------- | --------------------- |
 | Semana 1 | Lançamento Desafio CP2 - 20% de conclusão do desafio.                  | 08/04/2024             | 10/04/2024            | 12/04/2024            |
 | Semana 2 | Laboratório TensorFlow - teoria e prática                              | 15/04/2024             | 17/04/2024            | 19/04/2024            |
@@ -103,3 +103,19 @@
 
 
 -->
+
+ 
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
