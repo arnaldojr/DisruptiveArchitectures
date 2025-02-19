@@ -60,11 +60,3 @@ Esses exercícios ``VALEM NOTA!!`` e são ideais para praticar e aprimorar suas 
     Estruturas (structs) e Tipos Definidos pelo Usuário
     Crie um programa que gerencia informações de alunos, como nome, idade e notas. Utilize structs para armazenar as informações e funções para realizar operações, como adicionar um aluno, remover um aluno, calcular a média das notas e exibir as informações dos alunos no Monitor Serial.
 
-<!-- Ninguém vê esse comentário 
-
-!!! exercise
-    Alocação dinâmica de memória
-    Desenvolva um programa que solicita ao usuário o tamanho de um vetor de números inteiros e aloca dinamicamente a memória necessária. Em seguida, receba os elementos do vetor através do Monitor Serial, calcule a soma e a média dos valores e imprima os resultados no Monitor Serial. Não esqueça de liberar a memória alocada.
-
-Agora compile tudo e mostre o funcionando para seu professor.
--->

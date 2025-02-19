@@ -1,5 +1,5 @@
 Neste Laboratório vamos trabalhar com Node-red e conhecer o protocolo MQTT.
-> - arquivo pdf do projeto: [Modulação AM](slides.pdf)
+> - arquivo pdf do projeto: [Slide](slides.pdf)
 
 # Introdução à IoT
 

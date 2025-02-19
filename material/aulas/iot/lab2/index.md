@@ -1,6 +1,5 @@
 ## Lab2 - Desafios
 
-Os desafios 1, 2 e 3 devem ser entregues e compõem parte da nota do CP6.
 
 ## Desafio 1
 
