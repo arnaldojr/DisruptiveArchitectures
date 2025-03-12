@@ -120,7 +120,8 @@ nav:
   - Laboratórios:
     - IoT:
       - Arduino:
-        - Solução From Zero to Hero!: aulas/iot/ex0/solucao.md 
+        # - Solução From Zero to Hero!: aulas/iot/ex0/solucao.md 
+        - Lab00 - Guia Arduino: aulas/iot/lab0/index.md
         - Lab01 - Led: aulas/iot/lab1/index.md
         - Lab02 - Botão: aulas/iot/lab2/index.md
         - Lab03 - Serial : aulas/iot/lab3/index.md

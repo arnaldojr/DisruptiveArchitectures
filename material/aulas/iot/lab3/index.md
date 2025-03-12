@@ -1,6 +1,77 @@
 ## Comunicação Serial no Wokwi
 
-A comunicação serial permite que o Arduino se comunique com o computador e outros dispositivos. Neste laboratório, utilizaremos o simulador Wokwi para explorar a comunicação serial sem a necessidade de hardware físico.
+Ao final deste laboratório, você será capaz de:
+
+- Compreender os princípios da comunicação serial
+- Implementar comunicação entre Arduino e computador
+- Enviar e receber dados via porta serial
+- Processar comandos recebidos pela porta serial
+
+## Fundamentos da Comunicação Serial
+
+### O que é Comunicação Serial?
+
+A comunicação serial é um protocolo de comunicação onde os dados são transmitidos um bit de cada vez, sequencialmente, através de um canal de comunicação. É amplamente utilizada para comunicação entre microcontroladores e outros dispositivos devido à sua simplicidade e confiabilidade.
+
+### Parâmetros da Comunicação Serial
+
+- **Baud Rate**: Velocidade de transmissão em bits por segundo (bps)
+- **Bits de Dados**: Número de bits em cada pacote (geralmente 8)
+- **Bits de Parada**: Bits que indicam o fim de um pacote (geralmente 1)
+- **Paridade**: Método de verificação de erros (geralmente nenhum)
+
+### UART no Arduino
+
+O Arduino possui um conversor USB-Serial integrado que permite a comunicação com o computador através da porta USB. 
+
+Internamente, o microcontrolador utiliza o periférico UART (Universal Asynchronous Receiver/Transmitter) para implementar a comunicação serial.
+
+![Diagrama UART](https://core-electronics.com.au/media/wysiwyg/tutorials/aidan/UART_protocol.png)
+
+## Comunicação Arduino-Computador
+
+### Configuração Básica
+
+Para iniciar a comunicação serial no Arduino, utilizamos a função `Serial.begin()` no `setup()`, especificando o baud rate:
+
+```cpp
+void setup() {
+  Serial.begin(9600); // Inicia comunicação serial a 9600 bps
+}
+```
+
+### Enviando Dados para o Computador
+
+Para enviar dados do Arduino para o computador, utilizamos as funções:
+
+- `Serial.print()`: Envia dados sem quebra de linha
+- `Serial.println()`: Envia dados com quebra de linha no final
+
+```cpp
+void loop() {
+  Serial.println("Olá, Mundo!"); // Envia a mensagem com quebra de linha
+  delay(1000); // Espera 1 segundo
+}
+```
+### Recebendo Dados do Computador
+
+Para receber dados do computador no Arduino, utilizamos as funções:
+
+- `Serial.available()`: Verifica se há dados disponíveis para leitura
+- `Serial.read()`: Lê um byte da porta serial
+- `Serial.readString()`: Lê uma string completa da porta serial
+
+```cpp
+void loop() {
+  if (Serial.available() > 0) { // Verifica se há dados disponíveis
+    String comando = Serial.readString(); // Lê a string enviada
+    // Processa o comando recebido
+  }
+}
+```
+
+Vamos pra prática!!!
+
 
 ### Configuração do Ambiente no Wokwi
 
