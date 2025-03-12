@@ -125,7 +125,7 @@ nav:
         - Lab01 - Led: aulas/iot/lab1/index.md
         - Lab02 - Botão: aulas/iot/lab2/index.md
         - Lab03 - Serial : aulas/iot/lab3/index.md
-        - Lab04 - EEPROM : aulas/iot/lab4/index.md
+        - Lab04 - FSM : aulas/iot/lab4/index.md
       - Node-Red:
         - Lab05 : aulas/iot/lab5/index.md
         - Lab06 : aulas/iot/lab6/index.md

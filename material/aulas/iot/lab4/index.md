@@ -337,6 +337,7 @@ void loop() {
 ## DESAFIO1 
 
 Teste o código acima do semáforo, para isso:
+
 - Analise o código fornecido acima.
 - Identifique claramente todos os pinos utilizados.
 - Monte o circuito corretamente no simulador Wokwi.
@@ -350,15 +351,12 @@ Agora, chegou a hora de você dar show! E colocar a máquina pra funcionar.
 Após testar e entender o código base acima:
 
 1. Adicione mais um botão:
-
-  - Um botão será dedicado exclusivamente à ativação do modo emergência.(já implementado)
-  - Outro botão servirá para acelerar as transições entre estados no modo normal.
+    - Um botão será dedicado exclusivamente à ativação do modo emergência.(já implementado)
+    - Outro botão servirá para acelerar as transições entre estados no modo normal.
 
 2. Crie um novo estado adicional:
-
-  - Adicione o estado "PEDESTRE", onde todos os LEDs ficam apagados por um breve momento (3 seg.) ao pressionar um `terceiro botão`, simulando travessia.
+    - Adicione o estado "PEDESTRE", onde todos os LEDs ficam apagados por um breve momento (3 seg.) ao pressionar um `terceiro botão`, simulando travessia.
 
 3. Adicione um sensor analógico (o potenciômetro que vimos no lab2):
-
-  - O potenciômetro deve determinar o tempo que o semáforo fica no estado VERDE, variando entre 2 a 10 segundos.
+    - O potenciômetro deve determinar o tempo que o semáforo fica no estado VERDE, variando entre 2 a 10 segundos.
 
