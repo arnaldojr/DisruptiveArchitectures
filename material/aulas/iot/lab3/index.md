@@ -1,12 +1,19 @@
-## comunicação serial
+## Comunicação Serial no Wokwi
 
-A comunicação serial permite que o Arduino se comunique com o computador e outros dispositivos. Neste laboratório, exploraremos a comunicação serial em detalhes.
+A comunicação serial permite que o Arduino se comunique com o computador e outros dispositivos. Neste laboratório, utilizaremos o simulador Wokwi para explorar a comunicação serial sem a necessidade de hardware físico.
+
+### Configuração do Ambiente no Wokwi
+
+- Acesse o site Wokwi.
+
+- Clique em Start New Project e selecione Arduino Uno.
+
 
 ## Desafio 1: Comunicação entre Arduino e Computador
 
-Neste desafio, vamos estabelecer uma comunicação básica entre o Arduino e o computador usando o Serial Monitor.
+Vamos estabelecer uma comunicação básica entre o Arduino e o computador utilizando o Monitor Serial do Wokwi.
 
-Carregue o seguinte código no seu Arduino:
+- Carregue o seguinte código no simulador:
 
 ```C
 void setup() {
@@ -20,111 +27,140 @@ void loop() {
 
 ```
 
-- Abra o Serial Monitor no Arduino IDE (Ferramentas -> Monitor Serial).
+- Observe o painel "Serial Monitor" que aparecerá automaticamente
 
-- Você deve ver a mensagem "Olá, Mundo!" sendo exibida a cada segundo.
+- Você deve ver a mensagem "Olá, Mundo!" sendo exibida a cada segundo como a imagem a seguir.
+
+![](wokwi.png)
+
+- Modifique o código para enviar seu nome e número de matrícula
+
+## Desafio 2: Cronômetro virtual
+
+Com base no que foi aboradado no lab passado, você deverá criar um cronômetro virtual que exibe o tempo decorrido desde o início da simulação usando a função `millis()`.
+
+**Instruções:**
+
+- Utilize a função `millis()` para exibir no Serial Monitor quanto tempo se passou desde que o Arduino começou a funcionar, em segundos.
+- Faça com que a mensagem seja atualizada **inicialmente** a cada 1 segundo.
+
+- Agora com a base do código funcionando **ok**, modifique seu código para que o intervalo entre as mensagens seja alterado `dinamicamente`, da seguinte forma:
+
+  - 1 segundo durante os primeiros 10 segundos.
+  - 2 segundos entre 10 e 20 segundos.
+  - 5 segundos após 20 segundos.
+
+É esperado como resultado que seja exibido no serial monitor:
+
+```C
+Tempo decorrido: 1 segundos
+Tempo decorrido: 2 segundos
+//assim até 10...
+Tempo decorrido: 10 segundos
+Tempo decorrido: 12 segundos
+//assim até 20...
+Tempo decorrido: 20 segundos
+Tempo decorrido: 25 segundos
+Tempo decorrido: 30 segundos
+//assim acima de 20...
+```
 
 
-![](serialMonitor.jpg)
+## Desafio 3: Recebendo Dados do Computador
 
-
-!!! tip
-    Certifique-se de que a taxa de baud no Serial Monitor esteja definida como 9600 para corresponder ao código.
-
-
-## Desafio 2: Recebendo Dados do Computador
-
-Agora, vamos fazer o Arduino responder a comandos enviados do computador.
+Vamos criar uma interface para controlar um LED através de comandos enviados pelo Serial Monitor.
 
 Carregue o seguinte código no seu Arduino:
 
 ```C
 String comando = ""; // Variável para armazenar o comando recebido
+const int ledPin = 10;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(13, OUTPUT); // Define o pino 13 como saída
+  pinMode(ledPin, OUTPUT); // Define o pino como saída
+  Serial.println("Digite LIGAR ou DESLIGAR para controlar o LED");
 }
 
 void loop() {
   if (Serial.available()) { // Verifica se há dados disponíveis para leitura
-    comando = Serial.readString(); // Lê a string enviada pelo computador
-    if (comando == "LIGAR") {
-      digitalWrite(13, HIGH); // Acende o LED no pino 13
+    comando = Serial.readStringUntil('\n'); // Lê a string até encontrar uma quebra de linha
+    comando.trim(); // Remove espaços e quebras de linha extras
+    
+    if (comando.equalsIgnoreCase("LIGAR")) {
+      digitalWrite(ledPin, HIGH); // Acende o LED no pino
       Serial.println("LED Ligado!");
-    } else if (comando == "DESLIGAR") {
-      digitalWrite(13, LOW); // Apaga o LED no pino 13
+    } else if (comando.equalsIgnoreCase("DESLIGAR")) {
+      digitalWrite(ledPin, LOW); // Apaga o LED no pino
       Serial.println("LED Desligado!");
+    } else {
+      Serial.println("Comando não reconhecido. Use LIGAR ou DESLIGAR");
     }
   }
 }
+
 ```
 
-Com o Serial Monitor aberto, digite `LIGAR` e pressione Enter. O LED no pino 13 do Arduino deve acender. Digite `DESLIGAR` e pressione Enter. O LED deve apagar.
+#### Montagem no Wokwi:
 
-![](serialMonitor2.jpg)
+- Adicione um LED ao pino que está configurado no código (da mesma forma que fizemos no labs anteriores).
+
+- Inicie a simulação, digite `LIGAR` e pressione Enter.
+
+- O LED do Arduino deve acender.
+
+- Digite `DESLIGAR` e pressione Enter para apagar o LED.
+
+![](liga-desliga.png)
 
 
 !!! warning
     A comunicação serial é sensível a maiúsculas e minúsculas. Certifique-se de digitar os comandos exatamente como estão no código.
 
+    você pode usar o método `equalsIgnoreCase()` para torna o código mais robusto, aceitando variações como "ligar", "Ligar" ou "LIgaR".
 
 
-## Desafio 3: Comunicação entre Dois Arduinos
+## Desafio 4: Cronômetro Dinâmico
 
-Neste desafio, vamos fazer dois Arduinos se comunicarem entre si.
+Com base nos desafio 2 e desafio 3, crie um `cronômetro inteligente`. 
 
-Vamos preciar de 2 arduinos cada arduino conectado em um computador.
+O intervalo das mensagens não será fixo: ele deverá mudar conforme comandos enviados pelo usuário através do Monitor Serial.
 
-![](serialarduinos.jpg)
+### Requisitos do Desafio:
+
+- Crie um cronômetro que exiba, a cada intervalo, o tempo decorrido desde o início da execução (em segundos).
+
+- Inicialmente, o intervalo entre mensagens deve ser de 1 segundo.
+
+- Através do Monitor Serial, permita que o usuário altere dinamicamente o intervalo entre as mensagens digitando comandos como:
+
+  - intervalo 500 (define o intervalo para 500 ms)
+  - intervalo 2000 (define o intervalo para 2000 ms)
+
+- Implemente também comandos especiais:
+
+  - `pausar` para interromper temporariamente a exibição das mensagens.
+  - `continuar` para retomar a contagem.
 
 
-Carregue o seguinte código no Arduino 1 (Transmissor):
+É esperado como resultado que seja exibido no serial monitor:
 
 ```C
-void setup() {
-  Serial.begin(9600);
-}
-
-void loop() {
-  Serial.println("Mensagem do Arduino 1");
-  delay(2000);
-}
+Tempo decorrido: 1 segundos
+Tempo decorrido: 2 segundos
+Tempo decorrido: 3 segundos
+// Usuário digita: intervalo 3000
+Intervalo alterado para 3000 ms.
+Tempo decorrido: 6 segundos
+Tempo decorrido: 9 segundos
+// Usuário digita: pausar
+Cronômetro pausado.
+// Usuário digita: continuar
+Cronômetro retomado.
+Tempo decorrido: 12 segundos
+Tempo decorrido: 15 segundos
+// Usuário digita: intervalo 2000
+Intervalo alterado para 2000 ms.
+Tempo decorrido: 17 segundos
+Tempo decorrido: 19 segundos
 ```
-
-Carregue o seguinte código no Arduino 2 (Receptor):
-
-```C
-void setup() {
-  Serial.begin(9600);
-}
-
-void loop() {
-  if (Serial.available()) {
-    String mensagem = Serial.readString();
-    Serial.println("Recebido: " + mensagem);
-  }
-}
-
-```
-
-Conecte o pino TX do Arduino 1 ao pino RX do Arduino 2 e vice-versa.
-Abra o Serial Monitor para o Arduino 2. Você deve ver as mensagens enviadas pelo Arduino 1 sendo exibidas.
-
-!!! tip
-    Lembre-se de conectar os GNDs dos dois Arduinos juntos para garantir uma referência comum.
-
-## Desafio 4: Recebendo dados de sensores
-
-Faça as alterações necessárias nos dois códigos anteriores para que funcione da seguinte forma: 
-  
-  - Conecte um botão ao arduino transmissor, quando pressionar o botão envie uma mensagem.
-  - Conecte um led ao arduino receptor, quando receber o comando de ligar, o led liga e quando for desligar, apaga o led.  
-
-
-<!--
-## Desafio 4: Chat entre Dois Arduinos
-
-Faça as alterações necessárias nos dois códigos anteriores para que os dois arduinos consigam mandar e receber mensagens.
-
--->
