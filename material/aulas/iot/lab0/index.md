@@ -216,6 +216,45 @@ void setup() {
 }
 ```
 
+### enum
+
+Um enum (abreviação de enumerador ou tipo enumerado) em C é um tipo de dado que permite atribuir nomes simbólicos a constantes inteiras. Esses nomes tornam o código mais legível e fácil de entender, especialmente quando se trabalha com conjuntos específicos de valores constantes.
+
+```C
+//Declaração
+enum estadosMotor { PARADO, FRENTE, TRAS };
+
+// Definine estado inicial
+estadosMotor estadoAtual = PARADO;
+
+void setup() {
+    pinMode(13, OUTPUT);
+    Serial.begin(9600);
+}
+
+void loop() {
+    switch (estadoAtual) {
+        case PARADO:
+            digitalWrite(13, LOW);
+            Serial.println("Motor parado.");
+            break;
+        case FRENTE:
+            digitalWrite(13, HIGH);
+            Serial.println("Motor para frente.");
+            break;
+        case TRAS:
+            digitalWrite(13, HIGH);
+            Serial.println("Motor para trás.");
+            break;
+    }
+    delay(1000);
+}
+
+```
+
+
+
+
 ## Boas Práticas
 
 - **Comente seu código**: Use comentários para explicar o que o código faz, especialmente para lógica complexa.
