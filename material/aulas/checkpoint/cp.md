@@ -1,4 +1,4 @@
-# CHECKPOINT
+## CHECKPOINT
 
 - O objetivo do checkpoint é avaliar a compreensão dos estudantes em relação ao conteúdo ministrado pela disciplina.
 
