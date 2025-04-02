@@ -1,112 +1,103 @@
-Neste Laboratório vamos trabalhar com Node-red e conhecer o protocolo MQTT.
-> - arquivo pdf do projeto: [Slide](slides.pdf)
+## Memoria EEPROM
 
-# Introdução à IoT
+A memória EEPROM (Electrically Erasable Programmable Read-Only Memory) é uma memória não volátil, o que significa que os dados armazenados nela persistem mesmo depois de desligar o Arduino. É útil para armazenar pequenas quantidades de dados que precisam ser preservados entre reinicializações, como configurações ou contadores.
 
-## Agenda
-- Instalação do Node-RED e primeiros testes
-- Montagem de um dashboard no Node-RED
-- Criação de um end-point
-- Apre![alt text](image.png) MQTT
+!!! warning
+    Essa memoria não é infinita, pelo contrario! a memoria EEPROM é bem pequena, no caso do Arduino UNO é de apenas 1KB (1024 Bytes) tenha isso em mente para não ultrapassar esse valor.
 
-## Conectando dispositivos a aplicações
-Agora que já exploramos as funcionalidades do Arduino e sua capacidade de conectar sensores e atuadores, vamos prosseguir conectando o Arduino a aplicações que fazem uso desse dispositivo.
+### Principais Funções da EEPROM no Arduino
 
-Em primeiro lugar, vamos relembrar a arquitetura que usaremos para os dispositivos de IoT se conectarem às suas aplicações.
-
-## Arquitetura básica de IoT
-A arquitetura de implantação apresentada aqui é um modelo padrão para inspirar projetos reais. Ela inclui os elementos fundamentais para a conectividade, sem detalhar soluções para problemas acessórios.
-
-![Arquitetura Iot](image1.png)
-
-- **Interoperabilidade**: facilita a compatibilidade entre diferentes projetos de IoT.
-- **Modularidade**: define módulos que podem ser criados separadamente ou usados como "off-the-shelf".
-
-## Dispositivos de IoT
-Os dispositivos de IoT interagem com o ambiente ao seu redor, capturando dados de sensores ou executando comandos por meio de atuadores.
-
-- Cada funcionalidade no dispositivo pode ser considerada uma aplicação (Endpoint Application).
-- Cada aplicação deve ser univocamente endereçável.
-
-## Conector de IoT
-Os conectores de IoT gerenciam mensagens que chegam dos dispositivos ou são destinadas a eles, adaptando-as ao protocolo de cada dispositivo.
-
-- Pode haver conectores diferentes para protocolos variados.
-- Protocolos comuns em IoT: MQTT, WebSocket, CoAP, LoRaWAN.
-
-## Gerenciamento de dispositivos e dados
-Este componente faz o gerenciamento remoto dos dispositivos e de seus dados, autorizando o acesso de outras aplicações.
-
-- Cadastra novos dispositivos e aplicações.
-- Monitora a disponibilidade dos dispositivos.
-- Envia comandos de gerenciamento, como inicialização, reinicialização, desligamento e atualização de firmware.
-
-## Bancos de dados e análise de dados
-Armazena dados provenientes das aplicações e comandos destinados aos dispositivos.
-
-- Bancos de dados NoSQL são mais indicados para a IoT devido à natureza diversificada e em constante mudança dos dados.
-- Analisadores de dados monitoram os dados para melhor aproveitamento.
-
-## Gateway
-O gateway conecta dispositivos sem acesso direto à internet e realiza a conversão de protocolos entre os dispositivos de IoT e o conector de IoT.
-
-![Gateway Iot](image2.png)
+- `EEPROM.write(endereço, valor)`: Grava um byte em um endereço específico.
+- `EEPROM.read(endereço)`: Lê um byte do endereço especificado.
+- `EEPROM.update(endereço, valor)`: Grava um valor apenas se for diferente do valor já armazenado (economiza ciclos de gravação).
 
 
-- Gerencia múltiplos protocolos, especialmente em LAN’s, PAN’s e HAN’s (ex: Zigbee, Bluetooth, LoRa, Thread/6LoWPAN).
+## Desafio 1: Escrevendo e Lendo Dados na EEPROM
+
+Vamos aprender a escrever e ler dados na memória EEPROM. Vamos escrever apenas 1 unico valor inteiro.
+
+Monte um circuito com um botão no pino 2 e carregue o seguinte código no seu Arduino:
+
+```C
+#include <EEPROM.h>
+
+const int buttonPin = 2; // Pino do botão
+int lastButtonState = HIGH;
+int buttonState; 
+
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;    
+
+int endereco = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(buttonPin, INPUT_PULLUP); 
+  
+  EEPROM.write(endereco, 123); // Escreve o valor 123 na posição 0 da EEPROM
+  delay(10); // Pequeno delay para garantir a escrita na memoria
+}
+
+void loop() {
+  int reading = digitalRead(buttonPin); // Lê o estado do botão
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      // Se o botão estiver pressionado (estado LOW devido ao pull-up)
+      if (buttonState == LOW) {
+
+        int valor = EEPROM.read(0); // Lê o valor na posição 0 da EEPROM
+        Serial.println(valor); // Imprime o valor
+      }
+    }
+  }
+
+  lastButtonState = reading; // Atualiza o estado anterior do botão
+}
+
+```
+## Desafio 2: FSM com EEPROM
+
+Desenvolva uma Máquina de Estados Finitos (FSM) com as seguintes características:
+
+Implemente três estados (MODO1, MODO2, MODO3).
+
+Use dois botões:
+
+Botão 1: avançar para o próximo estado.
+
+Botão 2: voltar ao estado anterior.
+
+Salve o estado atual na EEPROM sempre que houver mudança de estado.
+
+Quando o Arduino reiniciar, recupere o último estado salvo e retorne diretamente para ele.
 
 
-## Node-RED
-O Node-RED é uma plataforma de programação visual para sistemas baseados em eventos. Ele executa como um servidor web e é amplamente utilizado para conectar dispositivos de IoT.
 
-- Programado em Node.js, é uma ferramenta visual para editar fluxos de mensagens.
-- Disponível em serviços de Cloud como o IBM Bluemix.
+## Desafio 2: Armazenando e Recuperando Strings
 
-### Instalação do Node-RED
-1. Instale o Node.js (versão LTS) no site [Node.js](https://nodejs.org/).
-2. No terminal, digite: 
-    ```bash
-    npm install -g --unsafe-perm node-red
-    ```
-3. Para rodar o Node-RED: 
-    ```bash
-    node-red
-    ```
-4. Acesse no navegador: [http://localhost:1880](http://localhost:1880)
+Agora altere o código para escrever e ler `Strings`. 
 
-### Primeiro fluxo no Node-RED
-- Conecte um nó de entrada do tipo "inject" a um nó "debug", faça o deploy e observe o resultado no painel de debug.
-- Modifique o nó "inject" e veja as alterações no resultado.
+Altre o código do desafio 1 para:
 
-![ola mundo](image3.png)
+    - Salve na memoria EEPROM a frase: `Let's Rock the Future` 
+    - Recuperar o valor salvo na memoria quando apertar o botão.
+
+!!! tip
+    - Defina a frase como do tipo String. `String frase = "sua frase aqui"`
+    - Conheça um pouco mais do objeto String lendo a documentação [aqui](https://www.arduino.cc/reference/pt/language/variables/data-types/stringobject/)
+    - Para salvar na memoria EEPROM temos que rodar um `laço for` para salvar caractere por caractere. ` for (int i = 0; i < frase.length(); i++){}`
+    - Dentro do laço for, defina a posição inicial da memoria e salve cada indice do frase `EEPROM.write(startPos + i, frase[i]);`
+    - Faça a mesma coisa para recuperar os dados.     
 
 
-## Desafios no Node-RED
+## Desafio 3: Exiba os resultados em um display LCD
 
-### Desafio 1: Monitor de clima
-1. Cadastre-se no site [OpenWeather](https://openweathermap.org/), crie um token e leia a [documentação da API Current](https://openweathermap.org/current).
-2. Crie uma URL para obter o tempo de uma cidade de sua preferência e compare o resultado com a saída no Node-RED.
+Agora vamos exibir o valor da memoria EEPROM em um display LCD. Para isso, busque por referências na internet de como realizar a ligação e elaborar o circuito.  
 
-![url](image4.png)
-
-
-### Desafio 2: Dashboard
-Crie um dashboard que exiba informações de duas ou mais cidades, incluindo:
-- Temperatura atual
-- Temperatura mínima
-- Temperatura máxima
-- Velocidade do vento
-- Umidade relativa
-- Sensação térmica
-
-Atualize os dados a cada 5 segundos.
-
-## MQTT
-O MQTT é um protocolo leve para publicação e recebimento de mensagens, adequado para dispositivos com alta latência e baixa largura de banda. 
-
-### Servidores MQTT
-- **Brokers públicos**: iot.eclipse.org, test.mosquitto.org, dev.rabbitmq.com, broker.mqttdashboard.com.
-- **Uso local**: O servidor Mosquitto é indicado para redes locais com poucos dispositivos.
-
-### Desafio 3: Cliente MQTT no Node-RED
-Crie um chat usando o MQTT, configurando um tópico com camelCase para enviar e receber mensagens.
+!!! tip
+    execute os codigo exemplo que encontrar na internet para verificar o funcionamento do circuito antes de escrever seu proprio código

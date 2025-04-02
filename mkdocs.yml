@@ -126,14 +126,14 @@ nav:
         - Lab02 - Botão: aulas/iot/lab2/index.md
         - Lab03 - Serial : aulas/iot/lab3/index.md
         - Lab04 - FSM : aulas/iot/lab4/index.md
-        - Lab05 - PWM : aulas/iot/lab4-old/index.md
+        - Lab05 - EEPROM : aulas/iot/lab5/index.md
 
       - Node-Red:
-        - Lab06 : aulas/iot/lab5/index.md
-        - Lab07 : aulas/iot/lab6/index.md
-        - Lab08 : aulas/iot/lab7/index.md
-      # - Lab08 : aulas/iot/lab8/index.md
+        - Lab06 : aulas/iot/lab6/index.md
+        - Lab07 : aulas/iot/lab7/index.md
+        - Lab08 : aulas/iot/lab8/index.md
       # - Lab09 : aulas/iot/lab9/index.md
+      # - Lab10 : aulas/iot/lab10/index.md
     - IA:
       - Lab01 - Dataframe: aulas/IA/lab01/dataframe.ipynb 
       - Lab02 - Aprendizado Supervisionado - Classificação: aulas/IA/lab02/classificador-knn.ipynb
