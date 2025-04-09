@@ -96,6 +96,7 @@ nav:
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
     - CP - Arduino: aulas/checkpoint/cp.md
+    - CP - Correção: aulas/checkpoint/cp-correcao.md
     # - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
