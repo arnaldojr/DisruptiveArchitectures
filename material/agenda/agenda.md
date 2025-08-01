@@ -1,108 +1,53 @@
 
-## Cronograma 1º Semestre - 2025
+## Cronograma 2º Semestre - 2025
 
-
-| Semana    | Segundo Semestre - Conteúdo                                                     | 2TDSA/2TDSB<br>Quarta-Feira |
-| --------- | ------------------------------------------------------------------------------- | --------------------- |
-| Semana 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 12/02/2025            |
-| Semana 2  | lab00, conceitos de eletrônica básica, conceitos de programação C e arduino     | 19/02/2025            |
-| Semana 3  |  aula estudio                                                                   | 26/02/2025            |
-| Semana 4  | CP1 - conceitos de eletrônica básica, conceitos de programação C e arduino      | 05/03/2025            |
-| Semana 5  | lab 01                                                                          | 12/03/2025            |
-| Semana 6  | lab 02                                                                          | 19/03/2025            |
-| Semana 7  | lab 03                                                                          | 26/03/2025            |
-| Semana 8  | lab 04                                                                          | 02/04/2025            |
-| Semana 9  | lab 04                                                                          | 09/04/2025            |
-| Semana 10 | CP2 - Programação Arduino                                                       | 16/04/2025            |
-| Semana 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 23/04/2025            |
-| Semana 12 | lab 07                                                                          | 30/04/2025            |
-| Semana 13 | CP3 - Integração de sistemas com node-red                                       | 07/05/2025            |
-| Semana 14 | integração IA e IoT                                                             | 14/05/2025            |
-| Semana 15 | integração IA e IoT                                                             | 21/05/2025            |
-| Semana 16 | Prova GS                                                                        | 28/05/2025            |
-<!-- 
-
-## Cronograma 1º Semestre - 2024 
-
-
-| Semana   | Conteúdo                                                 | 2TDSB<br>Segunda-feira | 2TDSA<br>Quarta-Feira | 2TDSPH<br>Sexta-Feira |
-| -------- | ---------------------------------------------------------------------- | ---------------------- | --------------------- | --------------------- |
-| Semana 1 | Lançamento Desafio CP2 - 20% de conclusão do desafio.                  | 08/04/2024             | 10/04/2024            | 12/04/2024            |
-| Semana 2 | Laboratório TensorFlow - teoria e prática                              | 15/04/2024             | 17/04/2024            | 19/04/2024            |
-| Semana 3 | Aula Estúdio para o desenvolvimento do desafio CP2 - 50% de conclusão. | 22/04/2024             | 24/04/2024            | 26/04/2024            |
-| Semana 4 | Laboratório TensorFlow - teoria e prática                              | 29/04/2024             | 01/05/2024            | 03/05/2024            |
-| Semana 5 | Aula Estúdio para o desenvolvimento do desafio CP2 - 80% de conclusão. | 06/05/2024             | 08/05/2024            | 10/05/2024            |
-| Semana 6 | Laboratório prático de Deep Learning                                   | 13/05/2024             | 15/05/2024            | 17/05/2024            |
-| Semana 7 | Apresentação em Ala do desafio Checkpoint 2/3                          | 20/05/2024             | 22/05/2024            | 24/05/2024            |
-| Semana 8 | Avaliação Global Solution - Primeiro Semestre                          | 27/05/2024             | 29/05/2024            | 31/05/2024            |
+| Semana    | Segundo Semestre - Conteúdo                                       | 2TDSB/2TDSA<br>Quarta-Feira  |
+| --------- | ----------------------------------------------------------------- | ------------ |
+| 1  | Apresentação do semestre, datas importantes (CP, GS), Exploração de dados | 06/08/2025   |
+| 2  | ML Supervisionado - Classificação                                 | 13/08/2025   |
+| 3  | ML Supervisionado - Regressão                                     | 20/08/2025   |
+| 4  | AVALIAÇÃO EM AULA CP1                                             | 27/08/2025   |
+|    | CP1 - Sistema preditivo ou de classificação                       |              |
+| 5  | Introdução ao Deep Learning                                       | 03/09/2025   |
+|    | Perceptron, MLP, lançamento CP2                                   | 10/09/2025   |
+| 6  | CNN                                                               | 17/09/2025   |
+| 7  | CNN Continuação                                                   | 24/09/2025   |
+| 8  | Aplicação de DL (batalha das redes)                               | 01/10/2025   |
+| 9  | AVALIAÇÃO EM AULA CP2                                             | 08/10/2025   |
+|    | CP2 - Redes Neurais conceitos e aplicação                         |              |
+| 10 | Transfer Learning, lançamento CP3                                 | 15/10/2025   |
+| 11 | Redes modernas, aplicações com DL                                 | 22/10/2025   |
+| 12 | Aplicações com Yolo e deploy de aplicações.                       | 29/10/2025   |
+| 13 | Aula estudio para o projeto CP3, semana NEXT                      | 05/11/2025   |
+| 14 | APRESENTAÇÃO PROJETO CP3                                          | 12/11/2025   |
+|    | CP3 - Sistema de VC com Deploy em Aplicação Web                   |              |
+| 15 | Avaliação Global Solution primeiro semestre                       | 19/11/2025   |
 
 
 
+## O que já passou...
 
-|           | Primeiro Semestre                                                                 | 2TDSB        | 2TDSA        | 2TDSG       |
-| --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
-| Semana    | Conteúdo                                                                          | Quarta-Feira | Quarta-Feira | Sexta-feira |
-| --------- | --------------------------------------------------------------------------------- | ------------ | ------------ | ----------- |
-| Semana 1  | Aula Magna                                                                        | 05/02/2024   | 07/02/2024   | 09/02/2024  |
-|           | Apresentação do curso, dinâmica das aulas, datas importantes (CP), lançamento CP1 |              |              |             |
-| Semana 2  | Dataframe: Relembrando Análise exploratória e visualização de dados               | 12/02/2024   | 14/02/2024   | 16/02/2024  |
-|           |                                                                                   | Feriado      | Feriado      |             |
-| Semana 3  | ML Supervisionado - Classificação                                                 | 19/02/2024   | 21/02/2024   | 23/02/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 4  | ML Supervisionado - Regressão                                                     | 26/02/2024   | 28/02/2024   | 01/03/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 5  | Dicas de pré processamento de dados e validação cruzada                           | 04/03/2024   | 06/03/2024   | 08/03/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 6  | AVALIAÇÃO EM AULA CP1                                                             | 11/03/2024   | 13/03/2024   | 15/03/2024  |
-|           | CP1 - Sistema preditivo ou de classificação                                       |              |              |             |
-| Semana 7  | Introdução ao Deep Learning                                                       | 18/03/2024   | 20/03/2024   | 22/03/2024  |
-|           | Perceptron, MLP, lançamento CP2                                                   |              |              |             |
-| Semana 8  | CNN                                                                               | 25/03/2024   | 27/03/2024   | 29/03/2024  |
-|           |                                                                                   |              |              | Feriado     |
-| Semana 9  | CNN Continuação                                                                   | 01/04/2024   | 03/04/2024   | 05/04/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 10 | Medidas de avaliação                                                              | 08/04/2024   | 10/04/2024   | 12/04/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 11 | Aula estudio: Aplicação de DL                                                     | 15/04/2024   | 17/04/2024   | 19/04/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 12 | Aula estudio Checkpoint 2                                                         | 22/04/2024   | 24/04/2024   | 26/04/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 13 | Transfer Learning, lançamento CP3                                                 | 29/04/2024   | 01/05/2024   | 03/05/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 14 | Redes modernas, aplicações com DL                                                 | 06/05/2024   | 08/05/2024   | 10/05/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 15 | Continuação...                                                                    | 13/05/2024   | 15/05/2024   | 17/05/2024  |
-|           | Aplicações com Yolo e deploy de aplicações.                                       |              |              |             |
-| Semana 16 | AVALIAÇÃO EM AULA CP3                                                             | 20/05/2024   | 22/05/2024   | 24/05/2024  |
-|           |                                                                                   |              |              |             |
-| Semana 17 | Avaliação Global Solution primeiro semestre                                       | 27/05/2024   | 29/05/2024   | 31/05/2024  |
-|           |                                                                                   | Prova GS     | Prova GS     | Prova GS    |
+### Cronograma 1º Semestre - 2025
 
 
-
-## Cronograma Segundo Semestre
-
-| AULA | TDSA | TDSG | CONTEÚDO | LABORATÓRIO | OBSERVAÇÃO | Feriados |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 1 | 02/08 | 04/08 | Estamos de volta: Conhecendo o mundo do hardware. |  | 02/08 - Retorno das aulas |  |
-| 2 | 09/08 | 11/08 | Conhecendo o Arduino: Como programar, IDE, Protoboard, LED, botão | lab1 |  |  |
-| 3 | 16/08 | 18/08 | Arduino: Sensores/Atuadores (KIT IoT) e usando libs externas. | lab2 |  |  |
-| 4 | 23/08 | 25/08 | Trabalhar com Node-red e conhecer o protocolo MQTT | lab3 |  |  |
-| 5 | 30/08 | 01/09 | Comunicação serial entre Arduino e o Node-RED | lab4 |  |  |
-| 6 | 06/09 | <s>08/09</s> | Aula estudio para desenvolvimento do projeto | --- |  | 07/09 (quinta-feira) - Independência do Brasil |
-| 7 | 13/09 | 15/09 | AVALIAÇÃO EM AULA CP4 (grupo)<br>CP4 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP4 | Entrega - CP4 |
-| 8 | 20/09 | 22/09 | Raspberry Pi - o que é, boot e configs iniciais | lab5 |  |  |
-| 9 | 27/09 | 29/09 | Raspberry Pi: Programando os GPIO e usando outras libs  | lab6 |  |  |
-| 10 | 04/10 | 06/10 | Raspberry Pi: Montando um Webserver em Flask | lab7 e lab8 |  |  |
-| 11 | 11/10 | <s>13/10</s> | Aula estudio para desenvolvimento do projeto | --- |  | 12/10 (quinta-feira) - N. Sr.a Aparecida |
-| 12 | 18/10 | 20/10 |  |  |  |  |
-| 13 | 25/10 | 27/10 | AVALIAÇÃO EM AULA CP5 (grupo)<br>CP5 - Sistemas Embarcados e IoT |  | AVALIAÇÃO EM AULA CP5 | Entrega - CP5 |
-| 14 | 01/11 | <s>03/11</s> | Aula estudio para desenvolvimento de atividades "Desafios" atrasadas. |  |  | 02/11 (quinta-feira) - Finados |
-| 15 | 08/11 | 10/11 | Data final para entrega das atividades "Desafios" de AVALIAÇÃO CP6 (individual)<br>CP6 - É a méia ponderada das atividades "Desafios" lançadas ao longo do semestre. |  | NOTA CP6 |  |
-| 16 | <s>15/11</s> | <s>17/11</s> | Período de aplicações das Provas Semestrais |  | Provas |  |
-
-
--->
+| Semana    | Primeirto Semestre - Conteúdo                                            | 2TDSB/2TDSA<br>Quarta-Feira |
+| --------- | ------------------------------------------------------------------------ | --------------------- |
+| 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 12/02/2025            |
+| 2  | lab00, conceitos de eletrônica básica, conceitos de programação C e arduino     | 19/02/2025            |
+| 3  |  aula estudio                                                                   | 26/02/2025            |
+| 4  | CP1 - conceitos de eletrônica básica, conceitos de programação C e arduino      | 05/03/2025            |
+| 5  | lab 01                                                                          | 12/03/2025            |
+| 6  | lab 02                                                                          | 19/03/2025            |
+| 7  | lab 03                                                                          | 26/03/2025            |
+| 8  | lab 04                                                                          | 02/04/2025            |
+| 9  | lab 04                                                                          | 09/04/2025            |
+| 10 | CP2 - Programação Arduino                                                       | 16/04/2025            |
+| 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 23/04/2025            |
+| 12 | lab 07                                                                          | 30/04/2025            |
+| 13 | CP3 - Integração de sistemas com node-red                                       | 07/05/2025            |
+| 14 | integração IA e IoT                                                             | 14/05/2025            |
+| 15 | integração IA e IoT                                                             | 21/05/2025            |
+| 16 | Prova GS                                                                        | 28/05/2025            |
 
  
 
