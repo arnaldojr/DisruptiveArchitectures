@@ -100,52 +100,51 @@ nav:
     # - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
-
-  - Introdução: 
-    - IoT: aulas/iot/intro/index.md
-    - Arduino: 
+  - 1º Semestre - IoT:
+    - Introdução à IoT: aulas/iot/intro/index.md
+    - Arduino:
         - Introdução: aulas/iot/intro/introarduino.md
-        - Exemplos: 
-          - Dicas: aulas/iot/intro/dicas.md
-          - From 0 to Hero!: aulas/iot/ex0/index.md 
-          - Blink led: aulas/iot/ex2/index.md
-          - Led botão: aulas/iot/ex3/index.md
-          - Botão pot led: aulas/iot/ex4/index.md
+        - Exemplos Guiados:
+          - Dicas Gerais: aulas/iot/intro/dicas.md
+          - Do Zero ao Herói: aulas/iot/ex0/index.md 
+          - Blink LED: aulas/iot/ex2/index.md
+          - LED com Botão: aulas/iot/ex3/index.md
+          - Potenciômetro e LED: aulas/iot/ex4/index.md
           - PWM: aulas/iot/ex8/index.md
-          - Função millis: aulas/iot/ex5/index.md
-          - Interrupção de pino: aulas/iot/ex6/index.md
+          - Função millis(): aulas/iot/ex5/index.md
+          - Interrupções: aulas/iot/ex6/index.md
           - Comunicação Serial: aulas/iot/ex1/index.md
           - Comunicação com Python: aulas/iot/ex7/index.md 
-    - IA: aulas/IA/intro/index.md
-    
-  - Laboratórios:
-    - IoT:
-      - Arduino:
-        # - Solução From Zero to Hero!: aulas/iot/ex0/solucao.md 
-        - Lab00 - Guia Arduino: aulas/iot/lab0/index.md
-        - Lab01 - Led: aulas/iot/lab1/index.md
-        - Lab02 - Botão: aulas/iot/lab2/index.md
-        - Lab03 - Serial : aulas/iot/lab3/index.md
-        - Lab04 - FSM : aulas/iot/lab4/index.md
-        - Lab05 - EEPROM : aulas/iot/lab5/index.md
+        - Laboratórios:
+          - Lab00 - Guia do Arduino: aulas/iot/lab0/index.md
+          - Lab01 - LED: aulas/iot/lab1/index.md
+          - Lab02 - Botão: aulas/iot/lab2/index.md
+          - Lab03 - Serial: aulas/iot/lab3/index.md
+          - Lab04 - Máquinas de Estados (FSM): aulas/iot/lab4/index.md
+          - Lab05 - EEPROM: aulas/iot/lab5/index.md
+    - Node-RED:
+        - Lab06 - Introdução ao Node-RED: aulas/iot/lab6/index.md
+        - Lab07 - Fluxos e Dashboards: aulas/iot/lab7/index.md
+        - Lab08 - Integração com MQTT: aulas/iot/lab8/index.md
+    - Raspberry Pi:
+        - Lab09 - Introdução à Raspberry Pi: aulas/iot/lab9/index.md
+        - Lab10 - Aplicações IoT com Raspberry: aulas/iot/lab10/index.md
 
-      - Node-Red:
-        - Lab06 : aulas/iot/lab6/index.md
-        - Lab07 : aulas/iot/lab7/index.md
-        - Lab08 : aulas/iot/lab8/index.md
-      # - Lab09 : aulas/iot/lab9/index.md
-      # - Lab10 : aulas/iot/lab10/index.md
-    - IA:
-      - Lab01 - Dataframe: aulas/IA/lab01/dataframe.ipynb 
-      - Lab02 - Aprendizado Supervisionado - Classificação: aulas/IA/lab02/classificador-knn.ipynb
-      - Lab03 - Aprendizado Supervisionado - Regressão: aulas/IA/lab03/regressao.ipynb
-      - Lab04 - Dicas de pre processamento: aulas/IA/lab04/dicasDePreprocessamento.ipynb    
-      - Lab05 - Validação cruzada: aulas/IA/lab05/validacaocruzada.ipynb
-      - Lab06 - Redes Neurais - Percepton : aulas/IA/lab06/rna.ipynb
-      - Lab07 - Redes Neurais - MLP: aulas/IA/lab07/mlp.ipynb
-      - Lab07 - Redes Neurais - TensorFlow: aulas/IA/lab07/index.md
-      - BATALHA DAS REDES: aulas/IA/batalharedes/batalha_das_redes.ipynb
-      - Lab08 - Redes Neurais - CNN: aulas/IA/lab08/cnn.ipynb
-      - Lab9 - Redes Neurais - Transfer learning: aulas/IA/lab09/transferlearning.ipynb
-      - Lab10 - Algumas dicas: aulas/IA/lab10/dicas.ipynb
-
+  - 2º Semestre - IA:
+    - Introdução à IA: aulas/IA/intro/index.md
+    - Exploração de Dados:
+        - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
+    - Aprendizado Supervisionado:
+        - Lab02 - Classificação (KNN): aulas/IA/lab02/classificador-knn.ipynb
+        - Lab03 - Regressão Linear: aulas/IA/lab03/regressao.ipynb
+    - Deep Learning:
+        - Lab04 - Perceptron: aulas/IA/lab06/rna.ipynb
+        - Lab05 - MLP: aulas/IA/lab07/mlp.ipynb
+        - Lab06 - CNN: aulas/IA/lab08/cnn.ipynb
+        - Batalha das Redes: aulas/IA/batalharedes/batalha_das_redes.ipynb
+    - Transfer Learning e Redes Avançadas:
+        - Lab07 - Transfer Learning: aulas/IA/lab09/transferlearning.ipynb
+        - Lab08 - YOLO - Inferência: aulas/IA/lab10/yolo_inferencia.ipynb
+        - Lab09 - YOLO - Treinamento: aulas/IA/lab10/yolo_treinamento.ipynb
+    - Deploy:
+        - Lab12 - Deploy de Modelos: aulas/IA/lab12/readme.md
