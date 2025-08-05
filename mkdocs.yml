@@ -101,7 +101,7 @@ nav:
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
   - 1º Semestre - IoT:
-    - Introdução à IoT: aulas/iot/intro/index.md
+    - Introdução: aulas/iot/intro/index.md
     - Arduino:
         - Introdução: aulas/iot/intro/introarduino.md
         - Exemplos Guiados:
@@ -131,7 +131,7 @@ nav:
         - Lab10 - Aplicações IoT com Raspberry: aulas/iot/lab10/index.md
 
   - 2º Semestre - IA:
-    - Introdução à IA: aulas/IA/intro/index.md
+    - Introdução: aulas/IA/intro/index.md
     - Exploração de Dados:
         - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
     - Aprendizado Supervisionado:
