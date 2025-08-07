@@ -1,0 +1,2383 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/iot/lab3/">
+      
+      
+        <link rel="prev" href="../lab2/">
+      
+      
+        <link rel="next" href="../lab4/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Lab03 - Serial - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&amp;display=swap">
+<link rel="stylesheet" href="../../../assets/css/devlife.css">
+
+
+    <script>
+        window.ihandout_config = JSON.parse(`{"report": {"api-base": "https://devlife.insper-comp.com.br/api/offerings/1/", "url": "https://devlife.insper-comp.com.br/api/offerings/1/exercises/"}}`);
+    </script>
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#comunicacao-serial-no-wokwi" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab03 - Serial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agenda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CheckPoint
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    1º Semestre - IoT
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            1º Semestre - IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arduino
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/introarduino/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exemplos Guiados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos Guiados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/dicas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dicas Gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Do Zero ao Herói
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blink LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LED com Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Potenciômetro e LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PWM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Função millis()
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interrupções
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ex7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação com Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Laboratórios
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab00 - Guia do Arduino
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Serial
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Serial
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-serial-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação Serial no Wokwi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fundamentos-da-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos da Comunicação Serial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fundamentos da Comunicação Serial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o-que-e-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Comunicação Serial?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametros-da-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parâmetros da Comunicação Serial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-no-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART no Arduino
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-arduino-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação Arduino-Computador
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicação Arduino-Computador">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração Básica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enviando-dados-para-o-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enviando Dados para o Computador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recebendo-dados-do-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recebendo Dados do Computador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente no Wokwi
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-1-comunicacao-entre-arduino-e-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 1: Comunicação entre Arduino e Computador
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-2-cronometro-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 2: Cronômetro virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-3-recebendo-dados-do-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 3: Recebendo Dados do Computador
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desafio 3: Recebendo Dados do Computador">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#montagem-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Montagem no Wokwi:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-4-cronometro-dinamico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 4: Cronômetro Dinâmico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desafio 4: Cronômetro Dinâmico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-do-desafio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requisitos do Desafio:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - Máquinas de Estados (FSM)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - EEPROM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Node-RED
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Node-RED
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - Introdução ao Node-RED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - Fluxos e Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - Integração com MQTT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Raspberry Pi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Raspberry Pi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - Introdução à Raspberry Pi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab10 - Aplicações IoT com Raspberry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    2º Semestre - IA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            2º Semestre - IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploração de Dados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exploração de Dados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab01/dataframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - DataFrame
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Aprendizado Supervisionado
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Aprendizado Supervisionado
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Classificação (KNN)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab03/regressao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Regressão Linear
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deep Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Deep Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab06/rna/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - Perceptron
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab07/mlp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - MLP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab08/cnn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - CNN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/batalharedes/batalha_das_redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Batalha das Redes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Transfer Learning e Redes Avançadas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Transfer Learning e Redes Avançadas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab09/transferlearning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - Transfer Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab10/yolo_inferencia.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - YOLO - Inferência
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab10/yolo_treinamento.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - YOLO - Treinamento
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../IA/lab12/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab12 - Deploy de Modelos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-serial-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação Serial no Wokwi
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fundamentos-da-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fundamentos da Comunicação Serial
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fundamentos da Comunicação Serial">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o-que-e-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Comunicação Serial?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametros-da-comunicacao-serial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parâmetros da Comunicação Serial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-no-arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART no Arduino
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comunicacao-arduino-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comunicação Arduino-Computador
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Comunicação Arduino-Computador">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-basica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração Básica
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enviando-dados-para-o-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enviando Dados para o Computador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recebendo-dados-do-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recebendo Dados do Computador
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracao-do-ambiente-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuração do Ambiente no Wokwi
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-1-comunicacao-entre-arduino-e-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 1: Comunicação entre Arduino e Computador
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-2-cronometro-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 2: Cronômetro virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-3-recebendo-dados-do-computador" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 3: Recebendo Dados do Computador
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desafio 3: Recebendo Dados do Computador">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#montagem-no-wokwi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Montagem no Wokwi:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desafio-4-cronometro-dinamico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafio 4: Cronômetro Dinâmico
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desafio 4: Cronômetro Dinâmico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requisitos-do-desafio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requisitos do Desafio:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Lab03 - Serial</h1>
+
+<h2 id="comunicacao-serial-no-wokwi">Comunicação Serial no Wokwi<a class="headerlink" href="#comunicacao-serial-no-wokwi" title="Permanent link">&para;</a></h2>
+<p>Ao final deste laboratório, você será capaz de:</p>
+<ul>
+<li>Compreender os princípios da comunicação serial</li>
+<li>Implementar comunicação entre Arduino e computador</li>
+<li>Enviar e receber dados via porta serial</li>
+<li>Processar comandos recebidos pela porta serial</li>
+</ul>
+<h2 id="fundamentos-da-comunicacao-serial">Fundamentos da Comunicação Serial<a class="headerlink" href="#fundamentos-da-comunicacao-serial" title="Permanent link">&para;</a></h2>
+<h3 id="o-que-e-comunicacao-serial">O que é Comunicação Serial?<a class="headerlink" href="#o-que-e-comunicacao-serial" title="Permanent link">&para;</a></h3>
+<p>A comunicação serial é um protocolo de comunicação onde os dados são transmitidos um bit de cada vez, sequencialmente, através de um canal de comunicação. É amplamente utilizada para comunicação entre microcontroladores e outros dispositivos devido à sua simplicidade e confiabilidade.</p>
+<h3 id="parametros-da-comunicacao-serial">Parâmetros da Comunicação Serial<a class="headerlink" href="#parametros-da-comunicacao-serial" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Baud Rate</strong>: Velocidade de transmissão em bits por segundo (bps)</li>
+<li><strong>Bits de Dados</strong>: Número de bits em cada pacote (geralmente 8)</li>
+<li><strong>Bits de Parada</strong>: Bits que indicam o fim de um pacote (geralmente 1)</li>
+<li><strong>Paridade</strong>: Método de verificação de erros (geralmente nenhum)</li>
+</ul>
+<h3 id="uart-no-arduino">UART no Arduino<a class="headerlink" href="#uart-no-arduino" title="Permanent link">&para;</a></h3>
+<p>O Arduino possui um conversor USB-Serial integrado que permite a comunicação com o computador através da porta USB. </p>
+<p>Internamente, o microcontrolador utiliza o periférico UART (Universal Asynchronous Receiver/Transmitter) para implementar a comunicação serial.</p>
+<p><img alt="Diagrama UART" src="https://core-electronics.com.au/media/wysiwyg/tutorials/aidan/UART_protocol.png" /></p>
+<h2 id="comunicacao-arduino-computador">Comunicação Arduino-Computador<a class="headerlink" href="#comunicacao-arduino-computador" title="Permanent link">&para;</a></h2>
+<h3 id="configuracao-basica">Configuração Básica<a class="headerlink" href="#configuracao-basica" title="Permanent link">&para;</a></h3>
+<p>Para iniciar a comunicação serial no Arduino, utilizamos a função <code>Serial.begin()</code> no <code>setup()</code>, especificando o baud rate:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"> </span><span class="c1">// Inicia comunicação serial a 9600 bps</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="enviando-dados-para-o-computador">Enviando Dados para o Computador<a class="headerlink" href="#enviando-dados-para-o-computador" title="Permanent link">&para;</a></h3>
+<p>Para enviar dados do Arduino para o computador, utilizamos as funções:</p>
+<ul>
+<li><code>Serial.print()</code>: Envia dados sem quebra de linha</li>
+<li><code>Serial.println()</code>: Envia dados com quebra de linha no final</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Olá, Mundo!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Envia a mensagem com quebra de linha</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Espera 1 segundo</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="recebendo-dados-do-computador">Recebendo Dados do Computador<a class="headerlink" href="#recebendo-dados-do-computador" title="Permanent link">&para;</a></h3>
+<p>Para receber dados do computador no Arduino, utilizamos as funções:</p>
+<ul>
+<li><code>Serial.available()</code>: Verifica se há dados disponíveis para leitura</li>
+<li><code>Serial.read()</code>: Lê um byte da porta serial</li>
+<li><code>Serial.readString()</code>: Lê uma string completa da porta serial</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Verifica se há dados disponíveis</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">comando</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span><span class="w"> </span><span class="c1">// Lê a string enviada</span>
+<span class="w">    </span><span class="c1">// Processa o comando recebido</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Vamos pra prática!!!</p>
+<h3 id="configuracao-do-ambiente-no-wokwi">Configuração do Ambiente no Wokwi<a class="headerlink" href="#configuracao-do-ambiente-no-wokwi" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Acesse o site Wokwi.</p>
+</li>
+<li>
+<p>Clique em Start New Project e selecione Arduino Uno.</p>
+</li>
+</ul>
+<h2 id="desafio-1-comunicacao-entre-arduino-e-computador">Desafio 1: Comunicação entre Arduino e Computador<a class="headerlink" href="#desafio-1-comunicacao-entre-arduino-e-computador" title="Permanent link">&para;</a></h2>
+<p>Vamos estabelecer uma comunicação básica entre o Arduino e o computador utilizando o Monitor Serial do Wokwi.</p>
+<ul>
+<li>Carregue o seguinte código no simulador:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span><span class="w"> </span><span class="c1">// Inicia a comunicação serial a 9600 bps</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Olá, Mundo!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Envia a mensagem &quot;Olá, Mundo!&quot; para o computador</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// Espera 1 segundo</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>
+<p>Observe o painel "Serial Monitor" que aparecerá automaticamente</p>
+</li>
+<li>
+<p>Você deve ver a mensagem "Olá, Mundo!" sendo exibida a cada segundo como a imagem a seguir.</p>
+</li>
+</ul>
+<p><img alt="" src="wokwi.png" /></p>
+<ul>
+<li>Modifique o código para enviar seu nome e número de matrícula</li>
+</ul>
+<h2 id="desafio-2-cronometro-virtual">Desafio 2: Cronômetro virtual<a class="headerlink" href="#desafio-2-cronometro-virtual" title="Permanent link">&para;</a></h2>
+<p>Com base no que foi aboradado no lab passado, você deverá criar um cronômetro virtual que exibe o tempo decorrido desde o início da simulação usando a função <code>millis()</code>.</p>
+<p><strong>Instruções:</strong></p>
+<ul>
+<li>Utilize a função <code>millis()</code> para exibir no Serial Monitor quanto tempo se passou desde que o Arduino começou a funcionar, em segundos.</li>
+<li>
+<p>Faça com que a mensagem seja atualizada <strong>inicialmente</strong> a cada 1 segundo.</p>
+</li>
+<li>
+<p>Agora com a base do código funcionando <strong>ok</strong>, modifique seu código para que o intervalo entre as mensagens seja alterado <code>dinamicamente</code>, da seguinte forma:</p>
+</li>
+<li>
+<p>1 segundo durante os primeiros 10 segundos.</p>
+</li>
+<li>2 segundos entre 10 e 20 segundos.</li>
+<li>5 segundos após 20 segundos.</li>
+</ul>
+<p>É esperado como resultado que seja exibido no serial monitor:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">//assim até 10...</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">//assim até 20...</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">//assim acima de 20...</span>
+</code></pre></div>
+<h2 id="desafio-3-recebendo-dados-do-computador">Desafio 3: Recebendo Dados do Computador<a class="headerlink" href="#desafio-3-recebendo-dados-do-computador" title="Permanent link">&para;</a></h2>
+<p>Vamos criar uma interface para controlar um LED através de comandos enviados pelo Serial Monitor.</p>
+<p>Carregue o seguinte código no seu Arduino:</p>
+<div class="highlight"><pre><span></span><code><span class="n">String</span><span class="w"> </span><span class="n">comando</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// Variável para armazenar o comando recebido</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ledPin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span><span class="w"> </span><span class="c1">// Define o pino como saída</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Digite LIGAR ou DESLIGAR para controlar o LED&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Serial</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Verifica se há dados disponíveis para leitura</span>
+<span class="w">    </span><span class="n">comando</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">// Lê a string até encontrar uma quebra de linha</span>
+<span class="w">    </span><span class="n">comando</span><span class="p">.</span><span class="n">trim</span><span class="p">();</span><span class="w"> </span><span class="c1">// Remove espaços e quebras de linha extras</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">comando</span><span class="p">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s">&quot;LIGAR&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"> </span><span class="c1">// Acende o LED no pino</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LED Ligado!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">comando</span><span class="p">.</span><span class="n">equalsIgnoreCase</span><span class="p">(</span><span class="s">&quot;DESLIGAR&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">ledPin</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"> </span><span class="c1">// Apaga o LED no pino</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LED Desligado!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Comando não reconhecido. Use LIGAR ou DESLIGAR&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="montagem-no-wokwi">Montagem no Wokwi:<a class="headerlink" href="#montagem-no-wokwi" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>Adicione um LED ao pino que está configurado no código (da mesma forma que fizemos no labs anteriores).</p>
+</li>
+<li>
+<p>Inicie a simulação, digite <code>LIGAR</code> e pressione Enter.</p>
+</li>
+<li>
+<p>O LED do Arduino deve acender.</p>
+</li>
+<li>
+<p>Digite <code>DESLIGAR</code> e pressione Enter para apagar o LED.</p>
+</li>
+</ul>
+<p><img alt="" src="liga-desliga.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A comunicação serial é sensível a maiúsculas e minúsculas. Certifique-se de digitar os comandos exatamente como estão no código.</p>
+<p>você pode usar o método <code>equalsIgnoreCase()</code> para torna o código mais robusto, aceitando variações como "ligar", "Ligar" ou "LIgaR".</p>
+</div>
+<h2 id="desafio-4-cronometro-dinamico">Desafio 4: Cronômetro Dinâmico<a class="headerlink" href="#desafio-4-cronometro-dinamico" title="Permanent link">&para;</a></h2>
+<p>Com base nos desafio 2 e desafio 3, crie um <code>cronômetro inteligente</code>. </p>
+<p>O intervalo das mensagens não será fixo: ele deverá mudar conforme comandos enviados pelo usuário através do Monitor Serial.</p>
+<h3 id="requisitos-do-desafio">Requisitos do Desafio:<a class="headerlink" href="#requisitos-do-desafio" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Crie um cronômetro que exiba, a cada intervalo, o tempo decorrido desde o início da execução (em segundos).</p>
+</li>
+<li>
+<p>Inicialmente, o intervalo entre mensagens deve ser de 1 segundo.</p>
+</li>
+<li>
+<p>Através do Monitor Serial, permita que o usuário altere dinamicamente o intervalo entre as mensagens digitando comandos como:</p>
+</li>
+<li>
+<p>intervalo 500 (define o intervalo para 500 ms)</p>
+</li>
+<li>
+<p>intervalo 2000 (define o intervalo para 2000 ms)</p>
+</li>
+<li>
+<p>Implemente também comandos especiais:</p>
+</li>
+<li>
+<p><code>pausar</code> para interromper temporariamente a exibição das mensagens.</p>
+</li>
+<li><code>continuar</code> para retomar a contagem.</li>
+</ul>
+<p>É esperado como resultado que seja exibido no serial monitor:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">// Usuário digita: intervalo 3000</span>
+<span class="n">Intervalo</span><span class="w"> </span><span class="n">alterado</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="mi">3000</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">// Usuário digita: pausar</span>
+<span class="n">Cronômetro</span><span class="w"> </span><span class="n">pausado</span><span class="p">.</span>
+<span class="c1">// Usuário digita: continuar</span>
+<span class="n">Cronômetro</span><span class="w"> </span><span class="n">retomado</span><span class="p">.</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">segundos</span>
+<span class="c1">// Usuário digita: intervalo 2000</span>
+<span class="n">Intervalo</span><span class="w"> </span><span class="n">alterado</span><span class="w"> </span><span class="n">para</span><span class="w"> </span><span class="mi">2000</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="n">segundos</span>
+<span class="n">Tempo</span><span class="w"> </span><span class="n">decorrido</span><span class="o">:</span><span class="w"> </span><span class="mi">19</span><span class="w"> </span><span class="n">segundos</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 7, 2025 14:23:10 UTC">August 7, 2025</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
