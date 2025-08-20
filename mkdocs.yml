@@ -136,7 +136,9 @@ nav:
         - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
     - Aprendizado Supervisionado:
         - Lab02 - Classificação: aulas/IA/lab02/classificador-knn.ipynb
-        - Lab03 - Regressão: aulas/IA/lab03/regressao.ipynb
+        - Lab03 - Regressão: 
+          - aulas/IA/lab03/regressao.ipynb
+          - aulas/IA/lab03/regressao2.ipynb
     - Deep Learning:
         - Lab04 - Perceptron: aulas/IA/lab06/rna.ipynb
         - Lab05 - MLP: aulas/IA/lab07/mlp.ipynb
