@@ -1,0 +1,2509 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/iot/esp32/09-Gerenciamento-Energia/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>Gerenciamento de Energia com ESP32 - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&amp;display=swap">
+<link rel="stylesheet" href="../../../../assets/css/devlife.css">
+
+
+    <script>
+        window.ihandout_config = JSON.parse(`{"report": {"api-base": "https://devlife.insper-comp.com.br/api/offerings/1/", "url": "https://devlife.insper-comp.com.br/api/offerings/1/exercises/"}}`);
+    </script>
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gerenciamento-de-energia-com-esp32" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gerenciamento de Energia com ESP32
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agenda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CheckPoint
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    1º Semestre - IoT
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            1º Semestre - IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arduino
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/introarduino/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exemplos Guiados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos Guiados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/dicas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dicas Gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Do Zero ao Herói
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blink LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LED com Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Potenciômetro e LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PWM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Função millis()
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interrupções
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ex7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação com Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Laboratórios
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab00 - Guia do Arduino
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Serial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - Máquinas de Estados (FSM)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - EEPROM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Node-RED
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Node-RED
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - Introdução ao Node-RED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - Fluxos e Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - Integração com MQTT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Raspberry Pi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Raspberry Pi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - Introdução à Raspberry Pi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab10 - Aplicações IoT com Raspberry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    2º Semestre - IA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            2º Semestre - IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploração de Dados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exploração de Dados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab01/dataframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - DataFrame
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Aprendizado Supervisionado
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Aprendizado Supervisionado
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Classificação
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_2" id="__nav_5_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Regressão
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab03 - Regressão
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab03/regressao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regressao
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab03/regressao2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regressao2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deep Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Deep Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab06/rna/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - Perceptron
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab07/mlp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - MLP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab08/cnn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - CNN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/batalharedes/batalha_das_redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Batalha das Redes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Transfer Learning e Redes Avançadas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Transfer Learning e Redes Avançadas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab09/transferlearning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - Transfer Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab10/yolo_inferencia.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - YOLO - Inferência
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab10/yolo_treinamento.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - YOLO - Treinamento
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../IA/lab12/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab12 - Deploy de Modelos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#importancia-do-gerenciamento-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Importância do Gerenciamento de Energia
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modos-de-economia-de-energia-do-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modos de Economia de Energia do ESP32
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-deep-sleep-sono-profundo" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Deep Sleep (Sono Profundo)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Deep Sleep (Sono Profundo)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-basico-de-deep-sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo Básico de Deep Sleep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtendo-a-causa-do-despertar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obtendo a Causa do Despertar
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-despertar-por-pino-externo" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Despertar por Pino Externo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-despertar-por-touchpad" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Despertar por Touchpad
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-light-sleep-sono-leve" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Light Sleep (Sono Leve)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-modo-modem-sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Modo Modem Sleep
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-sensores-de-baixo-consumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Sensores de Baixo Consumo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-projeto-estacao-meteorologica-de-baixo-consumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Projeto: Estação Meteorológica de Baixo Consumo
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-calculando-o-consumo-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Calculando o Consumo de Energia
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Calculando o Consumo de Energia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemplo-de-calculo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exemplo de cálculo:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicas-adicionais-para-economia-de-energia" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dicas Adicionais para Economia de Energia
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Próximos Passos
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gerenciamento-de-energia-com-esp32">Gerenciamento de Energia com ESP32<a class="headerlink" href="#gerenciamento-de-energia-com-esp32" title="Permanent link">&para;</a></h1>
+<p>Nesta aula, vamos explorar técnicas de gerenciamento de energia para o ESP32, fundamentais para projetos IoT alimentados por bateria. O ESP32 possui diversos modos de economia de energia que podem estender significativamente a vida útil da bateria.</p>
+<h2 id="importancia-do-gerenciamento-de-energia">Importância do Gerenciamento de Energia<a class="headerlink" href="#importancia-do-gerenciamento-de-energia" title="Permanent link">&para;</a></h2>
+<p>Em muitas aplicações IoT, os dispositivos:
+- São instalados em locais remotos
+- Funcionam com baterias ou energia solar
+- Precisam operar por meses ou anos sem manutenção</p>
+<p>Um ESP32 funcionando continuamente consome aproximadamente:
+- 160-260mA durante transmissão WiFi
+- 100-150mA durante processamento intenso
+- 20-30mA em modo ativo leve</p>
+<p>Com uma bateria de 1000mAh, isso significa apenas algumas horas de operação. Com gerenciamento de energia eficiente, podemos estender isso para semanas, meses ou até anos.</p>
+<h2 id="modos-de-economia-de-energia-do-esp32">Modos de Economia de Energia do ESP32<a class="headerlink" href="#modos-de-economia-de-energia-do-esp32" title="Permanent link">&para;</a></h2>
+<p>O ESP32 possui vários modos de operação com diferentes níveis de consumo:</p>
+<table>
+<thead>
+<tr>
+<th>Modo</th>
+<th>Consumo típico</th>
+<th>CPU</th>
+<th>WiFi/BT</th>
+<th>RTC</th>
+<th>Memória</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ativo</td>
+<td>160-260mA</td>
+<td>Ativo</td>
+<td>Ativo</td>
+<td>Ativo</td>
+<td>Todas ativas</td>
+</tr>
+<tr>
+<td>Modem Sleep</td>
+<td>20-30mA</td>
+<td>Ativo</td>
+<td>Desligado</td>
+<td>Ativo</td>
+<td>Todas ativas</td>
+</tr>
+<tr>
+<td>Light Sleep</td>
+<td>0.8mA</td>
+<td>Pausado</td>
+<td>Desligado</td>
+<td>Ativo</td>
+<td>Preservada</td>
+</tr>
+<tr>
+<td>Deep Sleep</td>
+<td>10µA</td>
+<td>Desligado</td>
+<td>Desligado</td>
+<td>Ativo</td>
+<td>RTC retida</td>
+</tr>
+<tr>
+<td>Hibernação</td>
+<td>5µA</td>
+<td>Desligado</td>
+<td>Desligado</td>
+<td>Timer apenas</td>
+<td>Nada</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-deep-sleep-sono-profundo">1. Deep Sleep (Sono Profundo)<a class="headerlink" href="#1-deep-sleep-sono-profundo" title="Permanent link">&para;</a></h2>
+<p>O Deep Sleep é o modo mais utilizado para economizar energia em projetos IoT. O ESP32 desliga a maioria dos sistemas, mantendo apenas o timer RTC para acordar o dispositivo após um tempo determinado.</p>
+<h3 id="exemplo-basico-de-deep-sleep">Exemplo Básico de Deep Sleep<a class="headerlink" href="#exemplo-basico-de-deep-sleep" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">#define uS_TO_S_FACTOR 1000000  </span><span class="c1">// Fator de conversão de micro segundos para segundos</span>
+<span class="cp">#define TIME_TO_SLEEP  60       </span><span class="c1">// Tempo de sleep em segundos</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura o timer para acordar</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="n">TIME_TO_SLEEP</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">uS_TO_S_FACTOR</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;ESP32 entrará em deep sleep por &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">TIME_TO_SLEEP</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; segundos&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span><span class="w"> </span>
+
+<span class="w">  </span><span class="c1">// Entra em deep sleep</span>
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Nunca será executado no deep sleep</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="obtendo-a-causa-do-despertar">Obtendo a Causa do Despertar<a class="headerlink" href="#obtendo-a-causa-do-despertar" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Verifica a causa do despertar</span>
+<span class="w">  </span><span class="n">esp_sleep_wakeup_cause_t</span><span class="w"> </span><span class="n">wakeup_reason</span><span class="p">;</span>
+<span class="w">  </span><span class="n">wakeup_reason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_sleep_get_wakeup_cause</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">switch</span><span class="p">(</span><span class="n">wakeup_reason</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ESP_SLEEP_WAKEUP_EXT0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar causado por sinal externo (RTC_IO)&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ESP_SLEEP_WAKEUP_EXT1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar causado por sinal externo (RTC_CNTL)&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ESP_SLEEP_WAKEUP_TIMER</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar causado pelo timer&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ESP_SLEEP_WAKEUP_TOUCHPAD</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar causado por touchpad&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ESP_SLEEP_WAKEUP_ULP</span><span class="w"> </span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar causado pelo programa ULP&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="k">default</span><span class="w"> </span><span class="o">:</span><span class="w"> </span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Despertar não causado por deep sleep&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Configura deep sleep novamente</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">uS_TO_S_FACTOR</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Executa a lógica do programa aqui</span>
+<span class="w">  </span><span class="c1">// ...</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Voltando ao deep sleep&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Nunca será executado</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="2-despertar-por-pino-externo">2. Despertar por Pino Externo<a class="headerlink" href="#2-despertar-por-pino-externo" title="Permanent link">&para;</a></h2>
+<p>O ESP32 pode acordar do deep sleep quando um pino específico muda de estado.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Pino RTC GPIO usado para despertar (apenas os pinos RTC podem ser usados)</span>
+<span class="cp">#define WAKEUP_PIN GPIO_NUM_33</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura despertar por pino externo</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_ext0_wakeup</span><span class="p">(</span><span class="n">WAKEUP_PIN</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 1 = HIGH, 0 = LOW</span>
+
+<span class="w">  </span><span class="c1">// Também configura timer como backup</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">3600</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">uS_TO_S_FACTOR</span><span class="p">);</span><span class="w"> </span><span class="c1">// 1 hora</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;ESP32 configurado para despertar com pino HIGH ou após 1 hora&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Nunca será executado</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="3-despertar-por-touchpad">3. Despertar por Touchpad<a class="headerlink" href="#3-despertar-por-touchpad" title="Permanent link">&para;</a></h2>
+<p>O ESP32 pode acordar quando um sensor touch capacitivo é tocado.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#define TOUCH_THRESHOLD 40</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura despertar por touchpad (pino 4 = T0)</span>
+<span class="w">  </span><span class="n">touchSleepWakeUpEnable</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span><span class="w"> </span><span class="n">TOUCH_THRESHOLD</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;ESP32 entrará em deep sleep, toque no pino T0 para acordar&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Nunca será executado</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="4-light-sleep-sono-leve">4. Light Sleep (Sono Leve)<a class="headerlink" href="#4-light-sleep-sono-leve" title="Permanent link">&para;</a></h2>
+<p>No Light Sleep, a CPU é pausada, mas a memória é preservada. É útil quando você precisa despertar rapidamente.</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Executa alguma tarefa</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Executando tarefa...&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Aguarda na serial</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Configura light sleep</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000000</span><span class="p">);</span><span class="w"> </span><span class="c1">// 5 segundos</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Entrando em light sleep&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Entra em light sleep</span>
+<span class="w">  </span><span class="n">esp_light_sleep_start</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Código continua daqui quando o dispositivo acorda</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;ESP32 acordou do light sleep&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="5-modo-modem-sleep">5. Modo Modem Sleep<a class="headerlink" href="#5-modo-modem-sleep" title="Permanent link">&para;</a></h2>
+<p>No Modem Sleep, o processador continua funcionando, mas o WiFi e o Bluetooth são desligados.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">ssid</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SuaRedeWiFi&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SuaSenhaWiFi&quot;</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;WiFi conectado&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Desliga o WiFi para economizar energia</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">disconnect</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_OFF</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;WiFi desligado&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Executa tarefas locais que não precisam de WiFi</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Reativa o WiFi quando necessário</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_STA</span><span class="p">);</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;WiFi reconectado&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Executa tarefas que precisam de conexão</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="6-sensores-de-baixo-consumo">6. Sensores de Baixo Consumo<a class="headerlink" href="#6-sensores-de-baixo-consumo" title="Permanent link">&para;</a></h2>
+<p>Para projetos de energia ultra baixa, considere usar sensores que consomem pouca energia:</p>
+<ol>
+<li><strong>Sensores Digitais de Baixo Consumo</strong>:</li>
+<li>BME280 (temperatura, umidade, pressão): 3.6µA em standby</li>
+<li>DS18B20 (temperatura): 1µA em standby</li>
+<li>
+<p>PIR Motion (movimento): ~10µA em standby</p>
+</li>
+<li>
+<p><strong>Reduzindo Consumo de Sensores Analógicos</strong>:</p>
+</li>
+<li>Ligue os sensores analógicos apenas quando necessário</li>
+<li>Use pinos GPIO para controlar a alimentação dos sensores</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cp">#define SENSOR_POWER_PIN 13</span>
+<span class="cp">#define SENSOR_INPUT_PIN 34</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura o pino de alimentação do sensor</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">SENSOR_POWER_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura o pino de leitura</span>
+<span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">SENSOR_INPUT_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">INPUT</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Liga o sensor</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">SENSOR_POWER_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Pequeno delay para estabilização do sensor</span>
+<span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Lê o valor</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">sensorValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">SENSOR_INPUT_PIN</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Desliga o sensor para economizar energia</span>
+<span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">SENSOR_POWER_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Valor do sensor: &quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">sensorValue</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Entra em deep sleep</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000000</span><span class="p">);</span><span class="w"> </span><span class="c1">// 60 segundos</span>
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="7-projeto-estacao-meteorologica-de-baixo-consumo">7. Projeto: Estação Meteorológica de Baixo Consumo<a class="headerlink" href="#7-projeto-estacao-meteorologica-de-baixo-consumo" title="Permanent link">&para;</a></h2>
+<p>Este projeto combina várias técnicas de economia de energia:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;PubSubClient.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_BME280.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ArduinoJson.h&gt;</span>
+
+<span class="c1">// Configurações</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">ssid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SuaRedeWiFi&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SuaSenhaWiFi&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">mqttServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;seuservidormqtt.com&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mqttPort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">mqttUser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;seu_usuario&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">mqttPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sua_senha&quot;</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">mqttTopic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;esp32/clima&quot;</span><span class="p">;</span>
+
+<span class="c1">// Pinos</span>
+<span class="cp">#define I2C_SDA 21</span>
+<span class="cp">#define I2C_SCL 22</span>
+<span class="cp">#define BATT_ADC_PIN 35</span>
+
+<span class="c1">// Tempo entre leituras (15 minutos)</span>
+<span class="cp">#define SLEEP_TIME_SECONDS 900</span>
+
+<span class="c1">// Objetos</span>
+<span class="n">Adafruit_BME280</span><span class="w"> </span><span class="n">bme</span><span class="p">;</span>
+<span class="n">WiFiClient</span><span class="w"> </span><span class="n">espClient</span><span class="p">;</span>
+<span class="n">PubSubClient</span><span class="w"> </span><span class="nf">mqttClient</span><span class="p">(</span><span class="n">espClient</span><span class="p">);</span>
+
+<span class="c1">// Função para leitura da bateria</span>
+<span class="kt">float</span><span class="w"> </span><span class="nf">getBatteryVoltage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Lê o valor (ajuste os valores conforme seu divisor de tensão)</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">adc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">BATT_ADC_PIN</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">voltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adc</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">4095.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">3.3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2.0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Assumindo um divisor de tensão de 1:1</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">voltage</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Conecta ao WiFi</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">connectWiFi</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Timeout de 20 segundos</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">timeout</span><span class="o">--</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Falha na conexão WiFi. Entrando em deep sleep.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;WiFi conectado&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Conecta ao broker MQTT</span>
+<span class="kt">bool</span><span class="w"> </span><span class="nf">connectMQTT</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">mqttClient</span><span class="p">.</span><span class="n">setServer</span><span class="p">(</span><span class="n">mqttServer</span><span class="p">,</span><span class="w"> </span><span class="n">mqttPort</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Conectando ao MQTT...&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mqttClient</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;ESP32WeatherStation&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mqttUser</span><span class="p">,</span><span class="w"> </span><span class="n">mqttPassword</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Conectado ao MQTT&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Falha na conexão MQTT, rc=&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">mqttClient</span><span class="p">.</span><span class="n">state</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Estação Meteorológica de Baixo Consumo&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Inicializa I2C</span>
+<span class="w">  </span><span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">I2C_SDA</span><span class="p">,</span><span class="w"> </span><span class="n">I2C_SCL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Inicializa o sensor</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bme</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x76</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Não foi possível encontrar o sensor BME280!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Lê dados do sensor</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bme</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">humidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bme</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bme</span><span class="p">.</span><span class="n">readPressure</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">;</span><span class="w"> </span><span class="c1">// hPa</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">voltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getBatteryVoltage</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Temperatura: %.2f°C, Umidade: %.2f%%, Pressão: %.2fhPa, Bateria: %.2fV</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="n">temperature</span><span class="p">,</span><span class="w"> </span><span class="n">humidity</span><span class="p">,</span><span class="w"> </span><span class="n">pressure</span><span class="p">,</span><span class="w"> </span><span class="n">voltage</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Conecta ao WiFi</span>
+<span class="w">  </span><span class="n">connectWiFi</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Conecta ao MQTT</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">connectMQTT</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Cria o JSON com os dados</span>
+<span class="w">    </span><span class="n">StaticJsonDocument</span><span class="o">&lt;</span><span class="mi">200</span><span class="o">&gt;</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<span class="w">    </span><span class="n">doc</span><span class="p">[</span><span class="s">&quot;device&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ESP32_Weather&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">doc</span><span class="p">[</span><span class="s">&quot;temperature&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature</span><span class="p">;</span>
+<span class="w">    </span><span class="n">doc</span><span class="p">[</span><span class="s">&quot;humidity&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">humidity</span><span class="p">;</span>
+<span class="w">    </span><span class="n">doc</span><span class="p">[</span><span class="s">&quot;pressure&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pressure</span><span class="p">;</span>
+<span class="w">    </span><span class="n">doc</span><span class="p">[</span><span class="s">&quot;battery&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">voltage</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Serializa o JSON</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+<span class="w">    </span><span class="n">serializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Publica no MQTT</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mqttClient</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">mqttTopic</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Dados publicados com sucesso&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Falha ao publicar dados&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Aguarda finalização do envio</span>
+<span class="w">    </span><span class="n">mqttClient</span><span class="p">.</span><span class="n">loop</span><span class="p">();</span>
+<span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Desconecta para limpar</span>
+<span class="w">  </span><span class="n">mqttClient</span><span class="p">.</span><span class="n">disconnect</span><span class="p">();</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">disconnect</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_OFF</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Configura alarme para próxima leitura</span>
+<span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="n">SLEEP_TIME_SECONDS</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000000ULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Entrando em deep sleep por %d segundos</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">SLEEP_TIME_SECONDS</span><span class="p">);</span>
+<span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// Entra em deep sleep</span>
+<span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Nunca será executado</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="8-calculando-o-consumo-de-energia">8. Calculando o Consumo de Energia<a class="headerlink" href="#8-calculando-o-consumo-de-energia" title="Permanent link">&para;</a></h2>
+<p>Para estimar a duração da bateria, use a seguinte fórmula:</p>
+<div class="highlight"><pre><span></span><code>Duração da bateria (horas) = Capacidade da bateria (mAh) / Consumo médio (mA)
+</code></pre></div>
+<p>Para o consumo médio, você precisa considerar:</p>
+<ol>
+<li><strong>Tempo em cada estado</strong>:</li>
+<li>Tempo ativo (ta)</li>
+<li>
+<p>Tempo em sleep (ts)</p>
+</li>
+<li>
+<p><strong>Corrente em cada estado</strong>:</p>
+</li>
+<li>Corrente ativa (Ia)</li>
+<li>Corrente em sleep (Is)</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Consumo médio = (ta * Ia + ts * Is) / (ta + ts)
+</code></pre></div>
+<h3 id="exemplo-de-calculo">Exemplo de cálculo:<a class="headerlink" href="#exemplo-de-calculo" title="Permanent link">&para;</a></h3>
+<p>Se seu ESP32:
+- Fica ativo por 2 segundos (consumindo 150mA)
+- Dorme por 58 segundos (consumindo 10µA)
+- Repete este ciclo a cada minuto
+- Usa uma bateria de 2000mAh</p>
+<p>O consumo médio seria:
+<div class="highlight"><pre><span></span><code>(2s * 150mA + 58s * 0.01mA) / 60s = (300mA*s + 0.58mA*s) / 60s = 5.01mA
+</code></pre></div></p>
+<p>Duração estimada:
+<div class="highlight"><pre><span></span><code>2000mAh / 5.01mA = 399 horas ≈ 16.6 dias
+</code></pre></div></p>
+<h2 id="dicas-adicionais-para-economia-de-energia">Dicas Adicionais para Economia de Energia<a class="headerlink" href="#dicas-adicionais-para-economia-de-energia" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Otimize o Código</strong>:</li>
+<li>Evite loops de espera ocupada (busy waiting)</li>
+<li>Minimize operações matemáticas complexas</li>
+<li>
+<p>Use variáveis de tamanho adequado</p>
+</li>
+<li>
+<p><strong>Hardware</strong>:</p>
+</li>
+<li>Use baterias LiPo ou Li-Ion para projetos prolongados</li>
+<li>Considere adicionar painéis solares para recarregar</li>
+<li>
+<p>Use reguladores de tensão eficientes (como LDO)</p>
+</li>
+<li>
+<p><strong>Comunicação</strong>:</p>
+</li>
+<li>Minimize a quantidade de dados transmitidos</li>
+<li>Reduza a frequência das transmissões</li>
+<li>
+<p>Use protocolos leves como MQTT</p>
+</li>
+<li>
+<p><strong>Técnicas Avançadas</strong>:</p>
+</li>
+<li>Use ULP (Ultra Low Power) coprocessor para monitoramento contínuo</li>
+<li>Implemente lógica adaptativa (mais tempo de sleep quando as condições são estáveis)</li>
+<li>Monitore o nível da bateria e ajuste o comportamento</li>
+</ol>
+<h2 id="proximos-passos">Próximos Passos<a class="headerlink" href="#proximos-passos" title="Permanent link">&para;</a></h2>
+<p>Na próxima aula, abordaremos um projeto final integrado que utiliza tudo o que aprendemos nas aulas anteriores, combinando conectividade, sensores, e gerenciamento de energia para criar uma solução IoT completa.</p>
+<p><strong>Desafio:</strong> Modifique o projeto da Estação Meteorológica para incluir algum tipo de energia alternativa (como painel solar) e adaptação dinâmica do tempo de sono com base no nível da bateria.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 21, 2025 13:28:53 UTC">August 21, 2025</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
