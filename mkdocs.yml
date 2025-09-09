@@ -140,7 +140,7 @@ nav:
           - aulas/IA/lab03/regressao.ipynb
           - aulas/IA/lab03/regressao2.ipynb
     - Deep Learning:
-        - Lab04 - Perceptron: aulas/IA/lab06/rna.ipynb
+        # - Lab04 - Perceptron: aulas/IA/lab06/rna.ipynb
         - Lab05 - MLP: aulas/IA/lab07/mlp.ipynb
         - Lab06 - CNN: aulas/IA/lab08/cnn.ipynb
         - Batalha das Redes: aulas/IA/batalharedes/batalha_das_redes.ipynb
