@@ -144,9 +144,12 @@ nav:
         - Lab05 - MLP: aulas/IA/lab07/mlp.ipynb
         - Lab06 - CNN: aulas/IA/lab08/cnn.ipynb
         - Batalha das Redes: aulas/IA/batalharedes/batalha_das_redes.ipynb
-    - Transfer Learning e Redes Avançadas:
+    - Transfer Learning:
         - Lab07 - Transfer Learning: aulas/IA/lab09/transferlearning.ipynb
-        - Lab08 - YOLO - Inferência: aulas/IA/lab10/yolo_inferencia.ipynb
-        - Lab09 - YOLO - Treinamento: aulas/IA/lab10/yolo_treinamento.ipynb
+    - Redes Avançadas:
+        - Teoria - YOLO: aulas/IA/lab11/teoria_yolo.md
+        - Lab08 - YOLO - pré-treinada: aulas/IA/lab11/yolo_inferencia.ipynb
+        - Lab09 - YOLO - Fine-tuning: aulas/IA/lab11/yolo_finetuning.ipynb
+        - Lab10 - YOLO - treinamento: aulas/IA/lab11/yolo_treinamento.ipynb
     - Deploy:
         - Lab12 - Deploy de Modelos: aulas/IA/lab12/readme.md
