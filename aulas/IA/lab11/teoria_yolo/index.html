@@ -1,0 +1,3073 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Arnaldo Viana">
+      
+      
+        <link rel="canonical" href="https://arnaldojr.github.io/DisruptiveArchitectures/aulas/IA/lab11/teoria_yolo/">
+      
+      
+        <link rel="prev" href="../../lab09/transferlearning/">
+      
+      
+        <link rel="next" href="../yolo/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Teoria - YOLO - Disruptive Architectures</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e53b48f4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&amp;display=swap">
+<link rel="stylesheet" href="../../../../assets/css/devlife.css">
+
+
+    <script>
+        window.ihandout_config = JSON.parse(`{"report": {"api-base": "https://devlife.insper-comp.com.br/api/offerings/1/", "url": "https://devlife.insper-comp.com.br/api/offerings/1/exercises/"}}`);
+    </script>
+
+
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#yolo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Disruptive Architectures" class="md-header__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Disruptive Architectures
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Teoria - YOLO
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Disruptive Architectures" class="md-nav__button md-logo" aria-label="Disruptive Architectures" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Disruptive Architectures
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arnaldojr/DisruptiveArchitectures/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Disruptive Architectures
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agenda/agenda/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agenda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CheckPoint
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            CheckPoint
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../checkpoint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Orientações gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    1º Semestre - IoT
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            1º Semestre - IoT
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Arduino
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arduino
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/intro/introarduino/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exemplos Guiados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exemplos Guiados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/intro/dicas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dicas Gerais
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Do Zero ao Herói
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blink LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LED com Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Potenciômetro e LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PWM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Função millis()
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interrupções
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação Serial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/ex7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Comunicação com Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Laboratórios
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Laboratórios
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab00 - Guia do Arduino
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - LED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Botão
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Serial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - Máquinas de Estados (FSM)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - EEPROM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Node-RED
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Node-RED
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - Introdução ao Node-RED
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - Fluxos e Dashboards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - Integração com MQTT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Raspberry Pi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Raspberry Pi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - Introdução à Raspberry Pi
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../iot/lab10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab10 - Aplicações IoT com Raspberry
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    2º Semestre - IA
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            2º Semestre - IA
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introdução
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploração de Dados
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Exploração de Dados
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/dataframe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab01 - DataFrame
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Aprendizado Supervisionado
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Aprendizado Supervisionado
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/classificador-knn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab02 - Classificação
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_2" id="__nav_5_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Lab03 - Regressão
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Lab03 - Regressão
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/regressao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regressao
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/regressao2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regressao2
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deep Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Deep Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/mlp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab04 - MLP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/cnn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab05 - CNN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Transfer Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Transfer Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/transferlearning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab06 - Transfer Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Redes Avançadas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Redes Avançadas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Teoria - YOLO
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Teoria - YOLO
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      YOLO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YOLO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relevancia-profissional-imediata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relevância Profissional Imediata:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vantagens-competitivas-do-yolo-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vantagens Competitivas do YOLO Atual:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacao-oficial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentação Oficial:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yolo-hoje-o-que-voce-precisa-saber" class="md-nav__link">
+    <span class="md-ellipsis">
+      YOLO Hoje: O que Você Precisa Saber
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YOLO Hoje: O que Você Precisa Saber">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filosofia-central-imutavel-desde-2015" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filosofia Central (Imutável desde 2015)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filosofia Central (Imutável desde 2015)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparacao-visual-por-que-yolo-venceu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparação Visual - Por que YOLO Venceu:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#familia-yolov8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Família YOLOv8
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitetura-atual-simplificada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitetura Atual Simplificada
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitetura Atual Simplificada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-funciona-o-processamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Como Funciona o Processamento
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacao-pratica-imediata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementação Prática Imediata
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementação Prática Imediata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-em-3-linhas-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção em 3 Linhas de Código
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-em-webcam-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção em Webcam (Tempo Real)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processamento-de-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processamento de Vídeo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#treinamento-personalizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Treinamento Personalizado
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Treinamento Personalizado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-do-dataset-yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura do Dataset YOLO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-anotacao-yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Anotação YOLO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arquivo-de-configuracao-datayaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquivo de Configuração (data.yaml)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treinamento-simplificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Treinamento Simplificado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoramento-com-tensorboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitoramento com TensorBoard
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-e-otimizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment e Otimização
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment e Otimização">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exportacao-para-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exportação para Produção
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otimizacoes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otimizações de Performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-mobile-com-tensorflow-lite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy Mobile com TensorFlow Lite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-com-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy com Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#casos-de-uso-reais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Casos de Uso Reais
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Casos de Uso Reais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-de-buracos-na-estrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção de Buracos na Estrada
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoramento-de-seguranca-industrial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitoramento de Segurança Industrial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-de-monitoramento-de-trafego" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sistema de Monitoramento de Tráfego
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexto-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexto Histórico
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yolo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab07 - YOLO - Básico
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yolo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab08 - YOLO - Multi-tarefa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yolo2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab09 - YOLO - Treinamento customizado
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deploy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab12/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab12 - Deploy de Modelos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      YOLO
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YOLO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relevancia-profissional-imediata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relevância Profissional Imediata:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vantagens-competitivas-do-yolo-atual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vantagens Competitivas do YOLO Atual:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacao-oficial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentação Oficial:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yolo-hoje-o-que-voce-precisa-saber" class="md-nav__link">
+    <span class="md-ellipsis">
+      YOLO Hoje: O que Você Precisa Saber
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="YOLO Hoje: O que Você Precisa Saber">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filosofia-central-imutavel-desde-2015" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filosofia Central (Imutável desde 2015)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filosofia Central (Imutável desde 2015)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparacao-visual-por-que-yolo-venceu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparação Visual - Por que YOLO Venceu:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#familia-yolov8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Família YOLOv8
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arquitetura-atual-simplificada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquitetura Atual Simplificada
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Arquitetura Atual Simplificada">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#como-funciona-o-processamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Como Funciona o Processamento
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacao-pratica-imediata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementação Prática Imediata
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementação Prática Imediata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-em-3-linhas-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção em 3 Linhas de Código
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-em-webcam-tempo-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção em Webcam (Tempo Real)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processamento-de-video" class="md-nav__link">
+    <span class="md-ellipsis">
+      Processamento de Vídeo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#treinamento-personalizado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Treinamento Personalizado
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Treinamento Personalizado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estrutura-do-dataset-yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estrutura do Dataset YOLO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formato-de-anotacao-yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formato de Anotação YOLO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arquivo-de-configuracao-datayaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arquivo de Configuração (data.yaml)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#treinamento-simplificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      Treinamento Simplificado
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoramento-com-tensorboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitoramento com TensorBoard
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-e-otimizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment e Otimização
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment e Otimização">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exportacao-para-producao" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exportação para Produção
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otimizacoes-de-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Otimizações de Performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-mobile-com-tensorflow-lite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy Mobile com TensorFlow Lite
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-com-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy com Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#casos-de-uso-reais" class="md-nav__link">
+    <span class="md-ellipsis">
+      Casos de Uso Reais
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Casos de Uso Reais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deteccao-de-buracos-na-estrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecção de Buracos na Estrada
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitoramento-de-seguranca-industrial" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitoramento de Segurança Industrial
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sistema-de-monitoramento-de-trafego" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sistema de Monitoramento de Tráfego
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contexto-historico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contexto Histórico
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>Teoria - YOLO</h1>
+
+<h2 id="yolo">YOLO<a class="headerlink" href="#yolo" title="Permanent link">&para;</a></h2>
+<p><strong>YOLO não é apenas "mais um algoritmo"</strong> - é o <strong>padrão da indústria</strong> para detecção de objetos em tempo real:</p>
+<h3 id="relevancia-profissional-imediata">Relevância Profissional Imediata:<a class="headerlink" href="#relevancia-profissional-imediata" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>90% das vagas</strong> em Computer Vision mencionam YOLO</li>
+<li><strong>Padrão industrial</strong> para aplicações em tempo real</li>
+<li><strong>Facilidade de deployment</strong> em produção</li>
+<li><strong>Comunidade ativa</strong> e suporte comercial robusto (Ultralytics)</li>
+</ul>
+<h3 id="vantagens-competitivas-do-yolo-atual">Vantagens Competitivas do YOLO Atual:<a class="headerlink" href="#vantagens-competitivas-do-yolo-atual" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Velocidade:</strong> 30-300+ FPS (tempo real garantido)</li>
+<li><strong>Precisão:</strong> Estado da arte (55%+ mAP no COCO)</li>
+<li><strong>Simplicidade:</strong> Uma linha de código para detecção</li>
+<li><strong>Versatilidade:</strong> Detecção, segmentação, pose, tracking unificados</li>
+</ul>
+<h3 id="documentacao-oficial"><strong>Documentação Oficial:</strong><a class="headerlink" href="#documentacao-oficial" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Ultralytics Docs:</strong> <a href="https://docs.ultralytics.com/">https://docs.ultralytics.com/</a></li>
+<li><strong>GitHub:</strong> <a href="https://github.com/ultralytics/ultralytics">https://github.com/ultralytics/ultralytics</a></li>
+<li><strong>Google Colab Examples:</strong> <a href="https://colab.research.google.com/github/ultralytics/ultralytics/">https://colab.research.google.com/github/ultralytics/ultralytics/</a></li>
+</ul>
+<h2 id="yolo-hoje-o-que-voce-precisa-saber">YOLO Hoje: O que Você Precisa Saber<a class="headerlink" href="#yolo-hoje-o-que-voce-precisa-saber" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>YOLOv8/v9/v10/v11 (Versões Atuais - Use Estas!):
+├── Anchor-free design (mais simples)
+├── Multi-task unified (detecção + segmentação + pose + classificação)
+├── API Python intuitiva (Ultralytics)
+├── Deploy ready (mobile, edge, cloud)
+└── NMS-free em v10+ (ainda mais rápido)
+</code></pre></div>
+<h3 id="filosofia-central-imutavel-desde-2015">Filosofia Central (Imutável desde 2015)<a class="headerlink" href="#filosofia-central-imutavel-desde-2015" title="Permanent link">&para;</a></h3>
+<p>O YOLO resolve o problema fundamental da detecção de objetos com uma abordagem elegante:</p>
+<blockquote>
+<p><strong>"Analise a imagem inteira uma única vez e preveja simultaneamente onde estão TODOS os objetos"</strong></p>
+</blockquote>
+<h4 id="comparacao-visual-por-que-yolo-venceu">Comparação Visual - Por que YOLO Venceu:<a class="headerlink" href="#comparacao-visual-por-que-yolo-venceu" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>❌ Método Tradicional (Lento):
+Imagem → 1000s de Regiões → Classificar cada uma → Combinar resultados
+         (muito lento)        (redundante)         (complexo)
+
+✅ Método YOLO (Rápido):
+Imagem → Análise Única → Todas as Detecções Simultâneas
+         (eficiente)     (direto)
+</code></pre></div>
+<h3 id="familia-yolov8">Família YOLOv8<a class="headerlink" href="#familia-yolov8" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>┌─────────────┬─────────┬─────────┬──────────┐
+│   Modelo    │  mAP    │   FPS   │  Params  │
+├─────────────┼─────────┼─────────┼──────────┤
+│  YOLOv8n    │  37.3%  │  165+   │   3.2M   │
+│  YOLOv8s    │  44.9%  │  120    │  11.2M   │
+│  YOLOv8m    │  50.2%  │   90    │  25.9M   │
+│  YOLOv8l    │  52.9%  │   65    │  43.7M   │
+│  YOLOv8x    │  53.9%  │   45    │  68.2M   │
+└─────────────┴─────────┴─────────┴──────────┘
+</code></pre></div>
+<p><strong>Recomendação Prática:</strong>
+- <strong>Mobile/IoT:</strong> Use YOLOv8n
+- <strong>Desenvolvimento:</strong> Use YOLOv8s 
+- <strong>Produção:</strong> Use YOLOv8m
+- <strong>Alta Precisão:</strong> Use YOLOv8l/x</p>
+<h2 id="arquitetura-atual-simplificada">Arquitetura Atual Simplificada<a class="headerlink" href="#arquitetura-atual-simplificada" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>┌─────────────┐
+│   INPUT     │ ← Imagem 640×640 (padrão)
+│   IMAGE     │
+└─────────────┘
+       ↓
+┌─────────────┐
+│  BACKBONE   │ ← Extração de features hierárquicas
+│ (CSPDarknet)│   • P3: 80×80 (objetos pequenos)
+│             │   • P4: 40×40 (objetos médios)  
+│             │   • P5: 20×20 (objetos grandes)
+└─────────────┘
+       ↓
+┌─────────────┐
+│    NECK     │ ← Fusão multi-escala (PANet)
+│  (PANet)    │   Combina informações de todas as escalas
+└─────────────┘
+       ↓
+┌─────────────┐
+│    HEAD     │ ← Predições finais (Anchor-free)
+│ (Decoupled) │   • Classificação
+│             │   • Regressão (coordenadas)
+└─────────────┘
+       ↓
+┌─────────────┐
+│   OUTPUT    │ ← [x, y, w, h, conf, class_probs]
+│ DETECTIONS  │
+└─────────────┘
+</code></pre></div>
+<h3 id="como-funciona-o-processamento">Como Funciona o Processamento<a class="headerlink" href="#como-funciona-o-processamento" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">yolo_process_simplified</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processamento YOLO moderno simplificado</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 1. Entrada</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>  <span class="c1"># 640×640×3</span>
+
+    <span class="c1"># 2. Backbone: Extração de features</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;P3&#39;</span><span class="p">:</span> <span class="n">backbone</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>  <span class="c1"># 80×80×256</span>
+        <span class="s1">&#39;P4&#39;</span><span class="p">:</span> <span class="n">backbone</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>  <span class="c1"># 40×40×512</span>
+        <span class="s1">&#39;P5&#39;</span><span class="p">:</span> <span class="n">backbone</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># 20×20×1024</span>
+    <span class="p">}</span>
+
+    <span class="c1"># 3. Neck: Fusão multi-escala</span>
+    <span class="n">fused_features</span> <span class="o">=</span> <span class="n">neck</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="c1"># 4. Head: Predições</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">head</span><span class="p">(</span><span class="n">fused_features</span><span class="p">)</span>
+
+    <span class="c1"># 5. Pós-processamento</span>
+    <span class="n">detections</span> <span class="o">=</span> <span class="n">nms</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">conf_threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.45</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">detections</span>
+</code></pre></div>
+<h2 id="implementacao-pratica-imediata">Implementação Prática Imediata<a class="headerlink" href="#implementacao-pratica-imediata" title="Permanent link">&para;</a></h2>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Instalar Ultralytics (versão atual)</span>
+pip<span class="w"> </span>install<span class="w"> </span>ultralytics
+
+<span class="c1"># Verificar instalação</span>
+yolo<span class="w"> </span>version
+</code></pre></div>
+<h3 id="deteccao-em-3-linhas-de-codigo">Detecção em 3 Linhas de Código<a class="headerlink" href="#deteccao-em-3-linhas-de-codigo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span>
+
+<span class="c1"># Carregar modelo pré-treinado</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>  <span class="c1"># Download automático na primeira vez</span>
+
+<span class="c1"># Detectar objetos</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="s1">&#39;sua_imagem.jpg&#39;</span><span class="p">)</span>
+
+<span class="c1"># Visualizar resultados</span>
+<span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># Mostra imagem com detecções</span>
+</code></pre></div>
+<h3 id="deteccao-em-webcam-tempo-real">Detecção em Webcam (Tempo Real)<a class="headerlink" href="#deteccao-em-webcam-tempo-real" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>
+<span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">ret</span><span class="p">,</span> <span class="n">frame</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="c1"># Detecção em tempo real</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="c1"># Desenhar detecções</span>
+        <span class="n">annotated_frame</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">&#39;YOLO Webcam&#39;</span><span class="p">,</span> <span class="n">annotated_frame</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+        <span class="k">break</span>
+
+<span class="n">cap</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="processamento-de-video">Processamento de Vídeo<a class="headerlink" href="#processamento-de-video" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Processar vídeo completo</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8s.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Processar e salvar</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="s1">&#39;video_input.mp4&#39;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># Ou processar frame por frame com controle</span>
+<span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">model</span><span class="p">(</span><span class="s1">&#39;video_input.mp4&#39;</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># Processar cada frame</span>
+    <span class="n">detections</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span>
+    <span class="k">if</span> <span class="n">detections</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">detections</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classe: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="p">)]</span><span class="si">}</span><span class="s2">, Confiança: </span><span class="si">{</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="treinamento-personalizado">Treinamento Personalizado<a class="headerlink" href="#treinamento-personalizado" title="Permanent link">&para;</a></h2>
+<h3 id="estrutura-do-dataset-yolo">Estrutura do Dataset YOLO<a class="headerlink" href="#estrutura-do-dataset-yolo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>meu_dataset/
+├── images/
+│   ├── train/
+│   │   ├── img001.jpg
+│   │   └── img002.jpg
+│   └── val/
+│       ├── img003.jpg
+│       └── img004.jpg
+├── labels/
+│   ├── train/
+│   │   ├── img001.txt  # Anotações YOLO format
+│   │   └── img002.txt
+│   └── val/
+│       ├── img003.txt
+│       └── img004.txt
+└── data.yaml  # Configuração do dataset
+</code></pre></div>
+<h3 id="formato-de-anotacao-yolo">Formato de Anotação YOLO<a class="headerlink" href="#formato-de-anotacao-yolo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code># Cada linha no arquivo .txt representa um objeto:
+# class_id x_center y_center width height
+# (todas as coordenadas normalizadas 0-1)
+
+0 0.5 0.3 0.2 0.4    # Pessoa no centro-superior
+1 0.8 0.7 0.15 0.25  # Carro no canto inferior direito
+</code></pre></div>
+<h3 id="arquivo-de-configuracao-datayaml">Arquivo de Configuração (data.yaml)<a class="headerlink" href="#arquivo-de-configuracao-datayaml" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># data.yaml</span>
+<span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/caminho/para/meu_dataset</span>
+<span class="nt">train</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">images/train</span>
+<span class="nt">val</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">images/val</span>
+
+<span class="nt">names</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">0</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pessoa</span>
+<span class="w">  </span><span class="nt">1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">carro</span>
+<span class="w">  </span><span class="nt">2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bicicleta</span>
+
+<span class="nt">nc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">  </span><span class="c1"># número de classes</span>
+</code></pre></div>
+<h3 id="treinamento-simplificado">Treinamento Simplificado<a class="headerlink" href="#treinamento-simplificado" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span>
+
+<span class="c1"># Carregar modelo base (transfer learning)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Treinar no seu dataset</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="s1">&#39;data.yaml&#39;</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span>
+    <span class="n">batch</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;meu_modelo&#39;</span><span class="p">,</span>
+    <span class="n">patience</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>      <span class="c1"># Early stopping</span>
+    <span class="n">save_period</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>   <span class="c1"># Salvar checkpoint a cada 10 épocas</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;0&#39;</span>        <span class="c1"># GPU 0, ou &#39;cpu&#39; para CPU</span>
+<span class="p">)</span>
+
+<span class="c1"># Avaliar modelo treinado</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">val</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mAP@0.5: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map50</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mAP@0.5:0.95: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">map</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="monitoramento-com-tensorboard">Monitoramento com TensorBoard<a class="headerlink" href="#monitoramento-com-tensorboard" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Durante o treinamento, os logs são salvos automaticamente</span>
+<span class="c1"># Visualizar com TensorBoard:</span>
+<span class="c1"># tensorboard --logdir runs/detect/meu_modelo</span>
+
+<span class="c1"># Ou acessar métricas programaticamente:</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;runs/detect/meu_modelo/results.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results_df</span><span class="p">[[</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;train/box_loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/box_loss&#39;</span><span class="p">,</span> <span class="s1">&#39;metrics/mAP50(B)&#39;</span><span class="p">]])</span>
+</code></pre></div>
+<h2 id="deployment-e-otimizacao">Deployment e Otimização<a class="headerlink" href="#deployment-e-otimizacao" title="Permanent link">&para;</a></h2>
+<h3 id="exportacao-para-producao">Exportação para Produção<a class="headerlink" href="#exportacao-para-producao" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;meu_modelo.pt&#39;</span><span class="p">)</span>
+
+<span class="c1"># Exportar para diferentes formatos</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;onnx&#39;</span><span class="p">)</span>        <span class="c1"># ONNX (recomendado)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;engine&#39;</span><span class="p">)</span>      <span class="c1"># TensorRT (NVIDIA GPUs)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;coreml&#39;</span><span class="p">)</span>      <span class="c1"># Apple devices</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;tflite&#39;</span><span class="p">)</span>      <span class="c1"># Mobile (Android/iOS)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;openvino&#39;</span><span class="p">)</span>    <span class="c1"># Intel hardware</span>
+</code></pre></div>
+<h3 id="otimizacoes-de-performance">Otimizações de Performance<a class="headerlink" href="#otimizacoes-de-performance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Configurações para máxima velocidade</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span>
+    <span class="n">source</span><span class="o">=</span><span class="s1">&#39;input.jpg&#39;</span><span class="p">,</span>
+    <span class="n">imgsz</span><span class="o">=</span><span class="mi">320</span><span class="p">,</span>          <span class="c1"># Menor resolução = mais rápido</span>
+    <span class="n">conf</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>           <span class="c1"># Threshold mais alto = menos detecções</span>
+    <span class="n">iou</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>            <span class="c1"># NMS mais agressivo</span>
+    <span class="n">half</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># Precisão FP16 (GPUs modernas)</span>
+    <span class="n">device</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span>         <span class="c1"># GPU</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>       <span class="c1"># Sem prints desnecessários</span>
+<span class="p">)</span>
+
+<span class="c1"># Para aplicações críticas de velocidade</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>  <span class="c1"># Usar modelo nano</span>
+</code></pre></div>
+<h3 id="deploy-mobile-com-tensorflow-lite">Deploy Mobile com TensorFlow Lite<a class="headerlink" href="#deploy-mobile-com-tensorflow-lite" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Exportar para TFLite</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;tflite&#39;</span><span class="p">,</span> <span class="n">imgsz</span><span class="o">=</span><span class="mi">320</span><span class="p">,</span> <span class="n">int8</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Código Android (Kotlin) básico:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">private fun detectObjects(bitmap: Bitmap): List&lt;Detection&gt; {</span>
+<span class="sd">    val inputTensor = preprocessImage(bitmap)</span>
+<span class="sd">    interpreter.run(inputTensor, outputTensor)</span>
+<span class="sd">    return postprocessDetections(outputTensor)</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+<h3 id="deploy-com-docker">Deploy com Docker<a class="headerlink" href="#deploy-com-docker" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># Dockerfile para YOLO</span>
+<span class="k">FROM</span><span class="w"> </span><span class="s">ultralytics/ultralytics:latest</span>
+
+<span class="k">COPY</span><span class="w"> </span>meu_modelo.pt<span class="w"> </span>/app/
+<span class="k">COPY</span><span class="w"> </span>app.py<span class="w"> </span>/app/
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/app</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;app.py&quot;</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="casos-de-uso-reais">Casos de Uso Reais<a class="headerlink" href="#casos-de-uso-reais" title="Permanent link">&para;</a></h2>
+<h3 id="deteccao-de-buracos-na-estrada">Detecção de Buracos na Estrada<a class="headerlink" href="#deteccao-de-buracos-na-estrada" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PotholeDetector</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_custom_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Treinar modelo específico para buracos&quot;&quot;&quot;</span>
+        <span class="c1"># Dataset: https://github.com/michelpf/dataset-pothole</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="s1">&#39;pothole_dataset/data.yaml&#39;</span><span class="p">,</span>
+            <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pothole_detector&#39;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_potholes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">road_image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detectar buracos em imagem de estrada&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">road_image</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">pothole_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">severity_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># classe &#39;buraco&#39;</span>
+                        <span class="n">pothole_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="c1"># Calcular severidade baseada no tamanho</span>
+                        <span class="n">width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">xywh</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">xywh</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="n">area</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
+                        <span class="n">severity_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">pothole_count</span><span class="p">,</span>
+            <span class="s1">&#39;average_severity&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">severity_scores</span><span class="p">)</span> <span class="k">if</span> <span class="n">severity_scores</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;locations&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">box</span><span class="o">.</span><span class="n">xyxy</span> <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="p">}</span>
+
+<span class="c1"># Uso</span>
+<span class="n">detector</span> <span class="o">=</span> <span class="n">PotholeDetector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">detect_potholes</span><span class="p">(</span><span class="s1">&#39;estrada.jpg&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encontrados </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> buracos&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="monitoramento-de-seguranca-industrial">Monitoramento de Segurança Industrial<a class="headerlink" href="#monitoramento-de-seguranca-industrial" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SafetyMonitor</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;safety_model.pt&#39;</span><span class="p">)</span>  <span class="c1"># Modelo treinado para EPIs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_safety_compliance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verificar uso de equipamentos de segurança&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="n">violations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">persons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">helmets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vests</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+                    <span class="n">cls_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="p">)]</span>
+                    <span class="n">coords</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+                    <span class="k">if</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s1">&#39;person&#39;</span><span class="p">:</span>
+                        <span class="n">persons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s1">&#39;helmet&#39;</span><span class="p">:</span>
+                        <span class="n">helmets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s1">&#39;safety_vest&#39;</span><span class="p">:</span>
+                        <span class="n">vests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+        <span class="c1"># Verificar se cada pessoa tem equipamentos</span>
+        <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">persons</span><span class="p">:</span>
+            <span class="n">has_helmet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_nearby_equipment</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">helmets</span><span class="p">)</span>
+            <span class="n">has_vest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_nearby_equipment</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">vests</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_helmet</span><span class="p">:</span>
+                <span class="n">violations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;no_helmet&#39;</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">person</span><span class="p">})</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">has_vest</span><span class="p">:</span>
+                <span class="n">violations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;no_vest&#39;</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">person</span><span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">violations</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_nearby_equipment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_coords</span><span class="p">,</span> <span class="n">equipment_list</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verificar se equipamento está próximo da pessoa&quot;&quot;&quot;</span>
+        <span class="n">person_center</span> <span class="o">=</span> <span class="p">[(</span><span class="n">person_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">person_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> 
+                        <span class="p">(</span><span class="n">person_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">person_coords</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">equipment</span> <span class="ow">in</span> <span class="n">equipment_list</span><span class="p">:</span>
+            <span class="n">equip_center</span> <span class="o">=</span> <span class="p">[(</span><span class="n">equipment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">equipment</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> 
+                           <span class="p">(</span><span class="n">equipment</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">equipment</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="n">distance</span> <span class="o">=</span> <span class="p">((</span><span class="n">person_center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">equip_center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> 
+                       <span class="p">(</span><span class="n">person_center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">equip_center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+<h3 id="sistema-de-monitoramento-de-trafego">Sistema de Monitoramento de Tráfego<a class="headerlink" href="#sistema-de-monitoramento-de-trafego" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TrafficAnalyzer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="s1">&#39;yolov8n.pt&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;car&#39;</span><span class="p">,</span> <span class="s1">&#39;truck&#39;</span><span class="p">,</span> <span class="s1">&#39;bus&#39;</span><span class="p">,</span> <span class="s1">&#39;motorcycle&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">count_vehicles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Contar veículos em vídeo de tráfego&quot;&quot;&quot;</span>
+        <span class="n">vehicle_counts</span> <span class="o">=</span> <span class="p">{</span><span class="bp">cls</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_classes</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">video_path</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+                    <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="p">)]</span>
+                    <span class="k">if</span> <span class="n">class_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vehicle_classes</span><span class="p">:</span>
+                        <span class="n">vehicle_counts</span><span class="p">[</span><span class="n">class_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">vehicle_counts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_traffic_violations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detectar possíveis violações de trânsito&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">violations</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Exemplo: detectar veículos em área proibida</span>
+        <span class="n">prohibited_zone</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>  <span class="c1"># x1, y1, x2, y2</span>
+
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
+                    <span class="n">vehicle_coords</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_in_zone</span><span class="p">(</span><span class="n">vehicle_coords</span><span class="p">,</span> <span class="n">prohibited_zone</span><span class="p">):</span>
+                        <span class="n">violations</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;prohibited_zone&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;vehicle&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="p">)],</span>
+                            <span class="s1">&#39;confidence&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="p">),</span>
+                            <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="n">vehicle_coords</span>
+                        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">violations</span>
+</code></pre></div>
+<h2 id="contexto-historico">Contexto Histórico<a class="headerlink" href="#contexto-historico" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Você não precisa implementar do zero desde versão V1. 
+Você precisa <strong>usar</strong> YOLO efetivamente. O contexto histórico serve apenas para <strong>entender por que</strong> YOLO é dominante hoje.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>2015: YOLOv1 - &quot;Eureka moment&quot;
+├── Primeira detecção em tempo real real
+└── Mudou paradigma da área forever
+
+2018: YOLOv3 - &quot;Consolidação&quot;
+├── Multi-scale detection
+└── Tornou-se padrão industrial
+
+2020: YOLOv5 - &quot;Democratização&quot;  
+├── PyTorch implementation
+├── API amigável (Ultralytics)
+└── Adoção massiva
+
+2023: YOLOv8 - &quot;Unificação&quot;
+├── Multi-task (detection + segmentation + pose)
+├── Anchor-free simplification
+└── Estado atual da arte
+
+2025: YOLOv12 - &quot;Estado da arte&quot;
+└── Estado atual da arte
+</code></pre></div>
+<p><strong>Agora você tem tudo que precisa para dominar YOLO. Hora de praticar!</strong></p>
+<ul>
+<li><a href="../yolo/">Notebook 1</a></li>
+<li><a href="../yolo1/">Notebook 2</a></li>
+<li><a href="../yolo2/">Notebook 3</a></li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 25, 2025 22:00:22 UTC">September 25, 2025</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js"></script>
+      
+        <script src="../../../../search/main.js"></script>
+      
+    
+  </body>
+</html>
