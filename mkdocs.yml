@@ -146,8 +146,8 @@ nav:
         - Lab06 - Transfer Learning: aulas/IA/lab09/transferlearning.ipynb
     - Redes Avançadas:
         - Teoria - YOLO: aulas/IA/lab11/teoria_yolo.md
-        - Lab07 - YOLO - pré-treinada: aulas/IA/lab11/yolo.ipynb
-        - Lab08 - YOLO - Fine-tuning: aulas/IA/lab11/yolo1.ipynb
-        - Lab09 - YOLO - treinamento: aulas/IA/lab11/yolo2.ipynb
+        - Lab07 - YOLO - Básico: aulas/IA/lab11/yolo.ipynb
+        - Lab08 - YOLO - Multi-tarefa: aulas/IA/lab11/yolo1.ipynb
+        - Lab09 - YOLO - Treinamento customizado: aulas/IA/lab11/yolo2.ipynb
     - Deploy:
         - Lab12 - Deploy de Modelos: aulas/IA/lab12/readme.md
