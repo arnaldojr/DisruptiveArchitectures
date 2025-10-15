@@ -1,35 +1,42 @@
-## YOLO
+## YOLO - You Only Look Once
 
-**YOLO não é apenas "mais um algoritmo"** - é o **padrão da indústria** para detecção de objetos em tempo real:
+- [Notebook 1](yolo.ipynb)
+- [Notebook 2](yolo1.ipynb)
+- [Notebook 3](yolo2.ipynb)
 
-### Relevância Profissional Imediata:
-- **90% das vagas** em Computer Vision mencionam YOLO
-- **Padrão industrial** para aplicações em tempo real
-- **Facilidade de deployment** em produção
-- **Comunidade ativa** e suporte comercial robusto (Ultralytics)
 
-### Vantagens Competitivas do YOLO Atual:
-- **Velocidade:** 30-300+ FPS (tempo real garantido)
-- **Precisão:** Estado da arte (55%+ mAP no COCO)
-- **Simplicidade:** Uma linha de código para detecção
-- **Versatilidade:** Detecção, segmentação, pose, tracking unificados
+Modelo popular de detecção de objetos e segmentação de imagens, foi desenvolvido por Joseph Redmon e Ali Farhadi na Universidade de Washington. Lançado em 2015, o YOLO ganhou popularidade por sua alta velocidade e precisão.
+
+> Você não precisa implementar do zero desde versão V1. 
+> Você precisa **usar** YOLO efetivamente. O contexto histórico serve apenas para **entender por que** YOLO é dominante hoje.
+
+```
+2015: YOLOv1 - "Eureka moment"
+├── Primeira detecção em tempo real real
+└── Mudou paradigma da área forever
+
+2018: YOLOv3 - "Consolidação"
+├── Multi-scale detection
+└── Tornou-se padrão industrial
+
+2020: YOLOv5 - "Democratização"  
+├── PyTorch implementation
+├── API amigável (Ultralytics)
+└── Adoção massiva
+
+2023: YOLOv8 - "Unificação"
+├── Multi-task (detection + segmentation + pose)
+├── Anchor-free simplification
+└── Estado atual da arte
+
+2025: YOLOv12 - "Estado da arte"
+└── Estado atual da arte
+```
 
 ### **Documentação Oficial:**
 - **Ultralytics Docs:** https://docs.ultralytics.com/
 - **GitHub:** https://github.com/ultralytics/ultralytics
 - **Google Colab Examples:** https://colab.research.google.com/github/ultralytics/ultralytics/
-
-
-## YOLO Hoje: O que Você Precisa Saber
-
-```
-YOLOv8/v9/v10/v11 (Versões Atuais - Use Estas!):
-├── Anchor-free design (mais simples)
-├── Multi-task unified (detecção + segmentação + pose + classificação)
-├── API Python intuitiva (Ultralytics)
-├── Deploy ready (mobile, edge, cloud)
-└── NMS-free em v10+ (ainda mais rápido)
-```
 
 ### Filosofia Central (Imutável desde 2015)
 
@@ -37,38 +44,19 @@ O YOLO resolve o problema fundamental da detecção de objetos com uma abordagem
 
 > **"Analise a imagem inteira uma única vez e preveja simultaneamente onde estão TODOS os objetos"**
 
-#### Comparação Visual - Por que YOLO Venceu:
-
-```
-❌ Método Tradicional (Lento):
-Imagem → 1000s de Regiões → Classificar cada uma → Combinar resultados
-         (muito lento)        (redundante)         (complexo)
-
-✅ Método YOLO (Rápido):
-Imagem → Análise Única → Todas as Detecções Simultâneas
-         (eficiente)     (direto)
-```
-
 ### Família YOLOv8
 
 ```
 ┌─────────────┬─────────┬─────────┬──────────┐
 │   Modelo    │  mAP    │   FPS   │  Params  │
 ├─────────────┼─────────┼─────────┼──────────┤
-│  YOLOv8n    │  37.3%  │  165+   │   3.2M   │
-│  YOLOv8s    │  44.9%  │  120    │  11.2M   │
-│  YOLOv8m    │  50.2%  │   90    │  25.9M   │
-│  YOLOv8l    │  52.9%  │   65    │  43.7M   │
-│  YOLOv8x    │  53.9%  │   45    │  68.2M   │
+│  YOLOv8`n`    │  37.3%  │  165+   │   3.2M   │
+│  YOLOv8`s`    │  44.9%  │  120    │  11.2M   │
+│  YOLOv8`m`    │  50.2%  │   90    │  25.9M   │
+│  YOLOv8`l`    │  52.9%  │   65    │  43.7M   │
+│  YOLOv8`x`    │  53.9%  │   45    │  68.2M   │
 └─────────────┴─────────┴─────────┴──────────┘
 ```
-
-**Recomendação Prática:**
-- **Mobile/IoT:** Use YOLOv8n
-- **Desenvolvimento:** Use YOLOv8s 
-- **Produção:** Use YOLOv8m
-- **Alta Precisão:** Use YOLOv8l/x
-
 
 ## Arquitetura Atual Simplificada
 
@@ -101,37 +89,6 @@ Imagem → Análise Única → Todas as Detecções Simultâneas
 │ DETECTIONS  │
 └─────────────┘
 ```
-
-### Como Funciona o Processamento
-
-```python
-def yolo_process_simplified():
-    """
-    Processamento YOLO moderno simplificado
-    """
-    # 1. Entrada
-    image = preprocess(input_image)  # 640×640×3
-    
-    # 2. Backbone: Extração de features
-    features = {
-        'P3': backbone(image, level=3),  # 80×80×256
-        'P4': backbone(image, level=4),  # 40×40×512
-        'P5': backbone(image, level=5)   # 20×20×1024
-    }
-    
-    # 3. Neck: Fusão multi-escala
-    fused_features = neck(features)
-    
-    # 4. Head: Predições
-    predictions = head(fused_features)
-    
-    # 5. Pós-processamento
-    detections = nms(predictions, conf_threshold=0.25, iou_threshold=0.45)
-    
-    return detections
-```
-
-## Implementação Prática Imediata
 
 ### Setup 
 
@@ -187,25 +144,9 @@ cap.release()
 cv2.destroyAllWindows()
 ```
 
-### Processamento de Vídeo
-
-```python
-# Processar vídeo completo
-model = YOLO('yolov8s.pt')
-
-# Processar e salvar
-results = model('video_input.mp4', save=True, conf=0.3)
-
-# Ou processar frame por frame com controle
-for result in model('video_input.mp4', stream=True):
-    # Processar cada frame
-    detections = result.boxes
-    if detections is not None:
-        for box in detections:
-            print(f"Classe: {model.names[int(box.cls)]}, Confiança: {box.conf:.2f}")
-```
-
 ## Treinamento Personalizado
+
+Podemos realizar um treinamento customizado para uma determinada classe de objetos que queremos detectar, por meio de "transfer learning", para isso precisamos basicamente que o dataset seja montado da seguinte forma:
 
 ### Estrutura do Dataset YOLO
 
@@ -241,6 +182,8 @@ meu_dataset/
 
 ### Arquivo de Configuração (data.yaml)
 
+O arquivo `.yaml` possui as diretivas de configuração para o treinamento do modelo, deve ser passado o caminho para os dados e as classes
+
 ```yaml
 # data.yaml
 path: /caminho/para/meu_dataset
@@ -255,7 +198,7 @@ names:
 nc: 3  # número de classes
 ```
 
-### Treinamento Simplificado
+### Treinamento 
 
 ```python
 from ultralytics import YOLO
@@ -281,7 +224,7 @@ print(f"mAP@0.5: {metrics.box.map50}")
 print(f"mAP@0.5:0.95: {metrics.box.map}")
 ```
 
-### Monitoramento com TensorBoard
+<!-- ### Monitoramento com TensorBoard
 
 ```python
 # Durante o treinamento, os logs são salvos automaticamente
@@ -293,7 +236,7 @@ import pandas as pd
 
 results_df = pd.read_csv('runs/detect/meu_modelo/results.csv')
 print(results_df[['epoch', 'train/box_loss', 'val/box_loss', 'metrics/mAP50(B)']])
-```
+``` -->
 
 ## Deployment e Otimização
 
@@ -310,7 +253,7 @@ model.export(format='tflite')      # Mobile (Android/iOS)
 model.export(format='openvino')    # Intel hardware
 ```
 
-### Otimizações de Performance
+<!-- ### Otimizações de Performance
 
 ```python
 # Configurações para máxima velocidade
@@ -326,9 +269,9 @@ results = model(
 
 # Para aplicações críticas de velocidade
 model = YOLO('yolov8n.pt')  # Usar modelo nano
-```
+``` -->
 
-### Deploy Mobile com TensorFlow Lite
+<!-- ### Deploy Mobile com TensorFlow Lite
 
 ```python
 # Exportar para TFLite
@@ -357,9 +300,9 @@ WORKDIR /app
 EXPOSE 8000
 
 CMD ["python", "app.py"]
-```
+``` -->
 
-## Casos de Uso Reais
+<!-- ## Casos de Uso Reais
 
 ### Detecção de Buracos na Estrada
 
@@ -511,40 +454,6 @@ class TrafficAnalyzer:
         return violations
 ```
 
+ -->
 
 
-
-## Contexto Histórico
-
-> Você não precisa implementar do zero desde versão V1. 
-> Você precisa **usar** YOLO efetivamente. O contexto histórico serve apenas para **entender por que** YOLO é dominante hoje.
-
-```
-2015: YOLOv1 - "Eureka moment"
-├── Primeira detecção em tempo real real
-└── Mudou paradigma da área forever
-
-2018: YOLOv3 - "Consolidação"
-├── Multi-scale detection
-└── Tornou-se padrão industrial
-
-2020: YOLOv5 - "Democratização"  
-├── PyTorch implementation
-├── API amigável (Ultralytics)
-└── Adoção massiva
-
-2023: YOLOv8 - "Unificação"
-├── Multi-task (detection + segmentation + pose)
-├── Anchor-free simplification
-└── Estado atual da arte
-
-2025: YOLOv12 - "Estado da arte"
-└── Estado atual da arte
-```
-
-
-**Agora você tem tudo que precisa para dominar YOLO. Hora de praticar!**
-
-- [Notebook 1](yolo.ipynb)
-- [Notebook 2](yolo1.ipynb)
-- [Notebook 3](yolo2.ipynb)

@@ -20,6 +20,12 @@ Projeto exemplo de treinamento, exportação e deploy de um modelo MNIST com Ten
 ├── teste.py              # Script Python para testar a API REST
 └── test_inference.ipynb  # (Opcional) Notebook de teste via API REST
 ```
+Faça o download dos arquivos do projeto: 
+
+- [arquivo main.py](main.py)
+- [arquivo teste.py](teste.py)
+- [arquivo inferencia.ipynb](inferencia.ipynb)
+
 
 ## 1. Treinando e exportando o modelo
 
