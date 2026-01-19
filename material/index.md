@@ -1,37 +1,55 @@
-# Bem vindo disciplina de Disruptive Architectures: IA e IoT
+# Disruptive Architectures: IA e IoT
 
-Olá pessoal, bem vindos!! Nesta página você irá encontrar os conteúdos ministrados em sala de aula assim como dicas,atividades, laborórios e muito mais. 
 
-- Curso: Tecnologia de Desenvolvimento de Sistemas
-- Disciplina: Disruptive Architectures: IA e IoT
-- Turmas 2025: 2TDSA, 2TDSB
-- Repositório com todos os arquivos está disponivel em: [https://github.com/arnaldojr/DisruptiveArchitectures/](https://github.com/arnaldojr/DisruptiveArchitectures/)
+Olá pessoal, bem-vindos!  
+Nesta página você encontrará os conteúdos da disciplina (atividades, laboratórios, materiais de apoio, dicas e referências) organizados para estudo e acompanhamento das aulas.
 
-Prof. Arnaldo Viana
+- **Curso:** Tecnologia em Desenvolvimento de Sistemas (TDS)  
+- **Disciplina:** Disruptive Architectures: IA e IoT  
+- **Turmas (2026):** 2TDSB e 2TDSPG  
+- **Repositório** com todos os arquivos está disponivel em: [https://github.com/arnaldojr/DisruptiveArchitectures/](https://github.com/arnaldojr/DisruptiveArchitectures/)
 
-## Objetivos
+**Prof. Arnaldo Viana**
 
-Nosso curso está dividido em IA e IoT, ao final da disciplina o estudante será capaz de:
+---
 
-- Compreender os conceitos de Análise de dados, Machine Learning (ML) e Deep Learning (DL)
-- Aplicar conceitos e técnicas de DL
-- Desenvolver pequenos projetos envolvendo IA.
-- Compreender o conceitos de sistemas baseados em IoT (Internet das Coisas)
-- Conhecer as principais tecnologias habilitadoras da IoT
-- Programar e desenvolver pequenos projetos de IoT
+
+## Objetivos de aprendizagem
+
+Ao final da disciplina, o estudante será capaz de:
+
+### Inteligência Artificial (Deep Learning e IA Generativa)
+
+- Explicar os fundamentos de Deep Learning e IA Generativa, reconhecendo **quando** cada abordagem é adequada.
+- Preparar dados e construir pipelines simples de treino/validação.
+- Treinar e avaliar modelos (métricas, overfitting, validação, interpretação de resultados).
+- Desenvolver projetos envolvendo IA.
+
+### Internet das Coisas (IoT)
+
+- Compreender os conceitos essenciais de IoT (sensores/atuadores, conectividade, protocolos e arquitetura).
+- Identificar tecnologias habilitadoras e trade-offs (latência, energia, custo, conectividade).
+- Programar e integrar componentes para construir protótipos IoT (aquisição de dados, comunicação e automação).
+
+
+---
+
 
 ## O que preciso ter/saber para acompanhar esse curso?
 
-- Lógica de programação
-- Python básico
-- Algebra linear
-- Dedicação
+- **Lógica de programação**
+- **Python básico**
+- **Algebra linear**
+- **Vontade de praticar**: a disciplina é orientada a desafios e laboratórios
+
+---
 
 ## Dinâmica das aulas:
 
-O curso é baseadas em desafios (exercicios, atividades, pesquisa e etc.) que abordam teoria e prática.
+O curso é **baseado em desafios** (exercícios, atividades práticas e pequenas pesquisas) que conectam teoria e prática.
 
-Por essa razão as aulas estão divididas em pequenos laboratórios, cada laboratório possui os seus objetivos especificos. 
+As aulas são divididas em **laboratórios curtos**, cada um com objetivos específicos e uma entrega clara (código ou notebook).
+
 
 ![](imgs/teoria-pratica.png)
 
@@ -45,17 +63,13 @@ Como sugestão de instalação local:
 * [Python 3.x](https://www.python.org).
 * [Jupyter Notebook](https://www.jupyter.org).
 * [Anaconda](https://www.anaconda.com).
+* [Arduino IDE](http://www.arduino.cc)
 
 Em nuvem:
 
 * [Google Colab](https://colab.research.google.com).
 * [Kaggle](https://kaggle.com).
 
-
-
-## Idéias de projetos
-
-As aplicações são vastas e diversas... Para ajudar a despertar a curiosidade, pense de que forma podemos utilizar ML para resolver um problema do nosso dia a dia.
 
 ## Bibliografia
 

@@ -107,3 +107,15 @@ a[data-terminal-control] {
       opacity: 0;
   }
 }
+
+
+/* Esconde a coluna da direita (TOC) em todas as páginas, inclusive notebooks */
+.md-sidebar--secondary {
+  display: none !important;
+}
+
+/* Expande o conteúdo para ocupar melhor a largura */
+.md-content__inner,
+.md-grid {
+  max-width: 100% !important;
+}

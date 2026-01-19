@@ -1,5 +1,31 @@
 
-## Cronograma 2º Semestre - 2025
+
+### Cronograma 1º Semestre - 2026
+
+
+| 1º Semestre — Conteúdo (IoT)                                                                                    | 2TDSB<br>Quarta-Feira | 2TDSPG<br>Sexta-Feira |
+| --------------------------------------------------------------------------------------------------------------- | --------------------- | --------------------- |
+| **Aula Magna**<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP)                             | 11/02/2026            | 13/02/2026            |
+| **Hardware e Programação Básica do ESP32**<br>IDE, GPIO, PWM, debounce, Sleep Mode.                             | 25/02/2026            | 20/02/2026            |
+| **Sensores e Atuadores**<br>Bibliotecas, Sensores (Digitais/Analógicos), ADC, Atuadores, smoothing              | 04/03/2026            | 27/02/2026            |
+| **Comunicação Serial + Protocolo local**<br>Serial para diagnóstico, recebimento de comando                     | 11/03/2026            | 06/03/2026            |
+| **CP1 — Avaliação em aula**<br>**Sistemas Embarcados Básico** (sensor + atuador + robustez + debug serial)      | 18/03/2026            | 13/03/2026            |
+| **Wi-Fi no ESP32 + fundamentos de rede**<br>conexão/reconexão, IP, falhas comuns, timeout                       | 25/03/2026            | 20/03/2026            |
+| **WebServer no ESP32 (HTTP)**<br>HTML simples, endpoints básicos (/status, /actuate)                            | 01/04/2026            | 27/03/2026            |
+| **REST + JSON**<br>contrato de dados, validação básica, testes (curl/Postman)                                   | 08/04/2026            | 10/04/2026            |
+| **MQTT**<br>broker, pub/sub, tópicos, QoS, retained, LWT                                                        | 15/04/2026            | 17/04/2026            |
+| **Gateway IoT com Node-RED**<br>flows, regras, bridge HTTP↔MQTT, normalização de payload                        | 22/04/2026            | 24/04/2026            |
+| **Dashboards + Persistência mínima**<br>dashboard (Node-RED) + armazenamento simples (CSV/SQLite)               | 29/04/2026            | 24/04/2026            |
+| **CP2 — Avaliação em aula**<br>**Sistema IoT** (device + rede + gateway + dashboard funcional)                  | 06/05/2026            | 08/05/2026            |
+| **Kickoff do CP3 (Projeto IoT)**<br>proposta, requisitos, arquitetura, DoD, divisão de tarefas                  | 13/05/2026            | 15/05/2026            |
+| **CP3 — Apresentação do Projeto IoT**<br>demo + perguntas técnicas + documentação                               | 20/05/2026            | 22/05/2026            |
+
+
+
+
+
+
+<!-- ## Cronograma 2º Semestre - 2025
 
 | Semana    | Segundo Semestre - Conteúdo                                       | 2TDSB/2TDSA<br>Quarta-Feira  |
 | --------- | ----------------------------------------------------------------- | ------------ |
@@ -21,42 +47,4 @@
 
 
 
-## O que já passou...
-
-### Cronograma 1º Semestre - 2025
-
-
-| Semana    | Primeirto Semestre - Conteúdo                                            | 2TDSB/2TDSA<br>Quarta-Feira |
-| --------- | ------------------------------------------------------------------------ | --------------------- |
-| 1  | Aula Magna<br>Apresentação do curso, dinâmica das aulas, datas importantes (CP) | 12/02/2025            |
-| 2  | lab00, conceitos de eletrônica básica, conceitos de programação C e arduino     | 19/02/2025            |
-| 3  |  aula estudio                                                                   | 26/02/2025            |
-| 4  | CP1 - conceitos de eletrônica básica, conceitos de programação C e arduino      | 05/03/2025            |
-| 5  | lab 01                                                                          | 12/03/2025            |
-| 6  | lab 02                                                                          | 19/03/2025            |
-| 7  | lab 03                                                                          | 26/03/2025            |
-| 8  | lab 04                                                                          | 02/04/2025            |
-| 9  | lab 04                                                                          | 09/04/2025            |
-| 10 | CP2 - Programação Arduino                                                       | 16/04/2025            |
-| 11 | lab 05 e lab6 ab 05  Integração de sistemas com node-red                        | 23/04/2025            |
-| 12 | lab 07                                                                          | 30/04/2025            |
-| 13 | CP3 - Integração de sistemas com node-red                                       | 07/05/2025            |
-| 14 | integração IA e IoT                                                             | 14/05/2025            |
-| 15 | integração IA e IoT                                                             | 21/05/2025            |
-| 16 | Prova GS                                                                        | 28/05/2025            |
-
- 
-
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-
+## O que já passou... -->

@@ -1,25 +1,63 @@
 site_name: Disruptive Architectures
 site_author: Arnaldo Viana 
 
-
-extra:  
-    materia: Disruptive Architectures - IA e IoT
-    professor: Arnaldo Viana
-    ano: 2025
-
-theme:
-  feature:
-    tabs: true
-  name: active-handout
-  #custom_dir: overrides
+repo_url: https://github.com/arnaldojr/DisruptiveArchitectures/
+site_url: https://arnaldojr.github.io/DisruptiveArchitectures/
+repo_name: "Disruptive Architectures"
 
 docs_dir: material
 site_dir: docs
 
-repo_url: https://github.com/arnaldojr/DisruptiveArchitectures/
-repo_name: "Disruptive Architectures"
-site_url: https://arnaldojr.github.io/DisruptiveArchitectures/
+extra:  
+    materia: Disruptive Architectures - IA e IoT
+    professor: Arnaldo Viana
+    ano: 2026
 
+theme:
+  name: material
+  palette:
+    # Palette toggle for system
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - announce.dismiss
+    - navigation.tabs
+    - navigation.top
+    - navigation.instant
+    - navigation.indexes
+    - navigation.path
+    - navigation.footer
+    # - toc.follow
+    - content.tabs.link
+    - search.share
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+    - content.code.annotations
 
 # Extensions / plugins
 
@@ -27,67 +65,59 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-  - https://cdn.jsdelivr.net/gh/insper-education/active-handout-plugins-js@main/package/plugin-bundle.js
 
-extra:
-  ihandout_config:
-#    counter:
-#      - question
-#      - tip
-#      - exercise
-#      - example
-    report:
-      api-base: https://devlife.insper-comp.com.br/api/offerings/1/
-      url: https://devlife.insper-comp.com.br/api/offerings/1/exercises/
+extra_css:
+ - css/termynal.css
 
 # Extensions / plugins
 plugins:
-  - git-revision-date-localized
   - search
   - mkdocs-jupyter:
-      use_directory_urls: false
       include_source: True
       execute: False
-
-extra_css:
-#  - css/termynal.css
-  - https://cdn.jsdelivr.net/gh/insper-education/active-handout-css@main/devlife.css
+  
 
 
 markdown_extensions:
-  - markdown.extensions.tables
+  - toc:
+      toc_depth: 0
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
   - tables
-  - markdown.extensions.admonition
-  - markdown.extensions.codehilite:
-      guess_lang: false
-  - markdown.extensions.def_list
-  - markdown.extensions.footnotes
-  - markdown.extensions.meta
-  - markdown.extensions.toc:
-      permalink: true
-  - pymdownx.arithmatex
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.betterem:
       smart_enable: all
   - pymdownx.caret
-  - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
   - pymdownx.inlinehilite
   - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.critic
   - pymdownx.magiclink:
       repo_url_shorthand: true
       user: squidfunk
       repo: mkdocs-material
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
   - pymdownx.snippets:
       base_path: code
       check_paths: true
+  - meta
+
 
 
 nav:
