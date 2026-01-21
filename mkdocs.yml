@@ -131,6 +131,7 @@ nav:
     # - CheckPoint 6: aulas/checkpoint/cp6.md
   
   - 1º Semestre - IoT:
+    - aulas/iot/index.md
     - Introdução: aulas/iot/intro/index.md
     - Arduino:
         - Introdução: aulas/iot/intro/introarduino.md
@@ -156,28 +157,30 @@ nav:
         - Lab06 - Introdução ao Node-RED: aulas/iot/lab6/index.md
         - Lab07 - Fluxos e Dashboards: aulas/iot/lab7/index.md
         - Lab08 - Integração com MQTT: aulas/iot/lab8/index.md
-    - Raspberry Pi:
-        - Lab09 - Introdução à Raspberry Pi: aulas/iot/lab9/index.md
-        - Lab10 - Aplicações IoT com Raspberry: aulas/iot/lab10/index.md
+
+        
+    # - Raspberry Pi:
+    #     - Lab09 - Introdução à Raspberry Pi: aulas/iot/lab9/index.md
+    #     - Lab10 - Aplicações IoT com Raspberry: aulas/iot/lab10/index.md
 
   - 2º Semestre - IA:
     - Introdução: aulas/IA/intro/index.md
-    - Exploração de Dados:
-        - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
-    - Aprendizado Supervisionado:
-        - Lab02 - Classificação: aulas/IA/lab02/classificador-knn.ipynb
-        - Lab03 - Regressão: 
-          - aulas/IA/lab03/regressao.ipynb
-          - aulas/IA/lab03/regressao2.ipynb
-    - Deep Learning:
-        - Lab04 - MLP: aulas/IA/lab07/mlp.ipynb
-        - Lab05 - CNN: aulas/IA/lab08/cnn.ipynb
-    - Transfer Learning:
-        - Lab06 - Transfer Learning: aulas/IA/lab09/transferlearning.ipynb
-    - Redes Avançadas:
-        - Teoria - YOLO: aulas/IA/lab11/teoria_yolo.md
-        - Lab07 - YOLO - Básico: aulas/IA/lab11/yolo.ipynb
-        - Lab08 - YOLO - Multi-tarefa: aulas/IA/lab11/yolo1.ipynb
-        - Lab09 - YOLO - Treinamento customizado: aulas/IA/lab11/yolo2.ipynb
-    - Deploy:
-        - Lab12 - Deploy de Modelos: aulas/IA/lab12/readme.md
+    # - Exploração de Dados:
+    #     - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
+    # - Aprendizado Supervisionado:
+    #     - Lab02 - Classificação: aulas/IA/lab02/classificador-knn.ipynb
+    #     - Lab03 - Regressão: 
+    #       - aulas/IA/lab03/regressao.ipynb
+    #       - aulas/IA/lab03/regressao2.ipynb
+    # - Deep Learning:
+    #     - Lab04 - MLP: aulas/IA/lab07/mlp.ipynb
+    #     - Lab05 - CNN: aulas/IA/lab08/cnn.ipynb
+    # - Transfer Learning:
+    #     - Lab06 - Transfer Learning: aulas/IA/lab09/transferlearning.ipynb
+    # - Redes Avançadas:
+    #     - Teoria - YOLO: aulas/IA/lab11/teoria_yolo.md
+    #     - Lab07 - YOLO - Básico: aulas/IA/lab11/yolo.ipynb
+    #     - Lab08 - YOLO - Multi-tarefa: aulas/IA/lab11/yolo1.ipynb
+    #     - Lab09 - YOLO - Treinamento customizado: aulas/IA/lab11/yolo2.ipynb
+    # - Deploy:
+    #     - Lab12 - Deploy de Modelos: aulas/IA/lab12/readme.md
