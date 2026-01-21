@@ -128,7 +128,7 @@ nav:
     # - CP - Arduino: aulas/checkpoint/cp.md
     # - CP - Correção: aulas/checkpoint/cp-correcao.md
     # - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md
-    - CheckPoint 6: aulas/checkpoint/cp6.md
+    # - CheckPoint 6: aulas/checkpoint/cp6.md
   
   - 1º Semestre - IoT:
     - Introdução: aulas/iot/intro/index.md
