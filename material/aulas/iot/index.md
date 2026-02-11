@@ -1,4 +1,5 @@
 # introduçao IoT
 
 
-esse é o index
+Faça o download do pdf de Introdução.
+> - arquivo pdf: [Introdução](intro/slides.pdf)
