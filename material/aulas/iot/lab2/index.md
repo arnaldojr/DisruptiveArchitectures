@@ -44,55 +44,69 @@ void loop() {
     - O que acontece quando pressiona e solta o botão?
     - ○ O que acontece quando pressiona e segura o botão?
 
-!!! warning 
-    Repare que o seu funcionamento é um pouco lento e as vezes, parece que ele não funciona corretamente. 
+!!! warning "Atenção"
+    Repare que o funcionamento pode parecer “lento” e às vezes o botão “não responde” como você espera.  
+    Isso acontece porque `delay()` **bloqueia o loop** e reduz drasticamente a frequência de leitura.
 
 Showwww agora vamos avançar um pouquinho….
 
 2. Altere o código para funcionar da seguinte forma:
 
-    - Quando pressionar e soltar o botão:
-        - O led muda o seu estado, de apagado para ligado e vice-versa…
-    
-    - Quando pressionar e segurar o botão:
-        - O led muda o seu estado uma única vez. (Se estava ligado, apaga e fica apagado)
+- Ao **pressionar e soltar** o botão (um clique), o LED deve **alternar**:
+  - se estava apagado → acende  
+  - se estava aceso → apaga  
 
-!!! tip
-    Para funcionar corretamente precisamos dominar o conceito de ``debounce de botões``, ele é um conceito importante ao trabalhar com o Arduino ou qualquer microcontrolador. Ele se refere ao processo de evitar leituras falsas ou instáveis quando um botão físico é pressionado ou liberado. Isso é especialmente importante porque os botões mecânicos podem gerar ruídos elétricos durante essas ações, levando a múltiplas leituras em vez de uma única leitura limpa.
-    Existem diversas formas de criar um debounce, vamos seguir boas as boas práticas e implementar o debounce com a função ``millis()``, como no exemplo abaixo. Note que esse código é parte da solução e não a solução completa, você precisa entender e ajustar ao desafio proposto.
-    
-    ```C
-    const int buttonPin = 2;   // Pino do botão
-    int lastButtonState = HIGH; // Último estado do botão
-    int buttonState;            // Estado atual do botão
-    unsigned long lastDebounceTime = 0;  // Último tempo de debounce
-    unsigned long debounceDelay = 50;    // Tempo de debounce de 50ms
-    
-    void setup() {
-      pinMode(buttonPin, INPUT_PULLUP);
-    }
-    
-    void loop() {
-      int leBotao = digitalRead(buttonPin);
-    
-      if (leBotao != lastButtonState) {
-        lastDebounceTime = millis();
+3. Debounce com millis(): Jeito certo!
+
+Botões mecânicos “tremem” eletricamente ao pressionar/soltar (bounce), causando múltiplas leituras rápidas.  
+Vamos implementar debounce com `millis()`.
+
+### Regras 
+- Você **não pode** usar `delay()` para debounce.
+- Você deve gerar o “evento de clique” **apenas quando a leitura estiver estável** por um tempo mínimo (ex.: 50ms).
+- O toggle deve funcionar de forma **consistente**.
+
+Abaixo há um exemplo **parcial** (parte da solução, não a solução completa). Você deve entender e adaptar ao seu código:
+
+```C
+const int buttonPin = 2;          // Pino do botão
+int lastButtonReading = HIGH;     // Última leitura bruta
+int stableButtonState = HIGH;     // Estado estável (após debounce)
+
+unsigned long lastDebounceTime = 0;   // Último tempo que a leitura mudou
+unsigned long debounceDelay = 50;     // 50 ms
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  int reading = digitalRead(buttonPin);
+
+  if (reading != lastButtonReading) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    // aqui você pode considerar reading como "estável"
+    if (reading != stableButtonState) {
+      stableButtonState = reading;
+
+      if (stableButtonState == LOW) {
+        // Evento: botão pressionado (borda estável)
       }
-    
-      if ((millis() - lastDebounceTime) > debounceDelay) {
-        if (leBotao != buttonState) {
-          buttonState = leBotao;
-    
-          if (buttonState == LOW) {
-            // Botão pressionado
-          }
-        }
-      }
-    
-      lastButtonState = leBotao;
     }
-    ```
-        
+  }
+
+  lastButtonReading = reading;
+}
+```
+
+---
+
+
+
+---
 
 ## Desafio 2
 
