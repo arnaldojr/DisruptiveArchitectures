@@ -67,7 +67,7 @@ Agumas semelhanças com as linguagens C/C++ (e outras tambem...) são:
 
  - Ponteiros e alocação de memória: Assim como em C e C++, a linguagem Arduino permite o uso de ponteiros e a manipulação de memória, embora esses recursos sejam menos comuns em projetos de Arduino devido à sua complexidade e aos recursos limitados dos microcontroladores.
 
-## Entendo elementos básicos de código
+<!-- ## Entendo elementos básicos de código
 
 De forma geral a programação de sistemas embarcados envolve o desenvolvimento de aplicações que interagem com o mundo físico através de sensores e atuadores. Para compreender e dominar essas interações, é crucial aprender sobre os conceitos fundamentais, como Entrada e Saída Digital, Debounce de botão Digital, Entrada e Saída Analógica, Interrupção Externa e Interfaces de comunicação como UART/I2C/SPI (Comunicação Serial).
 
@@ -119,7 +119,7 @@ Evitar delays é fundamental para garantir o bom funcionamento e a eficiência d
 UART (Universal Asynchronous Receiver-Transmitter) é um protocolo de comunicação serial que permite a transmissão de dados entre dispositivos de forma assíncrona, sem a necessidade de um clock de referência compartilhado. No Arduino, a comunicação serial é geralmente implementada usando as funções ``Serial.begin(), Serial.print(), Serial.println() e Serial.read()``.
 
 ??? note "Dica"
-    Veja o exemplo Comunicação Serial 
+    Veja o exemplo Comunicação Serial  -->
 
 ## Referencias
 
