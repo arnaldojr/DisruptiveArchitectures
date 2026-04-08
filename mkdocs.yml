@@ -135,24 +135,27 @@ nav:
     - Introdução: aulas/iot/intro/index.md
     - Arduino:
         - Introdução: aulas/iot/intro/introarduino.md
-        - Exemplos Guiados:
-          - Dicas Gerais: aulas/iot/intro/dicas.md
-          - Do Zero ao Herói: aulas/iot/ex0/index.md 
-          - Blink LED: aulas/iot/ex2/index.md
-          - LED com Botão: aulas/iot/ex3/index.md
-          - Potenciômetro e LED: aulas/iot/ex4/index.md
-          - PWM: aulas/iot/ex8/index.md
-          - Função millis(): aulas/iot/ex5/index.md
-          - Interrupções: aulas/iot/ex6/index.md
-          - Comunicação Serial: aulas/iot/ex1/index.md
-          - Comunicação com Python: aulas/iot/ex7/index.md 
+        # - Exemplos Guiados:
+        #   - Dicas Gerais: aulas/iot/intro/dicas.md
+        #   - Do Zero ao Herói: aulas/iot/ex0/index.md 
+        #   - Blink LED: aulas/iot/ex2/index.md
+        #   - LED com Botão: aulas/iot/ex3/index.md
+        #   - Potenciômetro e LED: aulas/iot/ex4/index.md
+        #   - PWM: aulas/iot/ex8/index.md
+        #   - Função millis(): aulas/iot/ex5/index.md
+        #   - Interrupções: aulas/iot/ex6/index.md
+        #   - Comunicação Serial: aulas/iot/ex1/index.md
+        #   - Comunicação com Python: aulas/iot/ex7/index.md 
         - Laboratórios:
           - Lab00 - Guia do Arduino: aulas/iot/lab0/index.md
           - Lab01 - LED: aulas/iot/lab1/index.md
           - Lab02 - Botão: aulas/iot/lab2/index.md
           - Lab03 - Serial: aulas/iot/lab3/index.md
           - Lab04 - Máquinas de Estados (FSM): aulas/iot/lab4/index.md
-          - Lab05 - EEPROM: aulas/iot/lab5/index.md
+          - Lab05 - EEPROM: aulas/iot/lab5/index.
+    - esp32:
+        - Lab00 - webserver: aulas/iot/lab00/index.md
+        - Lab01 - API REST: aulas/iot/lab01/index.md
     - Node-RED:
         - Lab06 - Introdução ao Node-RED: aulas/iot/lab6/index.md
         - Lab07 - Fluxos e Dashboards: aulas/iot/lab7/index.md
