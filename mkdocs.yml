@@ -134,17 +134,17 @@ nav:
     - aulas/iot/index.md
     - Introdução: aulas/iot/intro/index.md
     - Arduino:
-        - Introdução: aulas/iot/intro/introarduino.md
-        - Lab00 - Guia do Arduino: aulas/iot/lab0/index.md
-        - Lab01 - LED: aulas/iot/lab1/index.md
-        - Lab02 - Botão: aulas/iot/lab2/index.md
-        - Lab03 - Serial: aulas/iot/lab3/index.md
-        - Lab04 - Máquinas de Estados (FSM): aulas/iot/lab4/index.md
-        - Lab05 - EEPROM: aulas/iot/lab5/index.
+      - Introdução: aulas/iot/intro/introarduino.md
+      - Lab00 - Guia do Arduino: aulas/iot/lab0/index.md
+      - Lab01 - LED: aulas/iot/lab1/index.md
+      - Lab02 - Botão: aulas/iot/lab2/index.md
+      - Lab03 - Serial: aulas/iot/lab3/index.md
+      - Lab04 - Máquinas de Estados (FSM): aulas/iot/lab4/index.md
+      - Lab05 - EEPROM: aulas/iot/lab5/index.md
     - esp32:
-        - Introdução: aulas/iot/intro/introesp32.md
-        - Lab06 - webserver: aulas/iot/lab00/index.md
-        - Lab07 - API REST: aulas/iot/lab01/index.md
+      - Introdução: aulas/iot/intro/introesp32.md
+      - Lab06 - webserver: aulas/iot/lab00/index.md
+      - Lab07 - API REST: aulas/iot/lab01/index.md
         # - Lab08 - MQTT: aulas/iot/lab02/index.md
 
     - Node-RED:
