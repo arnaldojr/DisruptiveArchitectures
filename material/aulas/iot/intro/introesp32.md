@@ -1,4 +1,4 @@
-# Introdução ao ESP32
+## Introdução ao ESP32
 
 ## O que é o ESP32?
 
