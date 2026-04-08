@@ -20,7 +20,7 @@ Agora, abra o arquivo `esp32-webserver-wokwi.ino`.
 
 ---
 
-## Código do servidor web básico
+## Código-base
 
 ```cpp
 #include <WiFi.h>

@@ -20,7 +20,7 @@ Na aula 1, o código foi excelente para introduzir o conceito de servidor web em
 
 A ideia central é a seguinte:
 
-> **Na aula 1, o ESP32 servia interface. Na aula 2, ele passa a servir dados.**
+> **Na aula anterior, o ESP32 servia interface. Agora, ele passa a servir dados.**
 
 ---
 
@@ -42,56 +42,18 @@ Não é necessário aprofundar em todas as formalidades da arquitetura REST. O o
 
 Nesta versão da aula, a API será responsável por expor o estado de dois LEDs e permitir seu acionamento.
 
-### Endpoints
 
-#### Consultar o estado geral
+## Preparando o projeto
 
-```http
-GET /api/status
+Clone o repositório do projeto para acessar o código-fonte do servidor web básico `esp32-webserver-wokwi`:
+
+```bash
+git clone https://github.com/arnaldojr/esp32-wokwi
+cd esp32-wokwi/webserver-api
+code .
 ```
 
-Resposta esperada:
-
-```json
-{
-  "led1": true,
-  "led2": false
-}
-```
-
-#### Ligar LED 1
-
-```http
-POST /api/led/1/on
-```
-
-Resposta esperada:
-
-```json
-{
-  "ok": true,
-  "led": 1,
-  "state": true
-}
-```
-
-#### Desligar LED 1
-
-```http
-POST /api/led/1/off
-```
-
-#### Ligar LED 2
-
-```http
-POST /api/led/2/on
-```
-
-#### Desligar LED 2
-
-```http
-POST /api/led/2/off
-```
+Agora, abra o arquivo `webserver-api.ino`.
 
 ---
 
@@ -218,7 +180,7 @@ void loop(void) {
 
 ---
 
-## Explicação estrutural do código
+## Explicação do código
 
 ### 1. Conexão com o Wi-Fi
 
@@ -403,9 +365,15 @@ Resposta esperada:
 
 
 
-## Desafio 2
+## Desafio
 
-Adicionar um sensor de temperatura à API REST.
+Adicionar um sensor de temperatura e umidade à API REST.
+
+o código de exemplo para usar o sensor DHT22 é o seguinte:
+
+```bash
+https://wokwi.com/projects/322410731508073042
+```
 
 ### Objetivo
 
@@ -415,20 +383,11 @@ Fazer com que o ESP32 não apenas controle atuadores, mas também exponha dados 
 Criar um endpoint semelhante a:
 
 ```http
-GET /api/temperature
+GET /api/temphum
 ```
 
 ### Resposta esperada
 
-```json
-{
-  "temperature_c": 24.7
-}
-```
-
-### expansão
-
-Criar uma resposta mais completa:
 
 ```json
 {
