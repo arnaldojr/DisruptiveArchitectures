@@ -1,443 +1,389 @@
+# Lab 10 - Sensores e Atuadores
 
-![logo](logo.png)
+## Objetivos
 
-## O que vamos ver neste lab?
+Ao final deste laboratório, você será capaz de:
 
-- Raspberry Pi: 
-    - Conhecendo os pinos
-    - Usando a biblioteca RPI.GPIO 
-    - Montando um Webserver em Flask 
+- Integrar diversos sensores analógicos e digitais
+- Controlar atuadores (LEDs, relés, motores)
+- Utilizar conversão ADC
+- Implementar controle PWM
+- Desenvolver sistemas IoT completos
 
+---
 
+## 1. Sensores Analógicos
 
-!!! progress
-    Continuar...
+### 1.1 Conversão ADC
 
+O ESP32 possui conversor analógico-digital (ADC) de 12 bits (0-4095):
 
+```cpp
+// Lê valor ADC (0-4095)
+int valor = analogRead(GPIO34);
 
-## Conhecendo os pinos da Raspberry Pi
+// Converte para tensão
+float tensao = valor * 3.3 / 4095.0;
 
-Podemos utilizar a Raspberry Pi para conectar sensores e atuadores, de forma semelhante como foi feito utilizando o Arduino, para isso utilizamos os barramento de pinos da Raspberry Pi chamado de GPIO (General Purpose Input Output). Ao todo são 40 pinos (para RPI 2 ou superior) e de forma geral cada pino possui uma função ou caracteristica especifica.
-
-!!! Warning
-    Cuidado: Devemos ter atenção para não conectar os perifericos na placa de forma incorreta. Existe risco de queimar a Raspberry Pi.  
-
-A imagem abaixo é um guia simples para cada pino. Parece complicado na primeira vez, mas é tranquilo.
-
-![raspberry_pi_3_model_b_plus_gpio](raspberry_pi_3_model_b_plus_gpio-1024x1024.jpg)
-
-Vamos conhecer o que é cada pino:
-
-    - Pinos de Alimentação: 
-        - 3.3V (ao todo 2 pinos)
-        - 5V (ao todo 2 pinos)
-        - GND/Ground/0V (ao todo 8 pinos)
-    
-    - Pinos de interface:
-        - GPIO (General purpose input and output): São os pinos de entrada/saida. A tensão de saida é de 3.3V.
-        - I2C/SPI/UART: Protocolos de comunicação especificos utilizados para realizar a interface módulos epecificos com a Raspberry Pi.
- 
-!!! Warning
-    Atenção: Observe a correlação dos pinos para não ligar invertido.
-    ![raspberry_pi_3](Raspberry-Pi-GPIO-Header-with-Photo.png)
-     
-
-!!! exercise
-    Quantos pinos GPIO estão disponiveis?
-
-
-
-!!! progress
-    Continuar...
-
-
-## Configurando os GPIOs
-
-No final do lab07 montamos um simples pisca led e programamos configurando os valores dos registradores. Existem formas mais simples de programar os GPIOs da rasbperry pi, vamos programar em Python :) 
-
-Vamos utilizara biblioteca ``RPI.GPIO``, que permite de forma simples configurar e usar os GPIOs com script em Python, vamos preparar o nosso ambiente de desenvolvimento:
-
-!!! exercise
-    - Inicialize a Raspberry Pi. (modo Desktop ou SSH).
-
-        - Se tiver dúvida de como fazer, volte para o lab07.
-        
-    - Abra o terminal da raspberry pi.
-
-    - Certifique-se de estar com acesso a internet.
-
-
-No terminal da raspberry pi, atualize os repositórios:
-
-```bash
-
-sudo apt update
-
-```   
- 
-Em seguida, tente instalar o pacote RPi.GPIO: A documentação da biblioteca está disponivel no [aqui](https://pypi.org/project/RPi.GPIO/).
-
-```bash
-
-sudo apt install rpi.gpio
-
-```  
-
-Se ainda não estiver instalado, será instalado. Se já estiver instalado, será atualizado se uma versão mais recente estiver disponível.
-
-
-
-!!! progress
-    Continuar...
-
-
-
-
-### Conhecendo a biblioteca RPi.GPIO
-
-É uma biblioteca simples de usar e vamos ver as principais funções da RPi.GPIO através do código de exemplo abaixo:
-
-- ``GPIO.setmode()`` = Define o modo de acesso aos pino da raspberry pi, existem 2 modos de definir a mesma coisa:
-    
-    - GPIO.BOARD  = Posição física do pino na raspberry pi
-    - GPIO.BCM    = Numero após GPIOxx
-
-> exemplo:
-> BOARD 11 = GPIO17
-
-
-- ``GPIO.setup()`` = Define a função do pino, entrada (GPIO.IN) ou saida (GPIO.OUT)
-
-- ``GPIO.output()`` = Define o estado do pino definido como saida em nivel logico baixo (GPIO.LOW) ou alto (GPIO.HIGH)
-
-- ``GPIO.input()`` = Faz a leitura do estado do pino definido como entrada. Geralmente quando usamos um pino como entrada configuramos no setup o parametro pull_up_down (como exemplo: GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP))
-
-
-!!! exercise
-    Monte o circuito abaixo:
-    
-    ![blink led](blinkled.png)
-    
-    - No terminal da RPI, digite:
-    
-    ```shell
-    cd ~
-    mkdir src
-    cd src
-    touch blinkled.py  
-
-    ``` 
-    
-    - Criamos um diretorio chamado src e um arquivo python chamado blinkled.py
-    - Abra o arquivo blinkled.py e escreva o código abaixo.
-    - Para abrir o arquivo digite: nano blinkled.py
-    - Após digitar o código python, salve e feche o arquivo: Ctlr+X >>> Y 
-    - Vamos rodar nosso código python, no terminal digite:
-        * python blinkled.py
-    
-    - Se tudo deu certo, o led está piscando. :)
-        - para interromper o código aperte Ctrl+C.
-
-!!! Warning
-    Os 2 códigos realizam a mesma função, a diferença está apenas no **setmode**. Escolha um dos códigos para testar. 
-
-    ```python    
-    import RPi.GPIO as GPIO  ### import da biblioteca gpio
-    import time
-
-    # usando o a posição fisíca do pino na raspberry pi
-    GPIO.setmode(GPIO.BOARD)
-     
-    # configura o pino fisico 11 como saida
-    GPIO.setup(11, GPIO.OUT)
-
-    whille True:  
-        # escreve no pino 11 nivel logico alto
-        GPIO.output(11, GPIO.HIGH)
-        time.sleep(1) # delay de 1s
-    
-        # escreve no pino 11 nivel logico baixo
-        GPIO.output(11, GPIO.LOW)
-        time.sleep(1) # delay de 1s
-
-    GPIO.cleanup()  # Limpa configuração finaliza o programa
-
-    ```
-    
-    ``` python 
-    import RPi.GPIO as GPIO  ### import da biblioteca gpio
-    
-    # usando o numero após GPIOxx da raspberry pi
-    GPIO.setmode(GPIO.BCM)
-    
-    # configura o GPIO17 como saida
-    GPIO.setup(17, GPIO.OUT)
-    
-    whille True:  
-        # escreve no GPIO17 nivel logico alto
-        GPIO.output(17, GPIO.HIGH)
-        time.sleep(1) # delay de 1s
-    
-        # escreve no GPIO17 nivel logico baixo
-        GPIO.output(17, GPIO.LOW)
-        time.sleep(1) # delay de 1s
-
-    GPIO.cleanup()  # Limpa configuração finaliza o programa
-    
-    ```
-    
-Agora que já entendemos a estrutura básica do script python, faça os exercicios abaixo para praticar
-
-
-
-!!! exercise
-    Semáfaro de transito: 
-    
-        - Monte um circuito com 3 leds (1 verde, 1 amarelo, 1 vermelho);
-        - crie um novo script chamado semaforo.py;
-        - Escreva um código que irá acender os leds na sequência e intervalo:
-            - Verde (5segundos)
-            - Amarelo (3segundos)
-            - Vermelho (6segundos)
-            - loop (volta para o verde)
-
-    
-!!! exercise
-    leitura de botão e Led: 
-    
-    - Monte o circuito: 
-
-    ![rpi_ledbot](rpi_ledbot.png)
-    
-    - Escreva um código que:
-        - Enquanto nenhum botão for pressionado, os leds ficam apagados;
-        - Se o botão1 for pressionado:
-            - os leds acendem na sequência: Verde - Amarelo - Vermelho
-        - Se o botão2 for pressionado:
-            - os leds acendem na sequencia: Vermelho - Amarelo - Verde 
-    
-    > Dica: Geralmente quando usamos algum pino como entrada configuramos no setup o parametro pull_up_down (como exemplo: GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP) ou GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN).
-
-!!! exercise
-    Sensor de temperatura: Para quem tiver curiosidade pode dar uma olhada como utilizar o sensor de temperatura DTH11 [neste link](https://www.filipeflop.com/blog/raspberry-pi-umidade-e-a-temperatura-com-o-sensor-dht11/).
-
-!!! progress
-    Continuar...
-
-
-## Montando um Webserver em Flask
-
-Vamos montar um webserver na raspberry pi com flask. A ideia deste exemplo é controlar por um navegador web o status de um led entre ligado e desligado:
-
-![flask](flask.png)
-
-
-### Instalando o Flask e configurando o ambiente
-
-
-No terminal da raspberry pi, atualize os repositórios:
-
-```bash
-
-sudo apt update
-
-```   
-
-Instale os pacotes do flask
-
-```bash
-
-sudo apt-get install python3-flask
-
-```   
-
-Agora vamos criar nossa arvore de projeto:
-
-``` shell
-- webserver
-    - static
-        - index.css
-    - templates
-        - index.html
-    - app.py
+// Converte para temperatura (termistor NTC)
+float resistencia = 10000.0 / ((4095.0 / valor) - 1.0);
+float temperatura = 1.0 / (1.0 / 298.15 + log(resistencia / 10000.0) / 3435.0) - 273.15;
 ```
 
-No terminal da raspberry pi, digite:
+### 1.2 Potenciômetro
 
-```bash
-cd ~
-mkdir webserver
-cd webserver
-mkdir static templates
-ls
+```cpp
+const uint8_t POT_PIN = 34;
 
-``` 
- 
-Vamos criar o ``app.py``. No terminal da raspberry pi, digite:
-
-```bash
-
-nano app.py
-
-```  
-
-
-Com o editor nano aberto digite:
-
-```python
-'''
-	Arnaldo Viana
-'''
-import RPi.GPIO as GPIO
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-#define actuators GPIOs
-ledRed = 2
-
-#initialize GPIO status variables
-ledRedSts = 0
-
-# Define led pins as output
-GPIO.setup(ledRed, GPIO.OUT)   
-
-# turn leds OFF 
-GPIO.output(ledRed, GPIO.LOW)
-	
-@app.route("/")
-def index():
-	# Read GPIO Status
-	ledRedSts = GPIO.input(ledRed)
-
-	templateData = {
-      		'ledRed'  : ledRedSts,
-      	}
-	return render_template('index.html', **templateData)
-	
-@app.route("/<deviceName>/<action>")
-def action(deviceName, action):
-	if deviceName == 'ledRed':
-		actuator = ledRed
-   
-	if action == "on":
-		GPIO.output(actuator, GPIO.HIGH)
-	if action == "off":
-		GPIO.output(actuator, GPIO.LOW)
-		     
-	ledRedSts = GPIO.input(ledRed)
-   
-	templateData = {
-      		'ledRed'  : ledRedSts,
-	}
-	return render_template('index.html', **templateData)
-
-if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=80, debug=True)
-
-```  
-
-
-show! Salve e feche o editor nano. Ctrl+X >> Y
-
-
-Vamos criar a pagina html ``index.html``. No terminal da raspberry pi, digite:
-
-```bash
-cd templates
-nano index.html
-
-```  
-
-Com o editor nano aberto digite:
-
-```html
-<!DOCTYPE html>
-   <head>
-      <title>Webserver</title>
-      <link rel="stylesheet" href='../static/index.css'/>
-   </head>
-
-   <body>
-
-		<h2> Controle LED </h2>
-		
-		<h3> RED LED ==>  {{ ledRed  }}  ==>  
-			{% if  ledRed   == 1 %}
-				<a href="/ledRed/off"class="button">TURN OFF</a>
-			{% else %}
-				<a href="/ledRed/on" class="button">TURN ON</a> 
-			{% endif %}	
-		</h3>
-		
-   </body>
-</html>
-
-```
-
-show! Salve e feche o editor nano. Ctrl+X >> Y
-
-Vamos criar o arquivo de estilo css ``index.css``. No terminal da raspberry pi, digite:
-
-```bash
-cd ..
-cd static
-nano index.html
-
-```  
-> Com o editor nano aberto digite:
-
-```css
-
-body {
-   background: blue;
-   color: yellow;
+void setup() {
+    Serial.begin(115200);
+    analogReadResolution(12);  // 12 bits (0-4095)
 }
 
-.button {
-  font: bold 15px Arial;
-  text-decoration: none;
-  background-color: #EEEEEE;
-  color: #333333;
-  padding: 2px 6px 2px 6px;
-  border-collapse: separete;
-  border-spacing: 0;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
+void loop() {
+    int valor = analogRead(POT_PIN);
+    Serial.printf("ADC: %d, Tensão: %.2fV\n", valor, valor * 3.3 / 4095);
+    delay(100);
 }
-
 ```
 
-> show! Salve e feche o editor nano. Ctrl+X >> Y
+### 1.3 LDR (Sensor de Luz)
 
-### Hora de testar
+```cpp
+const uint8_t LDR_PIN = 34;
+const uint8_t LED_PIN = 2;
 
-Vamos testar nosso webserver simples.
+void setup() {
+    pinMode(LED_PIN, OUTPUT);
+    Serial.begin(115200);
+}
 
-No terminal da raspberry pi, digite:
+void loop() {
+    int luz = analogRead(LDR_PIN);
+    
+    if (luz < 1000) {
+        digitalWrite(LED_PIN, HIGH);
+    } else {
+        digitalWrite(LED_PIN, LOW);
+    }
+    
+    Serial.printf("Luz: %d\n", luz);
+    delay(100);
+}
+```
 
-```bash
-cd ..
-sudo python app.py
+---
 
-```  
+## 2. Sensores Digitais
 
+### 2.1 DHT11/DHT22 (Temperatura e Umidade)
 
-> Deixe o flask rodando na raspberry e no computador ou no smartphone (Deve estar na mesma rede da raspberry), abra o navegador web e digite o ip da raspberry pi. O resultado esperado é abrir uma pagina web e controlar o led. 
+```cpp
+#include <DHT.h>
 
-!!! exercise
-    Compreenda o código app.py e monte o circuito adequado para conseguir visualizar o led acender e apagar.
+#define DHT_PIN 4
+#define DHT_TYPE DHT22
 
- 
-!!! exercise
-    Altere o código app.py e adicione mais 2 led e 2 botões (totalizando 3 leds, 2 botões), lembre-se de adaptar os arquivos HTML para exibir no frontend os status. 
+DHT dht(DHT_PIN, DHT_TYPE);
 
+void setup() {
+    Serial.begin(115200);
+    dht.begin();
+}
 
-!!! exercise
-    Aproveite os seus conhecimentos web e proponha melhorias de UI/UX para o exercicio anterior.
+void loop() {
+    float temp = dht.readTemperature();
+    float hum = dht.readHumidity();
+    
+    if (isnan(temp) || isnan(hum)) {
+        Serial.println("Erro na leitura!");
+    } else {
+        Serial.printf("Temp: %.1f°C, Umidade: %.1f%%\n", temp, hum);
+    }
+    delay(2000);
+}
+```
 
+### 2.2 HC-SR501 (Sensor de Movimento PIR)
+
+```cpp
+const uint8_t PIR_PIN = 4;
+const uint8_t LED_PIN = 2;
+
+void setup() {
+    pinMode(PIR_PIN, INPUT);
+    pinMode(LED_PIN, OUTPUT);
+    Serial.begin(115200);
+}
+
+void loop() {
+    int movimento = digitalRead(PIR_PIN);
+    
+    if (movimento == HIGH) {
+        Serial.println("Movimento detectado!");
+        digitalWrite(LED_PIN, HIGH);
+    } else {
+        digitalWrite(LED_PIN, LOW);
+    }
+    delay(100);
+}
+```
+
+### 2.3 HC-SR04 (Sensor Ultrassônico)
+
+```cpp
+const uint8_t TRIG_PIN = 5;
+const uint8_t ECHO_PIN = 18;
+
+void setup() {
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
+    Serial.begin(115200);
+}
+
+float medirDistancia() {
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+    
+    long duration = pulseIn(ECHO_PIN, HIGH);
+    float distancia = duration * 0.034 / 2;
+    return distancia;
+}
+
+void loop() {
+    float dist = medirDistancia();
+    Serial.printf("Distância: %.2f cm\n", dist);
+    delay(500);
+}
+```
+
+---
+
+## 3. Atuadores
+
+### 3.1 LED com PWM
+
+```cpp
+const uint8_t LED_PIN = 2;
+
+void setup() {
+    pinMode(LED_PIN, OUTPUT);
+}
+
+void loop() {
+    for (int brilho = 0; brilho <= 255; brilho++) {
+        analogWrite(LED_PIN, brilho);
+        delay(10);
+    }
+    
+    for (int brilho = 255; brilho >= 0; brilho--) {
+        analogWrite(LED_PIN, brilho);
+        delay(10);
+    }
+}
+```
+
+### 3.2 Módulo Relé
+
+```cpp
+const uint8_t RELAY_PIN = 4;
+
+void setup() {
+    pinMode(RELAY_PIN, OUTPUT);
+    digitalWrite(RELAY_PIN, LOW);
+    Serial.begin(115200);
+}
+
+void loop() {
+    Serial.println("Relé LIGADO");
+    digitalWrite(RELAY_PIN, HIGH);
+    delay(2000);
+    
+    Serial.println("Relé DESLIGADO");
+    digitalWrite(RELAY_PIN, LOW);
+    delay(2000);
+}
+```
+
+### 3.3 Motor DC com Ponte H
+
+```cpp
+const uint8_t IN1 = 4;
+const uint8_t IN2 = 5;
+const uint8_t ENA = 18;
+
+void setup() {
+    pinMode(IN1, OUTPUT);
+    pinMode(IN2, OUTPUT);
+    pinMode(ENA, OUTPUT);
+}
+
+void motorForward(int speed) {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, speed);
+}
+
+void motorBackward(int speed) {
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, HIGH);
+    analogWrite(ENA, speed);
+}
+
+void motorStop() {
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, 0);
+}
+
+void loop() {
+    motorForward(150);
+    delay(2000);
+    motorStop();
+    delay(1000);
+    motorBackward(150);
+    delay(2000);
+    motorStop();
+    delay(1000);
+}
+```
+
+### 3.4 Servomotor
+
+```cpp
+#include <Servo.h>
+
+Servo myservo;
+const uint8_t SERVO_PIN = 4;
+
+void setup() {
+    myservo.attach(SERVO_PIN);
+    Serial.begin(115200);
+}
+
+void loop() {
+    for (int pos = 0; pos <= 180; pos += 10) {
+        myservo.write(pos);
+        Serial.printf("Ângulo: %d\n", pos);
+        delay(15);
+    }
+    for (int pos = 180; pos >= 0; pos -= 10) {
+        myservo.write(pos);
+        Serial.printf("Ângulo: %d\n", pos);
+        delay(15);
+    }
+}
+```
+
+---
+
+## 4. Sistema Completo: Estufa Automatizada
+
+### 4.1 Arquitetura
+
+```
+Sensores:            Atuadores:
+- DHT22 (temp)      - Ventilador (PWM)
+- LDR (luz)         - LED grow
+- Humidade solo     - Bomba água (relé)
+```
+
+### 4.2 Código
+
+```cpp
+#include <DHT.h>
+
+const uint8_t DHT_PIN = 4;
+const uint8_t LDR_PIN = 34;
+const uint8_t SOLO_PIN = 35;
+const uint8_t VENT_PIN = 18;
+const uint8_t LED_PIN = 2;
+const uint8_t BOMBA_PIN = 19;
+
+DHT dht(DHT_PIN, DHT22);
+
+const float TEMP_MAX = 30.0;
+const float TEMP_MIN = 18.0;
+const uint16_t LUZ_MIN = 500;
+const uint16_t SOLO_SECO = 2000;
+
+void setup() {
+    Serial.begin(115200);
+    dht.begin();
+    
+    pinMode(VENT_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
+    pinMode(BOMBA_PIN, OUTPUT);
+    
+    digitalWrite(VENT_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
+    digitalWrite(BOMBA_PIN, LOW);
+}
+
+void loop() {
+    float temp = dht.readTemperature();
+    float hum = dht.readHumidity();
+    uint16_t luz = analogRead(LDR_PIN);
+    uint16_t solo = analogRead(SOLO_PIN);
+    
+    Serial.printf("Temp: %.1f°C, Hum: %.1f%%, Luz: %d, Solo: %d\n",
+        temp, hum, luz, solo);
+    
+    if (temp > TEMP_MAX) {
+        digitalWrite(VENT_PIN, HIGH);
+    } else if (temp < TEMP_MIN) {
+        digitalWrite(VENT_PIN, LOW);
+    }
+    
+    if (luz < LUZ_MIN) {
+        digitalWrite(LED_PIN, HIGH);
+    } else {
+        digitalWrite(LED_PIN, LOW);
+    }
+    
+    if (solo < SOLO_SECO) {
+        digitalWrite(BOMBA_PIN, HIGH);
+        delay(2000);
+        digitalWrite(BOMBA_PIN, LOW);
+    }
+    
+    delay(5000);
+}
+```
+
+---
+
+## 5. DESAFIOS
+
+### DESAFIO 1: Alarme de Estacionamento
+
+- HC-SR04 medir distância
+- LED verde: > 50cm, amarelo: 20-50cm, vermelho: < 20cm
+
+### DESAFIO 2: Controle de Iluminação
+
+- LDR detecta luminosidade
+- Potenciômetro define brilho máximo
+- PWM controla LED
+
+### DESAFIO 3: Irrigação Automática
+
+- Sensor de umidade do solo
+- Bomba d'água via relé
+- Display OLED mostra status
+
+### DESAFIO 4: Termostato Digital
+
+- DHT22 mede temperatura
+- Potenciômetro ajusta temperatura alvo
+- Aquecedor e ventilador controlados
+
+---
+
+## 6. Referências
+
+- [ESP32 ADC Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/adc.html)
+- [ESP32 LEDC PWM](https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/ledc.html)
