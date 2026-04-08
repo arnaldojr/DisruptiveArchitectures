@@ -1,4 +1,4 @@
-# ESP32 como Servidor Web: entendendo o código passo a passo
+## ESP32 como Servidor Web
 
 Nesta aula, vamos dar um passo importante no uso do ESP32: em vez de apenas acender LEDs localmente, vamos transformar a placa em um **servidor web**. Isso significa que ela será capaz de responder requisições HTTP e entregar uma página acessada pelo navegador.
 

@@ -1,4 +1,4 @@
-# Aula 2 — Do WebServer à API REST com ESP32
+## API REST com ESP32
 
 ## Visão geral da aula
 
