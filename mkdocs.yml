@@ -145,6 +145,7 @@ nav:
       - Introdução: aulas/iot/intro/introesp32.md
       - Lab06 - webserver: aulas/iot/lab00/index.md
       - Lab07 - API REST: aulas/iot/lab01/index.md
+      - lab08 - httpClient: aulas/iot/lab02/index.md
     - Node-RED:
         - Lab08 - Introdução ao Node-RED: aulas/iot/lab6/index.md
         - Lab09 - Fluxos e Dashboards: aulas/iot/lab7/index.md
