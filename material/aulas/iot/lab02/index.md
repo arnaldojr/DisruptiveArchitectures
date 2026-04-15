@@ -87,6 +87,12 @@ const char* WEATHER_URL =
   "https://api.open-meteo.com/v1/forecast?latitude=-23.55&longitude=-46.63&current=temperature_2m";  // ponteiro para a URL da API de clima
 
 // =========================
+// Variaveis
+// ========================
+unsigned long lastRequestTime = 0;
+const unsigned long REQUEST_INTERVAL = 10000;
+
+// =========================
 // CONECTA NO WIFI
 // =========================
 void connectWiFi() {
@@ -104,6 +110,14 @@ void connectWiFi() {
   Serial.print("IP: ");
   Serial.println(WiFi.localIP());
 }
+
+void ensureWiFiConnected() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi desconectado. Tentando reconectar...");
+    connectWiFi();
+  }
+}
+
 
 // =========================
 // FAZ A REQUISICAO GET
@@ -164,6 +178,14 @@ void setup() {
 }
 
 void loop() {
+  unsigned long now = millis();
+
+  if (now - lastRequestTime >= REQUEST_INTERVAL) {
+    lastRequestTime = now;
+
+    ensureWiFiConnected();
+    makeGetRequest();
+  }
 }
 ```
 
