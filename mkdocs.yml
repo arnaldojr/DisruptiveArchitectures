@@ -142,8 +142,8 @@ nav:
       - Lab04 - Máquinas de Estados (FSM): aulas/iot/lab4/index.md
       - Lab05 - EEPROM: aulas/iot/lab5/index.md
     - ESP32:
-      - Introdução: aulas/iot/intro/introesp32.md
       - Lab06 - webserver: aulas/iot/lab00/index.md
+      - Introdução: aulas/iot/intro/introesp32.md
       - Lab07 - API REST: aulas/iot/lab01/index.md
       - lab08 - httpClient: aulas/iot/lab02/index.md
     - Node-RED:
