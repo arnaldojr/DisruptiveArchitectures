@@ -144,7 +144,7 @@ nav:
     - ESP32:
       - Lab06 - webserver HTTP: aulas/iot/lab20/index.md
       - Introdução: aulas/iot/intro/introesp32.md
-      - Lab07 - API server HTTP: aulas/iot/lab21/index.md
+      - Lab07 - API REST HTTP: aulas/iot/lab21/index.md
       - Lab08 - Client HTTP: aulas/iot/lab22/index.md
     - Node-RED:
         - Lab08 - Introdução ao Node-RED: aulas/iot/lab6/index.md
