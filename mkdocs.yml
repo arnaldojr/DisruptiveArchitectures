@@ -146,6 +146,7 @@ nav:
       - Lab06 - WebServer HTTP: aulas/iot/lab20/index.md
       - Lab07 - API REST HTTP: aulas/iot/lab21/index.md
       - Lab08 - Client HTTP: aulas/iot/lab22/index.md
+      - Lab09 - MQTT: aulas/iot/lab23/index.md
     - Node-RED:
         - Lab08 - Introdução ao Node-RED: aulas/iot/lab6/index.md
         - Lab09 - Fluxos e Dashboards: aulas/iot/lab7/index.md
