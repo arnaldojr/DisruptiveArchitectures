@@ -157,8 +157,10 @@ nav:
     #     - Lab09 - Introdução à Raspberry Pi: aulas/iot/lab9/index.md
     #     - Lab10 - Aplicações IoT com Raspberry: aulas/iot/lab10/index.md
 
-  # - 2º Semestre - IA:
-  #   - Introdução: aulas/IA/intro/index.md
+  - 2º Semestre - IA:
+    - Introdução: aulas/IA/intro/index.md
+    - Laboratórios de GenAI: 
+      - Lab1 - Engenharia de Prompts: aulas/genAI/lab1.md
     # - Exploração de Dados:
     #     - Lab01 - DataFrame: aulas/IA/lab01/dataframe.ipynb
     # - Aprendizado Supervisionado:
