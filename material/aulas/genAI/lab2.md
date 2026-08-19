@@ -5,12 +5,9 @@ Em vez de usar uma interface pronta, você vai escrever um programa em Python qu
 
 Ao final, você terá um pequeno assistente conversacional funcionando no Google Colab.
 
-[Clique aqui para abrir o notebook no Google Colab](https://colab.research.google.com/github/GoogleCloudPlatform/genai-labs/blob/main/labs/lab2.ipynb)
+[Abrir no Google Colab](https://colab.research.google.com/github/GoogleCloudPlatform/genai-labs/blob/main/labs/lab2_gemini_api_colab.ipynb){ .md-button .md-button--primary }
 
-<!-- botao que faz o download do notebook --> 
-<button onclick="window.location.href='https://colab.research.google.com/github/GoogleCloudPlatform/genai-labs/blob/main/labs/lab2.ipynb'">Download Notebook</button>   
-
-
+[Baixar notebook](lab2_gemini_api_colab.ipynb){ .md-button download="lab2_gemini_api_colab.ipynb" }
 
 ---
 
