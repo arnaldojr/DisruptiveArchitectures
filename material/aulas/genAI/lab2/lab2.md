@@ -7,7 +7,7 @@ Ao final, você terá um pequeno assistente conversacional funcionando no Google
 
 [**Abrir no Google Colab**](https://colab.research.google.com/github/arnaldojr/DisruptiveArchitectures/blob/main/docs/aulas/genAI/lab2/lab2_gemini_api_colab.ipynb){ .md-button .md-button--primary }
 
-[**Baixar notebook**](lab2_gemini_api_colab.ipynb){ .md-button download="lab2_gemini_api_colab.ipynb" }
+[**Baixar notebook**](lab2/lab2_gemini_api_colab.ipynb){ .md-button download="lab2_gemini_api_colab.ipynb" }
 
 
 
