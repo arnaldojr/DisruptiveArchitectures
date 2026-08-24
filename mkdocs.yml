@@ -161,8 +161,8 @@ nav:
     - Laboratórios de GenAI: 
       - Lab1 - Engenharia de Prompts: aulas/genAI/lab1.md
       - Lab2 - Assistente Conversacional: aulas/genAI/lab2/lab2.md
-      # - Lab3 - Classificação de Imagens: aulas/genAI/lab3.md
-      # - Lab4 - Geração de Imagens: aulas/genAI/lab4.md
+      - Lab3 - Ferramentas e Saídas Estruturadas: aulas/genAI/lab3/lab3.md
+      - Lab4 - RAG e Bases de Conhecimento: aulas/genAI/lab4/lab4.md
 
 
 
