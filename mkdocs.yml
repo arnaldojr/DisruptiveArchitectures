@@ -124,6 +124,7 @@ nav:
   - Agenda: agenda/agenda.md
   - CheckPoint:
     - Orientações gerais: aulas/checkpoint/index.md
+    - Checkpoint 4: aulas/genAI/avaliacao/avaliacao-petshop.md
     # - CP - Arduino: aulas/checkpoint/cp.md
     # - CP - Correção: aulas/checkpoint/cp-correcao.md
     # - CheckPoint 5 - Liberado: aulas/checkpoint/cp.md

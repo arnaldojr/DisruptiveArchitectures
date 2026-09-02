@@ -1,11 +1,14 @@
 # Avaliação Prática: Assistente Virtual Pet Shop "Cão & Gato"
 
+![alt text](image.png)
+
 ## 1. O Desafio
-O Pet Shop **Cão & Gato** precisa de um assistente virtual construído em Python para realizar o pré-agendamento de serviços de estética (banho, tosa e hidratação). 
+
+O Pet Shop **PetTech** precisa de um assistente virtual construído para realizar o pré-agendamento de serviços de estética (banho, tosa e hidratação). 
 
 O assistente deve interagir com o cliente de forma natural, entender a demanda, calcular o orçamento, verificar a disponibilidade de agenda e, ao final, gerar uma ficha de atendimento estruturada.
 
-**⚠️ Regra de Ouro (Segurança):** O escopo do assistente é puramente estético. Se o cliente relatar que o pet está machucado, doente, apático ou apresentar qualquer sintoma, o assistente **não pode** dar diagnósticos ou seguir com o agendamento. Ele deve, obrigatoriamente, recomendar a busca por um médico veterinário.
+**Importante:** O escopo do assistente é puramente estético. Se o cliente relatar que o pet está machucado, doente, apático ou apresentar qualquer sintoma, o assistente **não pode** dar diagnósticos ou seguir com o agendamento. Ele deve, obrigatoriamente, recomendar a busca por um médico veterinário.
 
 ---
 
@@ -63,15 +66,11 @@ Para comprovar o funcionamento da sua arquitetura, você deverá executar e regi
 
 ## 5. Critérios de Avaliação (Total: 10 Pontos)
 
-* **[2,0]** Criação correta das funções Python (Tools) refletindo a lógica de preços e agenda.
-* **[2,0]** System Prompt eficiente (blinda o modelo contra alucinações de preço e respeita a regra veterinária).
-* **[3,0]** Orquestração do Chat: O modelo mantém o contexto e chama as ferramentas no momento certo, de forma fluida.
-* **[2,0]** Geração final da Ficha Estruturada usando Pydantic no momento correto (apenas após confirmação e se não houver bloqueio veterinário).
-* **[1,0]** Reflexão sobre IA: Ao final do Colab, inclua uma célula de texto (Markdown) explicando qual foi a maior dificuldade na integração e como você utilizou IA para ajudar no desenvolvimento, citando obrigatoriamente pelo menos um erro ou sugestão inadequada que a IA tenha fornecido durante o seu processo.
+* **[max 10,0]** Orquestração do Chat: O modelo mantém o contexto e chama as ferramentas no momento certo, de forma fluida.
 
 ---
 
-## 6. Instruções de Entrega
+## 6. Instruções de Entrega (se necessário)
 
 * Entregue um único arquivo `.ipynb` (Notebook do Colab).
 * As chaves de API **não devem** estar expostas no código (utilize o `userdata.get()` do Colab Secrets).
