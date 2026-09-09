@@ -1,0 +1,6 @@
+path: 'dataset-pothole/dataset'
+train: 'train/'
+val: 'test/'
+
+nc: 1
+names: ["pothole"]
