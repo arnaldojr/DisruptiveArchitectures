@@ -42,21 +42,10 @@ O RAG seleciona informações da base antes de pedir ao modelo que produza a res
 
 ## Arquitetura do RAG
 
-```text
-Documentos → divisão em trechos → embeddings → índice
-                                            ↑
-Pergunta → embedding → busca por similaridade
-                         ↓
-                 trechos recuperados
-                         ↓
-        pergunta + trechos + instruções
-                         ↓
-                       LLM
-                         ↓
-              resposta fundamentada
-```
+![alt text](image.png)
 
-O laboratório implementará cada etapa diretamente em Python. Em uma aplicação maior, o índice em memória poderia ser substituído por um banco vetorial ou serviço de busca.
+
+Vamos implementar cada etapa diretamente em Python. Em uma aplicação maior, o índice em memória poderia ser substituído por um banco vetorial ou serviço de busca.
 
 ---
 
@@ -110,22 +99,4 @@ Esse processo reduz respostas sem fundamento, mas não elimina erros. RAG depend
 
 ## Escopo didático
 
-A base da TechStore será criada dentro do próprio notebook para que ele funcione sozinho no Colab. Ela contém pequenos trechos fictícios sobre suporte, garantia, devolução, privacidade e produtos.
-
-!!! warning "Dados fictícios"
-
-    As políticas e os produtos deste laboratório existem somente para fins acadêmicos. Eles não devem ser apresentados como informações de uma empresa real.
-
----
-
-## Entrega
-
-Ao final do notebook, cada grupo deverá apresentar:
-
-1. a base vetorial criada a partir dos documentos;
-2. os trechos recuperados para uma pergunta;
-3. comparação entre uma resposta sem RAG e uma resposta com RAG;
-4. evidência dos quatro testes obrigatórios;
-5. uma análise de pelo menos uma falha ou limitação observada;
-6. a implementação de uma das opções do desafio final.
-
+Vamos criar uma base de dados fictícia dentro do próprio notebook para que ele funcione sozinho no Colab. Ela contém pequenos trechos fictícios sobre suporte, garantia, devolução, privacidade e produtos.
