@@ -80,6 +80,13 @@
         }
         .da-rag-msg.user .bubble { background: var(--md-primary-fg-color, #673ab7); color: white; }
         .da-rag-msg.bot .bubble { background: var(--md-code-bg-color, #f0f0f0); }
+        .da-rag-msg .bubble p { margin: 0 0 6px 0; }
+        .da-rag-msg .bubble p:last-child { margin-bottom: 0; }
+        .da-rag-msg .bubble ul { margin: 4px 0; padding-left: 18px; }
+        .da-rag-msg .bubble code {
+          background: rgba(0,0,0,0.08); padding: 1px 4px; border-radius: 4px;
+          font-size: 12px;
+        }
         .da-rag-sources { margin-top: 6px; font-size: 11.5px; opacity: 0.75; }
         .da-rag-sources a { color: inherit; }
         #da-rag-input-row { display: flex; border-top: 1px solid rgba(0,0,0,0.1); }
@@ -133,12 +140,57 @@
     estado.mensagens.forEach((m) => renderizarMensagem(messagesEl, m));
     if (estado.aberto) widget.classList.add("open");
 
+    // Conversor leve de markdown -> HTML (escapa HTML primeiro, por segurança,
+    // e só então aplica as transformações de markdown mais comuns).
+    function markdownParaHtml(texto) {
+      let seguro = texto
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      seguro = seguro.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+      seguro = seguro.replace(/__(.+?)__/g, "<strong>$1</strong>");
+      seguro = seguro.replace(/\*(.+?)\*/g, "<em>$1</em>");
+      seguro = seguro.replace(/(?<!\w)_(.+?)_(?!\w)/g, "<em>$1</em>");
+      seguro = seguro.replace(/`(.+?)`/g, "<code>$1</code>");
+      seguro = seguro.replace(/^#{1,6}\s+(.+)$/gm, "<strong>$1</strong>");
+
+      const linhas = seguro.split("\n");
+      let html = "";
+      let dentroLista = false;
+      for (const linha of linhas) {
+        const itemLista = linha.match(/^\s*[-*]\s+(.+)$/);
+        if (itemLista) {
+          if (!dentroLista) {
+            html += "<ul>";
+            dentroLista = true;
+          }
+          html += `<li>${itemLista[1]}</li>`;
+        } else {
+          if (dentroLista) {
+            html += "</ul>";
+            dentroLista = false;
+          }
+          html += linha.trim() ? `<p>${linha}</p>` : "";
+        }
+      }
+      if (dentroLista) html += "</ul>";
+
+      return html;
+    }
+
     function renderizarMensagem(container, m) {
       const wrap = document.createElement("div");
       wrap.className = `da-rag-msg ${m.who}`;
       const bubbleEl = document.createElement("div");
       bubbleEl.className = "bubble";
-      bubbleEl.textContent = m.texto;
+      if (m.who === "bot") {
+        // innerHTML aqui é seguro: markdownParaHtml escapa < > & antes de
+        // aplicar as tags, então não dá pra injetar HTML arbitrário.
+        bubbleEl.innerHTML = markdownParaHtml(m.texto);
+      } else {
+        bubbleEl.textContent = m.texto;
+      }
       wrap.appendChild(bubbleEl);
 
       if (m.fontes && m.fontes.length) {
@@ -178,7 +230,7 @@
       inputEl.value = "";
       addMessage(pergunta, "user");
 
-      const loadingEl = addMessage("Pensando...", "bot");
+      const loadingEl = addMessage("Consultando o material...", "bot");
       loadingEl.querySelector(".bubble").classList.add("da-rag-loading");
 
       try {
