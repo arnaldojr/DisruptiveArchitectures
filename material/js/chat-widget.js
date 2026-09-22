@@ -12,14 +12,6 @@
  *
  * 3. Troque WORKER_URL abaixo pela URL do seu Worker publicado.
  *
- * Nota técnica: o tema mkdocs-material usa navegação instantânea
- * (feature.navigation.instant) — ao clicar num link, o <body> inteiro é
- * substituído via JS, sem reload de página. Isso apaga qualquer elemento
- * que a gente tenha injetado manualmente no DOM. Pra sobreviver a isso,
- * religamos o widget toda vez que o observable global `document$` do
- * mkdocs-material emitir um evento de navegação (inclusive na primeira
- * carga). O histórico da conversa fica guardado fora do DOM (em `estado`),
- * então não se perde ao trocar de página.
  */
 
 (function () {
@@ -136,12 +128,9 @@
     const messagesEl = widget.querySelector("#da-rag-messages");
     const inputEl = widget.querySelector("#da-rag-input");
 
-    // Restaura conversa e estado aberto/fechado de antes da navegação
     estado.mensagens.forEach((m) => renderizarMensagem(messagesEl, m));
     if (estado.aberto) widget.classList.add("open");
 
-    // Conversor leve de markdown -> HTML (escapa HTML primeiro, por segurança,
-    // e só então aplica as transformações de markdown mais comuns).
     function markdownParaHtml(texto) {
       let seguro = texto
         .replace(/&/g, "&amp;")
@@ -290,18 +279,27 @@
     });
   }
 
-  // mkdocs-material com navigation.instant expõe um observable global
-  // `document$` que emite toda vez que uma página é carregada (inclusive
-  // a primeira). Isso garante que o widget seja recriado após cada troca
-  // de página via navegação instantânea.
-  if (window.document$ && typeof window.document$.subscribe === "function") {
-    window.document$.subscribe(() => montarWidget());
-  } else {
-    // Fallback pra sites sem navigation.instant (carregamento normal)
+  let jaSubscrito = false;
+  try {
+    if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
+      document$.subscribe(() => montarWidget());
+      jaSubscrito = true;
+    }
+  } catch (e) {
+    // segue pro fallback abaixo
+  }
+
+  if (!jaSubscrito) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", montarWidget);
     } else {
       montarWidget();
     }
   }
+
+  new MutationObserver(() => {
+    if (!document.getElementById("da-rag-widget")) {
+      montarWidget();
+    }
+  }).observe(document.documentElement, { childList: true, subtree: true });
 })();
