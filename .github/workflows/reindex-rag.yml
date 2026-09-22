@@ -22,10 +22,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Instalar dependências Python
-        working-directory: scripts
-        run: pip install -r requirements.txt
-
       - name: Extrair e quebrar o material em chunks
         working-directory: scripts
         run: |
