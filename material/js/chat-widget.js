@@ -125,88 +125,14 @@
     `;
     document.body.appendChild(widget);
 
-    const messagesEl = widget.querySelector("#da-rag-messages");
     const inputEl = widget.querySelector("#da-rag-input");
+    const sendButton = widget.querySelector("#da-rag-send");
+    const messagesEl = widget.querySelector("#da-rag-messages");
 
     estado.mensagens.forEach((m) => renderizarMensagem(messagesEl, m));
-    if (estado.aberto) widget.classList.add("open");
-
-    function markdownParaHtml(texto) {
-      let seguro = texto
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-
-      seguro = seguro.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-      seguro = seguro.replace(/__(.+?)__/g, "<strong>$1</strong>");
-      seguro = seguro.replace(/\*(.+?)\*/g, "<em>$1</em>");
-      seguro = seguro.replace(/(?<!\w)_(.+?)_(?!\w)/g, "<em>$1</em>");
-      seguro = seguro.replace(/`(.+?)`/g, "<code>$1</code>");
-      seguro = seguro.replace(/^#{1,6}\s+(.+)$/gm, "<strong>$1</strong>");
-
-      const linhas = seguro.split("\n");
-      let html = "";
-      let dentroLista = false;
-      for (const linha of linhas) {
-        const itemLista = linha.match(/^\s*[-*]\s+(.+)$/);
-        if (itemLista) {
-          if (!dentroLista) {
-            html += "<ul>";
-            dentroLista = true;
-          }
-          html += `<li>${itemLista[1]}</li>`;
-        } else {
-          if (dentroLista) {
-            html += "</ul>";
-            dentroLista = false;
-          }
-          html += linha.trim() ? `<p>${linha}</p>` : "";
-        }
-      }
-      if (dentroLista) html += "</ul>";
-
-      return html;
-    }
-
-    function renderizarMensagem(container, m) {
-      const wrap = document.createElement("div");
-      wrap.className = `da-rag-msg ${m.who}`;
-      const bubbleEl = document.createElement("div");
-      bubbleEl.className = "bubble";
-      if (m.who === "bot") {
-        // innerHTML aqui é seguro: markdownParaHtml escapa < > & antes de
-        // aplicar as tags, então não dá pra injetar HTML arbitrário.
-        bubbleEl.innerHTML = markdownParaHtml(m.texto);
-      } else {
-        bubbleEl.textContent = m.texto;
-      }
-      wrap.appendChild(bubbleEl);
-
-      if (m.fontes && m.fontes.length) {
-        const src = document.createElement("div");
-        src.className = "da-rag-sources";
-        src.appendChild(document.createTextNode("Fontes: "));
-        m.fontes.forEach((f, index) => {
-          const link = document.createElement("a");
-          link.href = f.url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.textContent = f.titulo || f.url;
-          src.appendChild(link);
-          if (index < m.fontes.length - 1) src.appendChild(document.createTextNode(" · "));
-        });
-        wrap.appendChild(src);
-      }
-
-      container.appendChild(wrap);
-      container.scrollTop = container.scrollHeight;
-      return wrap;
-    }
-
-    function addMessage(texto, who, fontes) {
-      const m = { texto, who, fontes };
-      estado.mensagens.push(m);
-      return renderizarMensagem(messagesEl, m);
+    if (estado.aberto) {
+      widget.classList.add("open");
+      bubble.setAttribute("aria-expanded", "true");
     }
 
     async function enviarPergunta() {
@@ -219,8 +145,7 @@
       inputEl.value = "";
       addMessage(pergunta, "user");
 
-      const loadingEl = addMessage("Consultando o material...", "bot");
-      loadingEl.querySelector(".bubble").classList.add("da-rag-loading");
+      const loadingId = addMessage("Consultando o material...", "bot", null, true);
 
       try {
         const resp = await fetch(WORKER_URL, {
@@ -231,9 +156,7 @@
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
 
-        // Remove a mensagem "Pensando..." tanto do DOM quanto do estado
-        loadingEl.remove();
-        estado.mensagens.pop();
+        removeMessage(loadingId);
 
         if (data.erro) {
           addMessage("Ops, deu um erro: " + data.erro, "bot");
@@ -241,19 +164,17 @@
           addMessage(data.resposta, "bot", data.fontes);
         }
       } catch (e) {
-        loadingEl.remove();
-        estado.mensagens.pop();
+        removeMessage(loadingId);
         addMessage("Não consegui falar com o assistente agora. Tente novamente.", "bot");
       } finally {
         estado.enviando = false;
         inputEl.disabled = false;
         sendButton.disabled = false;
         messagesEl.setAttribute("aria-busy", "false");
-        inputEl.focus();
+        const inputAtual = document.getElementById("da-rag-input");
+        if (inputAtual) inputAtual.focus();
       }
     }
-
-    const sendButton = widget.querySelector("#da-rag-send");
 
     bubble.addEventListener("click", () => {
       widget.classList.toggle("open");
@@ -279,6 +200,97 @@
     });
   }
 
+  let proximoId = 1;
+
+  function markdownParaHtml(texto) {
+    let seguro = texto
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    seguro = seguro.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    seguro = seguro.replace(/__(.+?)__/g, "<strong>$1</strong>");
+    seguro = seguro.replace(/\*(.+?)\*/g, "<em>$1</em>");
+    seguro = seguro.replace(/(?<!\w)_(.+?)_(?!\w)/g, "<em>$1</em>");
+    seguro = seguro.replace(/`(.+?)`/g, "<code>$1</code>");
+    seguro = seguro.replace(/^#{1,6}\s+(.+)$/gm, "<strong>$1</strong>");
+
+    const linhas = seguro.split("\n");
+    let html = "";
+    let dentroLista = false;
+    for (const linha of linhas) {
+      const itemLista = linha.match(/^\s*[-*]\s+(.+)$/);
+      if (itemLista) {
+        if (!dentroLista) {
+          html += "<ul>";
+          dentroLista = true;
+        }
+        html += `<li>${itemLista[1]}</li>`;
+      } else {
+        if (dentroLista) {
+          html += "</ul>";
+          dentroLista = false;
+        }
+        html += linha.trim() ? `<p>${linha}</p>` : "";
+      }
+    }
+    if (dentroLista) html += "</ul>";
+
+    return html;
+  }
+
+  function renderizarMensagem(container, m) {
+    const wrap = document.createElement("div");
+    wrap.className = `da-rag-msg ${m.who}`;
+    wrap.dataset.msgId = m.id;
+    const bubbleEl = document.createElement("div");
+    bubbleEl.className = "bubble";
+    if (m.loading) bubbleEl.classList.add("da-rag-loading");
+    if (m.who === "bot") {
+      bubbleEl.innerHTML = markdownParaHtml(m.texto);
+    } else {
+      bubbleEl.textContent = m.texto;
+    }
+    wrap.appendChild(bubbleEl);
+
+    if (m.fontes && m.fontes.length) {
+      const src = document.createElement("div");
+      src.className = "da-rag-sources";
+      src.appendChild(document.createTextNode("Fontes: "));
+      m.fontes.forEach((f, index) => {
+        const link = document.createElement("a");
+        link.href = f.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = f.titulo || f.url;
+        src.appendChild(link);
+        if (index < m.fontes.length - 1) src.appendChild(document.createTextNode(" · "));
+      });
+      wrap.appendChild(src);
+    }
+
+    container.appendChild(wrap);
+    container.scrollTop = container.scrollHeight;
+    return wrap;
+  }
+
+  function addMessage(texto, who, fontes, loading) {
+    const id = proximoId++;
+    const m = { id, texto, who, fontes, loading: !!loading };
+    estado.mensagens.push(m);
+
+    const container = document.getElementById("da-rag-messages");
+    if (container) renderizarMensagem(container, m);
+
+    return id;
+  }
+
+  function removeMessage(id) {
+    estado.mensagens = estado.mensagens.filter((m) => m.id !== id);
+    const el = document.querySelector(`[data-msg-id="${id}"]`);
+    if (el) el.remove();
+  }
+
   let jaSubscrito = false;
   try {
     if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
@@ -297,9 +309,9 @@
     }
   }
 
-  new MutationObserver(() => {
+   new MutationObserver(() => {
     if (!document.getElementById("da-rag-widget")) {
       montarWidget();
     }
-  }).observe(document.documentElement, { childList: true, subtree: true });
+  }).observe(document.body, { childList: true, subtree: false });
 })();
