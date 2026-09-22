@@ -1,0 +1,68 @@
+name: Reindexar assistente RAG
+
+# Roda automaticamente sempre que houver mudança em material/
+# (novas aulas, edições, etc). Também pode ser disparado manualmente
+# pela aba "Actions" do GitHub (workflow_dispatch).
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - "material/**/*.md"
+  workflow_dispatch:
+
+jobs:
+  reindex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependências Python
+        working-directory: scripts
+        run: pip install -r requirements.txt
+
+      - name: Extrair e quebrar o material em chunks
+        working-directory: scripts
+        run: |
+          python ingest.py \
+            --material-dir ../material \
+            --base-url https://arnaldojr.github.io/DisruptiveArchitectures
+
+      - name: Gerar embeddings via Workers AI
+        working-directory: scripts
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          python embed_with_workers_ai.py \
+            --input chunks.json \
+            --output chunks_embedded.json
+
+      - name: Converter para o formato do Vectorize
+        working-directory: scripts
+        run: |
+          python build_vectorize_ndjson.py \
+            --input chunks_embedded.json \
+            --output vectors.ndjson
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar wrangler
+        run: npm install -g wrangler
+
+      - name: Atualizar o índice no Vectorize
+        working-directory: scripts
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          wrangler vectorize upsert disruptive-architectures-index \
+            --file=vectors.ndjson

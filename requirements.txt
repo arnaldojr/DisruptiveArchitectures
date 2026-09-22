@@ -6,3 +6,5 @@ pymdown-extensions
 mkdocs-material
 mkdocs-jupyter
 mkdocs-git-revision-date-localized-plugin
+sentence-transformers>=2.7.0
+
