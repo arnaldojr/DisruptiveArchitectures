@@ -29,6 +29,7 @@
   const estado = {
     aberto: false,
     mensagens: [], // { texto, who: 'user'|'bot', fontes? }
+    enviando: false,
   };
 
   function montarWidget() {
@@ -46,6 +47,11 @@
           color: white; border: none; cursor: pointer;
           font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
           display: flex; align-items: center; justify-content: center;
+        }
+        #da-rag-bubble:focus-visible, #da-rag-close:focus-visible,
+        #da-rag-send:focus-visible, #da-rag-input:focus-visible {
+          outline: 3px solid var(--md-accent-fg-color, #ff4081);
+          outline-offset: 2px;
         }
         #da-rag-widget {
           position: fixed; bottom: 88px; right: 20px; z-index: 9999;
@@ -82,7 +88,15 @@
           background: transparent; color: inherit;
         }
         #da-rag-send { border: none; background: none; cursor: pointer; padding: 0 14px; font-size: 16px; }
+        #da-rag-send:disabled { cursor: wait; opacity: 0.45; }
         .da-rag-loading { opacity: 0.6; font-style: italic; }
+        @media (max-width: 480px) {
+          #da-rag-bubble { bottom: 14px; right: 14px; }
+          #da-rag-widget {
+            bottom: 0; right: 0; width: 100vw; max-width: 100vw;
+            height: min(560px, 86vh); max-height: 86vh; border-radius: 12px 12px 0 0;
+          }
+        }
       `;
       document.head.appendChild(style);
     }
@@ -90,20 +104,24 @@
     const bubble = document.createElement("button");
     bubble.id = "da-rag-bubble";
     bubble.title = "Assistente do curso";
+    bubble.setAttribute("aria-label", "Abrir assistente do curso");
+    bubble.setAttribute("aria-expanded", "false");
     bubble.textContent = "💬";
     document.body.appendChild(bubble);
 
     const widget = document.createElement("div");
     widget.id = "da-rag-widget";
+    widget.setAttribute("role", "dialog");
+    widget.setAttribute("aria-labelledby", "da-rag-title");
     widget.innerHTML = `
       <div id="da-rag-header">
-        <span>Assistente do curso</span>
-        <button id="da-rag-close">✕</button>
+        <span id="da-rag-title">Assistente do curso</span>
+        <button id="da-rag-close" aria-label="Fechar assistente">✕</button>
       </div>
-      <div id="da-rag-messages"></div>
+      <div id="da-rag-messages" aria-live="polite" aria-busy="false"></div>
       <div id="da-rag-input-row">
-        <input id="da-rag-input" type="text" placeholder="Pergunte sobre o conteúdo do curso..." />
-        <button id="da-rag-send">➤</button>
+        <input id="da-rag-input" type="text" placeholder="Pergunte sobre o conteúdo do curso..." aria-label="Pergunta" />
+        <button id="da-rag-send" type="button" aria-label="Enviar pergunta">➤</button>
       </div>
     `;
     document.body.appendChild(widget);
@@ -126,9 +144,16 @@
       if (m.fontes && m.fontes.length) {
         const src = document.createElement("div");
         src.className = "da-rag-sources";
-        src.innerHTML =
-          "Fontes: " +
-          m.fontes.map((f) => `<a href="${f.url}" target="_blank">${f.titulo}</a>`).join(" · ");
+        src.appendChild(document.createTextNode("Fontes: "));
+        m.fontes.forEach((f, index) => {
+          const link = document.createElement("a");
+          link.href = f.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = f.titulo || f.url;
+          src.appendChild(link);
+          if (index < m.fontes.length - 1) src.appendChild(document.createTextNode(" · "));
+        });
         wrap.appendChild(src);
       }
 
@@ -145,7 +170,11 @@
 
     async function enviarPergunta() {
       const pergunta = inputEl.value.trim();
-      if (!pergunta) return;
+      if (!pergunta || estado.enviando) return;
+      estado.enviando = true;
+      inputEl.disabled = true;
+      sendButton.disabled = true;
+      messagesEl.setAttribute("aria-busy", "true");
       inputEl.value = "";
       addMessage(pergunta, "user");
 
@@ -158,6 +187,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ pergunta }),
         });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
 
         // Remove a mensagem "Pensando..." tanto do DOM quanto do estado
@@ -173,12 +203,22 @@
         loadingEl.remove();
         estado.mensagens.pop();
         addMessage("Não consegui falar com o assistente agora. Tente novamente.", "bot");
+      } finally {
+        estado.enviando = false;
+        inputEl.disabled = false;
+        sendButton.disabled = false;
+        messagesEl.setAttribute("aria-busy", "false");
+        inputEl.focus();
       }
     }
+
+    const sendButton = widget.querySelector("#da-rag-send");
 
     bubble.addEventListener("click", () => {
       widget.classList.toggle("open");
       estado.aberto = widget.classList.contains("open");
+      bubble.setAttribute("aria-expanded", String(estado.aberto));
+      if (estado.aberto) inputEl.focus();
       if (estado.aberto && estado.mensagens.length === 0) {
         addMessage(
           "Oi! Pergunte qualquer coisa sobre o conteúdo do curso (aulas, labs, conceitos).",
@@ -189,8 +229,10 @@
     widget.querySelector("#da-rag-close").addEventListener("click", () => {
       widget.classList.remove("open");
       estado.aberto = false;
+      bubble.setAttribute("aria-expanded", "false");
+      bubble.focus();
     });
-    widget.querySelector("#da-rag-send").addEventListener("click", enviarPergunta);
+    sendButton.addEventListener("click", enviarPergunta);
     inputEl.addEventListener("keydown", (e) => {
       if (e.key === "Enter") enviarPergunta();
     });
