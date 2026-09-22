@@ -21,6 +21,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          
+      - name: Instala requests
+        working-directory: scripts
+        run: |
+          pip install requests
 
       - name: Extrair e quebrar o material em chunks
         working-directory: scripts
