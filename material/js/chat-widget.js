@@ -25,9 +25,9 @@
   };
 
   function montarWidget() {
-    // Se já existe (ex: script rodou 2x na mesma página), não duplica
-    if (document.getElementById("da-rag-widget")) return;
-
+    // Em navegação instantânea do Material for MkDocs, partes do DOM/head
+    // podem ser atualizadas sem recarregar este arquivo. Por isso,
+    // garantimos o CSS antes de decidir se o widget precisa ser recriado.
     if (!document.getElementById("da-rag-style")) {
       const style = document.createElement("style");
       style.id = "da-rag-style";
@@ -99,6 +99,17 @@
       `;
       document.head.appendChild(style);
     }
+
+    // O Material pode preservar um elemento e substituir outro durante a
+    // navegação instantânea. Só consideramos o widget íntegro se ambos existirem.
+    const widgetExistente = document.getElementById("da-rag-widget");
+    const bubbleExistente = document.getElementById("da-rag-bubble");
+
+    if (widgetExistente && bubbleExistente) return;
+
+    // Se ficou apenas metade da interface, limpa e monta o par novamente.
+    if (widgetExistente) widgetExistente.remove();
+    if (bubbleExistente) bubbleExistente.remove();
 
     const bubble = document.createElement("button");
     bubble.id = "da-rag-bubble";
@@ -291,27 +302,32 @@
     if (el) el.remove();
   }
 
-  let jaSubscrito = false;
-  try {
-    if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
-      document$.subscribe(() => montarWidget());
-      jaSubscrito = true;
-    }
-  } catch (e) {
-    // segue pro fallback abaixo
+  // Material for MkDocs com navigation.instant funciona como SPA.
+  // document$ emite novamente após cada navegação interna.
+  function reinicializarWidget() {
+    // Espera o Material concluir a atualização do DOM/head desta navegação.
+    requestAnimationFrame(() => montarWidget());
   }
 
-  if (!jaSubscrito) {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", montarWidget);
-    } else {
-      montarWidget();
-    }
+  if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
+    document$.subscribe(reinicializarWidget);
+  } else if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", montarWidget, { once: true });
+  } else {
+    montarWidget();
   }
 
-   new MutationObserver(() => {
-    if (!document.getElementById("da-rag-widget")) {
-      montarWidget();
+  // Fallback leve para casos em que outro script externo remova o widget.
+  // Observamos o documento inteiro, não apenas o body antigo.
+  const observer = new MutationObserver(() => {
+    const temWidget = document.getElementById("da-rag-widget");
+    const temBubble = document.getElementById("da-rag-bubble");
+    const temStyle = document.getElementById("da-rag-style");
+
+    if (!temWidget || !temBubble || !temStyle) {
+      reinicializarWidget();
     }
-  }).observe(document.body, { childList: true, subtree: false });
+  });
+
+  observer.observe(document.documentElement, { childList: true, subtree: true });
 })();
