@@ -12,6 +12,14 @@
  *
  * 3. Troque WORKER_URL abaixo pela URL do seu Worker publicado.
  *
+ * Nota técnica: o tema mkdocs-material usa navegação instantânea
+ * (feature.navigation.instant) — ao clicar num link, o <body> inteiro é
+ * substituído via JS, sem reload de página. Isso apaga qualquer elemento
+ * que a gente tenha injetado manualmente no DOM. Pra sobreviver a isso,
+ * religamos o widget toda vez que o observable global `document$` do
+ * mkdocs-material emitir um evento de navegação (inclusive na primeira
+ * carga). O histórico da conversa fica guardado fora do DOM (em `estado`),
+ * então não se perde ao trocar de página.
  */
 
 (function () {
@@ -25,9 +33,9 @@
   };
 
   function montarWidget() {
-    // Em navegação instantânea do Material for MkDocs, partes do DOM/head
-    // podem ser atualizadas sem recarregar este arquivo. Por isso,
-    // garantimos o CSS antes de decidir se o widget precisa ser recriado.
+    // Se já existe (ex: script rodou 2x na mesma página), não duplica
+    if (document.getElementById("da-rag-widget")) return;
+
     if (!document.getElementById("da-rag-style")) {
       const style = document.createElement("style");
       style.id = "da-rag-style";
@@ -79,6 +87,13 @@
           background: rgba(0,0,0,0.08); padding: 1px 4px; border-radius: 4px;
           font-size: 12px;
         }
+        .da-rag-msg .bubble pre {
+          background: rgba(0,0,0,0.08); padding: 8px 10px; border-radius: 6px;
+          overflow-x: auto; margin: 6px 0; max-width: 100%;
+        }
+        .da-rag-msg .bubble pre code {
+          background: none; padding: 0; font-size: 12px; white-space: pre;
+        }
         .da-rag-sources { margin-top: 6px; font-size: 11.5px; opacity: 0.75; }
         .da-rag-sources a { color: inherit; }
         #da-rag-input-row { display: flex; border-top: 1px solid rgba(0,0,0,0.1); }
@@ -99,17 +114,6 @@
       `;
       document.head.appendChild(style);
     }
-
-    // O Material pode preservar um elemento e substituir outro durante a
-    // navegação instantânea. Só consideramos o widget íntegro se ambos existirem.
-    const widgetExistente = document.getElementById("da-rag-widget");
-    const bubbleExistente = document.getElementById("da-rag-bubble");
-
-    if (widgetExistente && bubbleExistente) return;
-
-    // Se ficou apenas metade da interface, limpa e monta o par novamente.
-    if (widgetExistente) widgetExistente.remove();
-    if (bubbleExistente) bubbleExistente.remove();
 
     const bubble = document.createElement("button");
     bubble.id = "da-rag-bubble";
@@ -140,6 +144,10 @@
     const sendButton = widget.querySelector("#da-rag-send");
     const messagesEl = widget.querySelector("#da-rag-messages");
 
+    // Restaura conversa e estado aberto/fechado de antes da navegação.
+    // Usamos o messagesEl ATUAL (widget recém-montado) explicitamente aqui,
+    // já que é a única vez que precisamos de uma referência direta — o
+    // resto do código (addMessage) sempre busca o container atual de novo.
     estado.mensagens.forEach((m) => renderizarMensagem(messagesEl, m));
     if (estado.aberto) {
       widget.classList.add("open");
@@ -179,6 +187,11 @@
         addMessage("Não consegui falar com o assistente agora. Tente novamente.", "bot");
       } finally {
         estado.enviando = false;
+        // Estes elementos podem já não ser os "atuais" se o widget foi
+        // recriado durante o fetch (navegação no meio da pergunta) — nesse
+        // caso agir sobre eles é inofensivo (ficam órfãos, sem efeito
+        // visual), e o widget novo já nasce com enviando=false de qualquer
+        // forma, então não há travamento.
         inputEl.disabled = false;
         sendButton.disabled = false;
         messagesEl.setAttribute("aria-busy", "false");
@@ -211,13 +224,34 @@
     });
   }
 
+  // --- Funções de mensagem, fora de montarWidget ---------------------------
+  // Ficam no escopo do módulo (não dentro de montarWidget) de propósito:
+  // se o widget for recriado no meio de uma pergunta (o aluno navegou pra
+  // outra página enquanto o fetch ainda estava em andamento), a resposta
+  // não pode ficar "presa" a um container antigo e desconectado do DOM.
+  // Por isso addMessage/renderizarMensagem sempre buscam o container ATUAL
+  // via document.getElementById, nunca uma referência guardada de antes.
   let proximoId = 1;
 
+  // Conversor leve de markdown -> HTML (escapa HTML primeiro, por segurança,
+  // e só então aplica as transformações de markdown mais comuns).
   function markdownParaHtml(texto) {
     let seguro = texto
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
+
+    // Blocos de código ```linguagem\ncódigo\n``` -> <pre><code>, ANTES de
+    // qualquer outra transformação (senão o conteúdo do código seria
+    // interpretado como markdown também, ex: um "*" dentro do código).
+    // Guardamos cada bloco num array e substituímos por um placeholder,
+    // pra reinserir intacto no final (depois de processar o resto do texto).
+    const blocosDeCodigo = [];
+    seguro = seguro.replace(/```[a-zA-Z]*\n?([\s\S]*?)```/g, (_, codigo) => {
+      const idx = blocosDeCodigo.length;
+      blocosDeCodigo.push(codigo.replace(/\n$/, ""));
+      return `%%CODEBLOCK_${idx}%%`;
+    });
 
     seguro = seguro.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
     seguro = seguro.replace(/__(.+?)__/g, "<strong>$1</strong>");
@@ -247,6 +281,11 @@
     }
     if (dentroLista) html += "</ul>";
 
+    // Reinsere os blocos de código no lugar dos placeholders
+    html = html.replace(/%%CODEBLOCK_(\d+)%%/g, (_, idx) => {
+      return `<pre><code>${blocosDeCodigo[Number(idx)]}</code></pre>`;
+    });
+
     return html;
   }
 
@@ -258,6 +297,8 @@
     bubbleEl.className = "bubble";
     if (m.loading) bubbleEl.classList.add("da-rag-loading");
     if (m.who === "bot") {
+      // innerHTML aqui é seguro: markdownParaHtml escapa < > & antes de
+      // aplicar as tags, então não dá pra injetar HTML arbitrário.
       bubbleEl.innerHTML = markdownParaHtml(m.texto);
     } else {
       bubbleEl.textContent = m.texto;
@@ -285,6 +326,7 @@
     return wrap;
   }
 
+  /** Adiciona mensagem ao estado E ao container atual do DOM (se existir). */
   function addMessage(texto, who, fontes, loading) {
     const id = proximoId++;
     const m = { id, texto, who, fontes, loading: !!loading };
@@ -296,38 +338,44 @@
     return id;
   }
 
+  /** Remove mensagem do estado E do DOM atual (se ainda estiver lá). */
   function removeMessage(id) {
     estado.mensagens = estado.mensagens.filter((m) => m.id !== id);
     const el = document.querySelector(`[data-msg-id="${id}"]`);
     if (el) el.remove();
   }
 
-  // Material for MkDocs com navigation.instant funciona como SPA.
-  // document$ emite novamente após cada navegação interna.
-  function reinicializarWidget() {
-    // Espera o Material concluir a atualização do DOM/head desta navegação.
-    requestAnimationFrame(() => montarWidget());
-  }
-
-  if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
-    document$.subscribe(reinicializarWidget);
-  } else if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", montarWidget, { once: true });
-  } else {
-    montarWidget();
-  }
-
-  // Fallback leve para casos em que outro script externo remova o widget.
-  // Observamos o documento inteiro, não apenas o body antigo.
-  const observer = new MutationObserver(() => {
-    const temWidget = document.getElementById("da-rag-widget");
-    const temBubble = document.getElementById("da-rag-bubble");
-    const temStyle = document.getElementById("da-rag-style");
-
-    if (!temWidget || !temBubble || !temStyle) {
-      reinicializarWidget();
+  // mkdocs-material declara `document$` com `const`/`let` no escopo global
+  // do script do tema. Isso significa que a variável NÃO aparece como
+  // propriedade de `window` (só `var` faz isso) — mas continua acessível
+  // como identificador solto em scripts carregados depois na mesma página,
+  // porque compartilham o mesmo ambiente léxico global. Por isso checamos
+  // `document$` direto (com `typeof`, que nunca lança erro mesmo se a
+  // variável não existir), e não `window.document$`.
+  let jaSubscrito = false;
+  try {
+    if (typeof document$ !== "undefined" && typeof document$.subscribe === "function") {
+      document$.subscribe(() => montarWidget());
+      jaSubscrito = true;
     }
-  });
+  } catch (e) {
+    // segue pro fallback abaixo
+  }
 
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  if (!jaSubscrito) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", montarWidget);
+    } else {
+      montarWidget();
+    }
+  }
+
+  // Rede de segurança extra, só pro caso de document$ não ter funcionado:
+  // observa apenas os filhos diretos do <body> (não a árvore inteira, pra
+  // não gerar overhead) e remonta o widget se ele for removido de lá.
+  new MutationObserver(() => {
+    if (!document.getElementById("da-rag-widget")) {
+      montarWidget();
+    }
+  }).observe(document.body, { childList: true, subtree: false });
 })();
